@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="900">
+<title>HTS Premarket Scanner</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#2b3444;
+    --txt:#e6edf3; --muted:#8b98a8; --up:#2dd4a7; --down:#f76d6d; --accent:#6ea8fe;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:24px 18px 60px; }
+  header h1 { margin:0 0 4px; font-size:24px; letter-spacing:.2px; }
+  header .sub { color:var(--muted); font-size:13.5px; }
+  header .sub b { color:var(--accent); }
+  h2 { font-size:14px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);
+    margin:34px 0 12px; border-bottom:1px solid var(--line); padding-bottom:8px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-left-width:4px;
+    border-radius:10px; padding:12px 13px; }
+  .card.up { border-left-color:var(--up); }
+  .card.down { border-left-color:var(--down); }
+  .card-top { display:flex; justify-content:space-between; align-items:center; }
+  .card .tick { font-weight:700; font-size:16px; }
+  .card .tf { font-size:11px; color:var(--muted); background:var(--panel2);
+    padding:2px 7px; border-radius:20px; }
+  .card-sig { font-weight:700; margin:8px 0 2px; font-size:15px; }
+  .card.up .card-sig { color:var(--up); }
+  .card.down .card-sig { color:var(--down); }
+  .card-name { color:var(--muted); font-size:12.5px; }
+  .card-meta { display:flex; flex-wrap:wrap; gap:4px 12px; margin-top:8px;
+    font-size:12px; color:var(--muted); }
+  .empty { padding:14px; background:var(--panel); border-radius:10px; }
+  .tbl-scroll { overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  thead th { background:var(--panel2); color:var(--muted); font-weight:600; font-size:12px;
+    text-transform:uppercase; letter-spacing:.5px; position:sticky; top:0; }
+  tbody tr:hover { background:var(--panel); }
+  tr.grp td { background:var(--panel); color:var(--accent); font-weight:700; font-size:12px;
+    text-transform:uppercase; letter-spacing:1px; }
+  td.tick { font-weight:700; }
+  td.nm { color:var(--muted); }
+  .badge { font-weight:700; font-size:11.5px; padding:2px 9px; border-radius:20px;
+    background:var(--panel2); }
+  .badge.up { color:var(--up); }
+  .badge.down { color:var(--down); }
+  .badge.flat { color:var(--muted); }
+  .setup { font-weight:700; }
+  .setup.up { color:var(--up); }
+  .setup.down { color:var(--down); }
+  .setup.fresh { background:rgba(110,168,254,.16); padding:1px 6px; border-radius:5px; }
+  .age { color:var(--muted); font-size:12px; }
+  .muted { color:var(--muted); }
+  footer { margin-top:36px; color:var(--muted); font-size:12.5px; line-height:1.7; }
+  footer code { background:var(--panel2); padding:1px 6px; border-radius:4px; color:var(--txt); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>HTS Premarket Scanner</h1>
+    <div class="sub">
+      Wygenerowano <b>2026-07-18 10:43:16 UTC</b> · przed / w trakcie sesji US ·
+      24 instrumentów (uniwersum vtrade) · logika HTS Swing Pro Filter 3.0 (AAA/AA+)
+    </div>
+  </header>
+
+  <h2>Świeże setupy — premarket watchlist</h2>
+  <div class="cards">
+    <div class="card up">
+      <div class="card-top">
+        <span class="tick">YM</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▲ AA+* LONG</div>
+      <div class="card-name">Dow Jones</div>
+      <div class="card-meta">
+        <span>@ 52146.421875</span>
+        <span>ADX 23.0 · UMIARKOWANY</span>
+        <span class="age">ostatnia świeca</span>
+      </div>
+    </div>
+    <div class="card up">
+      <div class="card-top">
+        <span class="tick">US10</span>
+        <span class="tf">4H</span>
+      </div>
+      <div class="card-sig">▲ AA+* LONG</div>
+      <div class="card-name">US 10Y Yield</div>
+      <div class="card-meta">
+        <span>@ 4.550000190734863</span>
+        <span>ADX 23.9 · UMIARKOWANY</span>
+        <span class="age">1 św. temu</span>
+      </div>
+    </div>
+    <div class="card up">
+      <div class="card-top">
+        <span class="tick">DXY</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▲ AAA LONG</div>
+      <div class="card-name">Dollar Index</div>
+      <div class="card-meta">
+        <span>@ 100.5</span>
+        <span>ADX 29.7 · SILNY</span>
+        <span class="age">2 św. temu</span>
+      </div>
+    </div></div>
+
+  <h2>Pełny stan trendów i ostatnie setupy</h2>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Ticker</th><th>Instrument</th><th>1D trend</th><th>1D setup</th><th>4H trend</th><th>4H setup</th></tr></thead>
+    <tbody>
+    <tr class="grp"><td colspan="6">Indeksy</td></tr>
+<tr><td class="tick">ES</td><td class="nm">S&amp;P 500</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-18 00:00 · ADX 21.9 UMIARKOWANY">▲ AA+*</span> <span class="age">19 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-16 16:00 · ADX 29.2 SILNY">▲ AA+</span> <span class="age">42 św. temu</span></td></tr>
+<tr><td class="tick">NQ</td><td class="nm">Nasdaq 100</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-12 00:00 · ADX 31.3 SILNY">▲ AA+</span> <span class="age">23 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-16 16:00 · ADX 25.5 SILNY">▲ AA+</span> <span class="age">42 św. temu</span></td></tr>
+<tr><td class="tick">YM</td><td class="nm">Dow Jones</td><td><span class="badge up">LONG</span></td><td><span class="setup up fresh" title="2026-07-17 00:00 · ADX 23.0 UMIARKOWANY">▲ AA+*</span> <span class="age">teraz</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-09 12:00 · ADX 26.4 SILNY">▲ AA+</span> <span class="age">13 św. temu</span></td></tr>
+<tr><td class="tick">ES35</td><td class="nm">IBEX 35 (Spain)</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-14 00:00 · ADX 23.8 UMIARKOWANY">▲ AA+*</span> <span class="age">3 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-30 08:00 · ADX 27.7 SILNY">▲ AA+</span> <span class="age">40 św. temu</span></td></tr>
+<tr><td class="tick">DAX</td><td class="nm">DAX</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-20 00:00 · ADX 30.5 SILNY">▲ AAA</span> <span class="age">125 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-08 04:00 · ADX 22.9 UMIARKOWANY">▲ AA+*</span> <span class="age">23 św. temu</span></td></tr>
+<tr><td class="tick">F40</td><td class="nm">CAC 40</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-19 00:00 · ADX 20.3 UMIARKOWANY">▲ AAA*</span> <span class="age">126 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-13 12:00 · ADX 22.0 UMIARKOWANY">▲ AAA*</span> <span class="age">12 św. temu</span></td></tr>
+<tr><td class="tick">FESX</td><td class="nm">Euro Stoxx 50</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-09 00:00 · ADX 20.1 UMIARKOWANY">▲ AA+*</span> <span class="age">6 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-08 04:00 · ADX 22.7 UMIARKOWANY">▲ AA+*</span> <span class="age">23 św. temu</span></td></tr>
+<tr><td class="tick">FTSE</td><td class="nm">FTSE 100</td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-03-04 00:00 · ADX 52.9 WYCZERPANY">▲ AA+!</span> <span class="age">93 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-04-21 08:00 · ADX 32.8 SILNY">▲ AAA</span> <span class="age">184 św. temu</span></td></tr>
+<tr><td class="tick">NIKKEI</td><td class="nm">Nikkei 225</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-03 00:00 · ADX 24.6 UMIARKOWANY">▲ AA+*</span> <span class="age">10 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-24 04:00 · ADX 22.0 UMIARKOWANY">▲ AA+*</span> <span class="age">34 św. temu</span></td></tr>
+<tr><td class="tick">HS</td><td class="nm">Hang Seng</td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-09 00:00 · ADX 29.2 SILNY">▼ AA+</span> <span class="age">6 św. temu</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-06 00:00 · ADX 31.2 SILNY">▼ AA+</span> <span class="age">19 św. temu</span></td></tr>
+<tr><td class="tick">VX</td><td class="nm">VIX</td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-03-20 00:00 · ADX 41.4 WYCZERPANY">▲ AA+!</span> <span class="age">82 św. temu</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-06-12 04:00 · ADX 36.8 SILNY">▲ AAA</span> <span class="age">125 św. temu</span></td></tr>
+<tr class="grp"><td colspan="6">Metale</td></tr>
+<tr><td class="tick">GC</td><td class="nm">Gold</td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-02-06 00:00 · ADX 35.6 SILNY">▲ AA+</span> <span class="age">110 św. temu</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-15 00:00 · ADX 24.5 UMIARKOWANY">▼ AAA*</span> <span class="age">17 św. temu</span></td></tr>
+<tr><td class="tick">SI</td><td class="nm">Silver</td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 56.7 WYCZERPANY">▲ AA+!</span> <span class="age">115 św. temu</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-06-30 00:00 · ADX 37.2 SILNY">▼ AA+</span> <span class="age">80 św. temu</span></td></tr>
+<tr><td class="tick">HG</td><td class="nm">Copper</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 31.5 SILNY">▲ AAA</span> <span class="age">115 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-06-26 08:00 · ADX 28.9 SILNY">▼ AAA</span> <span class="age">91 św. temu</span></td></tr>
+<tr><td class="tick">PA</td><td class="nm">Palladium</td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 26.1 SILNY">▲ AA+</span> <span class="age">115 św. temu</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-06-26 12:00 · ADX 30.9 SILNY">▼ AAA</span> <span class="age">90 św. temu</span></td></tr>
+<tr><td class="tick">PL</td><td class="nm">Platinum</td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 31.4 SILNY">▲ AA+</span> <span class="age">115 św. temu</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-06-30 12:00 · ADX 27.0 SILNY">▼ AA+</span> <span class="age">77 św. temu</span></td></tr>
+<tr class="grp"><td colspan="6">Energia</td></tr>
+<tr><td class="tick">WBS</td><td class="nm">WTI Crude (WBS→XTIUSD)</td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-04-29 00:00 · ADX 25.6 SILNY">▲ AA+</span> <span class="age">54 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-17 04:00 · ADX 29.1 SILNY">▲ AAA</span> <span class="age">4 św. temu</span></td></tr>
+<tr class="grp"><td colspan="6">Miękkie</td></tr>
+<tr><td class="tick">CC</td><td class="nm">Cocoa</td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-04-07 00:00 · ADX 22.8 UMIARKOWANY">▼ AA+*</span> <span class="age">70 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-15 12:00 · ADX 30.2 SILNY">▲ AA+</span> <span class="age">7 św. temu</span></td></tr>
+<tr><td class="tick">KC</td><td class="nm">Coffee</td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-06-16 00:00 · ADX 36.5 SILNY">▼ AA+</span> <span class="age">21 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-06-11 12:00 · ADX 38.9 SILNY">▼ AA+</span> <span class="age">73 św. temu</span></td></tr>
+<tr class="grp"><td colspan="6">FX/Rates</td></tr>
+<tr><td class="tick">DXY</td><td class="nm">Dollar Index</td><td><span class="badge up">LONG</span></td><td><span class="setup up fresh" title="2026-07-15 00:00 · ADX 29.7 SILNY">▲ AAA</span> <span class="age">2 św. temu</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-06-26 08:00 · ADX 49.9 WYCZERPANY">▲ AAA!</span> <span class="age">91 św. temu</span></td></tr>
+<tr><td class="tick">GBPJPY</td><td class="nm">GBP/JPY</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-04-30 00:00 · ADX 21.7 UMIARKOWANY">▲ AA+*</span> <span class="age">56 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-10 08:00 · ADX 25.1 SILNY">▲ AAA</span> <span class="age">34 św. temu</span></td></tr>
+<tr><td class="tick">US10</td><td class="nm">US 10Y Yield</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-05 00:00 · ADX 23.1 UMIARKOWANY">▲ AA+*</span> <span class="age">28 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up fresh" title="2026-07-17 12:00 · ADX 23.9 UMIARKOWANY">▲ AA+*</span> <span class="age">1 św. temu</span></td></tr>
+<tr class="grp"><td colspan="6">Krypto</td></tr>
+<tr><td class="tick">BTC</td><td class="nm">Bitcoin</td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-02 00:00 · ADX 35.7 SILNY">▼ AAA</span> <span class="age">15 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-14 12:00 · ADX 20.9 UMIARKOWANY">▲ AA+*</span> <span class="age">22 św. temu</span></td></tr>
+<tr><td class="tick">ETH</td><td class="nm">Ethereum</td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-02 00:00 · ADX 28.5 SILNY">▼ AAA</span> <span class="age">15 św. temu</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-14 12:00 · ADX 21.7 UMIARKOWANY">▲ AA+*</span> <span class="age">22 św. temu</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <footer>
+    <p><b>Jak czytać.</b> <span class="badge up">LONG</span>/<span class="badge down">SHORT</span> = bieżący
+    stan wstęg SMA33/SMA144 na zamkniętej świecy.
+    <b>AAA</b> = pierwszy retest po crossie, <b>AA+</b> = dokładka. Sufiks
+    <b>*</b> = trend umiarkowany (ADX 20–25), <b>!</b> = wyczerpany (ADX ≥40). „Świeży" = setup na
+    ostatnich 3 zamkniętych świecach.</p>
+    <p><b>Uwaga o danych.</b> Źródło: yfinance (chmurowo). D1 = pewne; H4 składane z 1h (resample) —
+    kotwica sesji może różnić się od brokera/TV, traktuj jako pomocnicze. To <b>nie</b> są sygnały regime
+    v-tradera (Departure/RT/Cross) — to Twoja własna logika HTS Swing na koszyku instrumentów vtrade.</p>
+    <p>Params: <code>SMA 33/144</code> ·
+    <code>dist 0.3%</code> · <code>band_gap 0.5%</code> ·
+    <code>ADX 20/25/40</code>.
+    Odświeżanie strony co 15 min · dane z GitHub Action 2×/dobę (przed EU i US).</p>
+  </footer>
+</div>
+</body>
+</html>

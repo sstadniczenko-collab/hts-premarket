@@ -1,0 +1,43 @@
+name: HTS Premarket Scan
+
+on:
+  schedule:
+    - cron: "30 6 * * 1-5"   # 06:30 UTC — przed otwarciem sesji EU/DAX (pn–pt)
+    - cron: "0 13 * * 1-5"   # 13:00 UTC — przed otwarciem sesji US (pn–pt)
+  workflow_dispatch: {}       # ręczne odpalenie z zakładki Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Nie pozwól dwóm skanom deployować Pages naraz
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Run scanner
+        run: python scan.py --out docs
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: scan
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

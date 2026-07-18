@@ -1,0 +1,1271 @@
+{
+ "generated_utc": "2026-07-18 10:43:16",
+ "session_hint": "przed / w trakcie sesji US",
+ "timeframes": [
+  "1d",
+  "4h"
+ ],
+ "universe_count": 24,
+ "fresh_bars": 2,
+ "strategy": {
+  "fast_ma": 33,
+  "slow_ma": 144,
+  "ma_method": "SMA",
+  "smoothing": 20,
+  "dist_pct": 0.3,
+  "min_band_gap_pct": 0.5,
+  "min_pyramid_step_pct": 0.5,
+  "adx_threshold_weak": 20,
+  "adx_threshold_moderate": 25,
+  "adx_threshold_strong": 40,
+  "atr_length": 14,
+  "atr_lookback": 20,
+  "atr_change_threshold_pct": 5.0
+ },
+ "fresh": [
+  {
+   "asset": "YM",
+   "name": "Dow Jones",
+   "tf": "1d",
+   "type": "AA+",
+   "direction": "long",
+   "suffix": "*",
+   "adx_label": "UMIARKOWANY",
+   "adx": 23.0,
+   "price": 52146.421875,
+   "bars_ago": 0,
+   "bar_time": "2026-07-17 00:00",
+   "fresh": true
+  },
+  {
+   "asset": "US10",
+   "name": "US 10Y Yield",
+   "tf": "4h",
+   "type": "AA+",
+   "direction": "long",
+   "suffix": "*",
+   "adx_label": "UMIARKOWANY",
+   "adx": 23.9,
+   "price": 4.550000190734863,
+   "bars_ago": 1,
+   "bar_time": "2026-07-17 12:00",
+   "fresh": true
+  },
+  {
+   "asset": "DXY",
+   "name": "Dollar Index",
+   "tf": "1d",
+   "type": "AAA",
+   "direction": "long",
+   "suffix": "",
+   "adx_label": "SILNY",
+   "adx": 29.7,
+   "price": 100.5,
+   "bars_ago": 2,
+   "bar_time": "2026-07-15 00:00",
+   "fresh": true
+  }
+ ],
+ "instruments": [
+  {
+   "asset": "ES",
+   "name": "S&P 500",
+   "yf": "^GSPC",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 501,
+     "trend": "long",
+     "price": 7457.6899,
+     "adx": 12.5,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.1,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 21.9,
+      "price": 7500.580078125,
+      "bars_ago": 19,
+      "bar_time": "2026-06-18 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 682,
+     "trend": "long",
+     "price": 7457.7798,
+     "adx": 14.6,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.7,
+     "last_bar_time": "2026-07-17 16:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 29.2,
+      "price": 7512.990234375,
+      "bars_ago": 42,
+      "bar_time": "2026-06-16 16:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "NQ",
+   "name": "Nasdaq 100",
+   "yf": "^NDX",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 501,
+     "trend": "long",
+     "price": 28592.6602,
+     "adx": 17.6,
+     "adx_label": "SŁABY",
+     "atr_pct": 2.18,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 31.3,
+      "price": 29635.94921875,
+      "bars_ago": 23,
+      "bar_time": "2026-06-12 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 682,
+     "trend": "long",
+     "price": 28590.2363,
+     "adx": 22.4,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 1.36,
+     "last_bar_time": "2026-07-17 16:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 25.5,
+      "price": 29973.71875,
+      "bars_ago": 42,
+      "bar_time": "2026-06-16 16:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "YM",
+   "name": "Dow Jones",
+   "yf": "^DJI",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 501,
+     "trend": "long",
+     "price": 52146.4219,
+     "adx": 23.0,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 1.09,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 23.0,
+      "price": 52146.421875,
+      "bars_ago": 0,
+      "bar_time": "2026-07-17 00:00",
+      "fresh": true
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 682,
+     "trend": "long",
+     "price": 52158.9609,
+     "adx": 15.6,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.73,
+     "last_bar_time": "2026-07-17 16:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 26.4,
+      "price": 52570.58984375,
+      "bars_ago": 13,
+      "bar_time": "2026-07-09 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "ES35",
+   "name": "IBEX 35 (Spain)",
+   "yf": "^IBEX",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 511,
+     "trend": "long",
+     "price": 19216.9004,
+     "adx": 21.2,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 1.22,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 23.8,
+      "price": 19356.599609375,
+      "bars_ago": 3,
+      "bar_time": "2026-07-14 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 879,
+     "trend": "long",
+     "price": 19217.9004,
+     "adx": 16.1,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.71,
+     "last_bar_time": "2026-07-17 12:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 27.7,
+      "price": 19506.400390625,
+      "bars_ago": 40,
+      "bar_time": "2026-06-30 08:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "DAX",
+   "name": "DAX",
+   "yf": "^GDAXI",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 507,
+     "trend": "long",
+     "price": 24830.9805,
+     "adx": 11.3,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.31,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 30.5,
+      "price": 24703.119140625,
+      "bars_ago": 125,
+      "bar_time": "2026-01-20 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 901,
+     "trend": "long",
+     "price": 24828.5098,
+     "adx": 21.1,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 0.73,
+     "last_bar_time": "2026-07-17 12:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 22.9,
+      "price": 25197.400390625,
+      "bars_ago": 23,
+      "bar_time": "2026-07-08 04:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "F40",
+   "name": "CAC 40",
+   "yf": "^FCHI",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 511,
+     "trend": "long",
+     "price": 8338.8096,
+     "adx": 12.6,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.16,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 20.3,
+      "price": 8112.02001953125,
+      "bars_ago": 126,
+      "bar_time": "2026-01-19 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 892,
+     "trend": "long",
+     "price": 8340.2803,
+     "adx": 17.2,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.65,
+     "last_bar_time": "2026-07-17 12:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 22.0,
+      "price": 8350.4296875,
+      "bars_ago": 12,
+      "bar_time": "2026-07-13 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "FESX",
+   "name": "Euro Stoxx 50",
+   "yf": "^STOXX50E",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 499,
+     "trend": "long",
+     "price": 6230.8701,
+     "adx": 16.8,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.19,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 20.1,
+      "price": 6284.27001953125,
+      "bars_ago": 6,
+      "bar_time": "2026-07-09 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 899,
+     "trend": "long",
+     "price": 6229.0,
+     "adx": 19.9,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.69,
+     "last_bar_time": "2026-07-17 12:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 22.7,
+      "price": 6274.72998046875,
+      "bars_ago": 23,
+      "bar_time": "2026-07-08 04:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "FTSE",
+   "name": "FTSE 100",
+   "yf": "^FTSE",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 507,
+     "trend": "none",
+     "price": 10600.4004,
+     "adx": 12.1,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.07,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "!",
+      "adx_label": "WYCZERPANY",
+      "adx": 52.9,
+      "price": 10567.7001953125,
+      "bars_ago": 93,
+      "bar_time": "2026-03-04 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 895,
+     "trend": "long",
+     "price": 10584.7305,
+     "adx": 12.5,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.64,
+     "last_bar_time": "2026-07-17 12:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 32.8,
+      "price": 10593.25,
+      "bars_ago": 184,
+      "bar_time": "2026-04-21 08:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "NIKKEI",
+   "name": "Nikkei 225",
+   "yf": "^N225",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 489,
+     "trend": "long",
+     "price": 64141.1211,
+     "adx": 17.0,
+     "adx_label": "SŁABY",
+     "atr_pct": 3.14,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 24.6,
+      "price": 69744.0703125,
+      "bars_ago": 10,
+      "bar_time": "2026-07-03 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 600,
+     "trend": "long",
+     "price": 64113.2109,
+     "adx": 19.0,
+     "adx_label": "SŁABY",
+     "atr_pct": 2.04,
+     "last_bar_time": "2026-07-17 04:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 22.0,
+      "price": 69274.6171875,
+      "bars_ago": 34,
+      "bar_time": "2026-06-24 04:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "HS",
+   "name": "Hang Seng",
+   "yf": "^HSI",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 491,
+     "trend": "short",
+     "price": 24562.2402,
+     "adx": 21.3,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 2.0,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 29.2,
+      "price": 24030.1796875,
+      "bars_ago": 6,
+      "bar_time": "2026-07-09 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 596,
+     "trend": "short",
+     "price": 24562.2402,
+     "adx": 34.4,
+     "adx_label": "SILNY",
+     "atr_pct": 1.39,
+     "last_bar_time": "2026-07-17 04:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 31.2,
+      "price": 23542.970703125,
+      "bars_ago": 19,
+      "bar_time": "2026-07-06 00:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "VX",
+   "name": "VIX",
+   "yf": "^VIX",
+   "group": "Indeksy",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "none",
+     "price": 18.77,
+     "adx": 20.4,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 9.84,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "!",
+      "adx_label": "WYCZERPANY",
+      "adx": 41.4,
+      "price": 26.780000686645508,
+      "bars_ago": 82,
+      "bar_time": "2026-03-20 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1375,
+     "trend": "short",
+     "price": 18.74,
+     "adx": 27.1,
+     "adx_label": "SILNY",
+     "atr_pct": 3.94,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 36.8,
+      "price": 19.059999465942383,
+      "bars_ago": 125,
+      "bar_time": "2026-06-12 04:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "GC",
+   "name": "Gold",
+   "yf": "GC=F",
+   "group": "Metale",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "short",
+     "price": 4012.7,
+     "adx": 36.8,
+     "adx_label": "SILNY",
+     "atr_pct": 2.06,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 35.6,
+      "price": 4951.2001953125,
+      "bars_ago": 110,
+      "bar_time": "2026-02-06 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1531,
+     "trend": "short",
+     "price": 4018.8,
+     "adx": 22.3,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 0.79,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "short",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 24.5,
+      "price": 4037.89990234375,
+      "bars_ago": 17,
+      "bar_time": "2026-07-15 00:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "SI",
+   "name": "Silver",
+   "yf": "SI=F",
+   "group": "Metale",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "short",
+     "price": 56.038,
+     "adx": 38.2,
+     "adx_label": "SILNY",
+     "atr_pct": 3.73,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "!",
+      "adx_label": "WYCZERPANY",
+      "adx": 56.7,
+      "price": 78.29000091552734,
+      "bars_ago": 115,
+      "bar_time": "2026-01-30 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1531,
+     "trend": "short",
+     "price": 56.326,
+     "adx": 29.6,
+     "adx_label": "SILNY",
+     "atr_pct": 1.49,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 37.2,
+      "price": 57.69499969482422,
+      "bars_ago": 80,
+      "bar_time": "2026-06-30 00:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "HG",
+   "name": "Copper",
+   "yf": "HG=F",
+   "group": "Metale",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "long",
+     "price": 6.22,
+     "adx": 13.8,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.81,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 31.5,
+      "price": 5.896999835968018,
+      "bars_ago": 115,
+      "bar_time": "2026-01-30 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1531,
+     "trend": "long",
+     "price": 6.265,
+     "adx": 24.9,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 0.78,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 28.9,
+      "price": 6.177499771118164,
+      "bars_ago": 91,
+      "bar_time": "2026-06-26 08:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "PA",
+   "name": "Palladium",
+   "yf": "PA=F",
+   "group": "Metale",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 502,
+     "trend": "short",
+     "price": 1244.0,
+     "adx": 15.2,
+     "adx_label": "SŁABY",
+     "atr_pct": 2.29,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 26.1,
+      "price": 1688.300048828125,
+      "bars_ago": 115,
+      "bar_time": "2026-01-30 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1527,
+     "trend": "none",
+     "price": 1252.8,
+     "adx": 26.1,
+     "adx_label": "SILNY",
+     "atr_pct": 1.57,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 30.9,
+      "price": 1216.5,
+      "bars_ago": 90,
+      "bar_time": "2026-06-26 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "PL",
+   "name": "Platinum",
+   "yf": "PL=F",
+   "group": "Metale",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "short",
+     "price": 1605.8,
+     "adx": 27.3,
+     "adx_label": "SILNY",
+     "atr_pct": 2.22,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 31.4,
+      "price": 2102.800048828125,
+      "bars_ago": 115,
+      "bar_time": "2026-01-30 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1527,
+     "trend": "none",
+     "price": 1612.5,
+     "adx": 22.8,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 1.53,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 27.0,
+      "price": 1566.199951171875,
+      "bars_ago": 77,
+      "bar_time": "2026-06-30 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "WBS",
+   "name": "WTI Crude (WBS→XTIUSD)",
+   "yf": "CL=F",
+   "group": "Energia",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "none",
+     "price": 82.49,
+     "adx": 23.4,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 4.73,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 25.6,
+      "price": 106.87999725341797,
+      "bars_ago": 54,
+      "bar_time": "2026-04-29 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1519,
+     "trend": "long",
+     "price": 81.78,
+     "adx": 30.3,
+     "adx_label": "SILNY",
+     "atr_pct": 1.72,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 29.1,
+      "price": 78.7699966430664,
+      "bars_ago": 4,
+      "bar_time": "2026-07-17 04:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "CC",
+   "name": "Cocoa",
+   "yf": "CC=F",
+   "group": "Miękkie",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "long",
+     "price": 5533.0,
+     "adx": 29.2,
+     "adx_label": "SILNY",
+     "atr_pct": 4.29,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 22.8,
+      "price": 3028.0,
+      "bars_ago": 70,
+      "bar_time": "2026-04-07 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 730,
+     "trend": "long",
+     "price": 5753.0,
+     "adx": 23.1,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 5.11,
+     "last_bar_time": "2026-07-17 16:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 30.2,
+      "price": 5879.0,
+      "bars_ago": 7,
+      "bar_time": "2026-07-15 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "KC",
+   "name": "Coffee",
+   "yf": "KC=F",
+   "group": "Miękkie",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "short",
+     "price": 328.45,
+     "adx": 38.2,
+     "adx_label": "SILNY",
+     "atr_pct": 3.69,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 36.5,
+      "price": 277.25,
+      "bars_ago": 21,
+      "bar_time": "2026-06-16 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 741,
+     "trend": "long",
+     "price": 321.1,
+     "adx": 15.8,
+     "adx_label": "SŁABY",
+     "atr_pct": 5.9,
+     "last_bar_time": "2026-07-17 16:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 38.9,
+      "price": 250.0500030517578,
+      "bars_ago": 73,
+      "bar_time": "2026-06-11 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "DXY",
+   "name": "Dollar Index",
+   "yf": "DX-Y.NYB",
+   "group": "FX/Rates",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 503,
+     "trend": "long",
+     "price": 100.75,
+     "adx": 26.0,
+     "adx_label": "SILNY",
+     "atr_pct": 0.46,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 29.7,
+      "price": 100.5,
+      "bars_ago": 2,
+      "bar_time": "2026-07-15 00:00",
+      "fresh": true
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1542,
+     "trend": "none",
+     "price": 100.755,
+     "adx": 21.6,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 0.16,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "!",
+      "adx_label": "WYCZERPANY",
+      "adx": 49.9,
+      "price": 101.2509994506836,
+      "bars_ago": 91,
+      "bar_time": "2026-06-26 08:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "GBPJPY",
+   "name": "GBP/JPY",
+   "yf": "GBPJPY=X",
+   "group": "FX/Rates",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 518,
+     "trend": "long",
+     "price": 218.481,
+     "adx": 21.3,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 0.62,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 21.7,
+      "price": 216.05499267578125,
+      "bars_ago": 56,
+      "bar_time": "2026-04-30 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1833,
+     "trend": "long",
+     "price": 218.481,
+     "adx": 29.2,
+     "adx_label": "SILNY",
+     "atr_pct": 0.19,
+     "last_bar_time": "2026-07-17 20:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "long",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 25.1,
+      "price": 217.2899932861328,
+      "bars_ago": 34,
+      "bar_time": "2026-07-10 08:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "US10",
+   "name": "US 10Y Yield",
+   "yf": "^TNX",
+   "group": "FX/Rates",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 502,
+     "trend": "long",
+     "price": 4.541,
+     "adx": 18.9,
+     "adx_label": "SŁABY",
+     "atr_pct": 1.24,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 23.1,
+      "price": 4.535999774932861,
+      "bars_ago": 28,
+      "bar_time": "2026-06-05 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 600,
+     "trend": "long",
+     "price": 4.541,
+     "adx": 22.6,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 0.79,
+     "last_bar_time": "2026-07-17 16:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 23.9,
+      "price": 4.550000190734863,
+      "bars_ago": 1,
+      "bar_time": "2026-07-17 12:00",
+      "fresh": true
+     }
+    }
+   }
+  },
+  {
+   "asset": "BTC",
+   "name": "Bitcoin",
+   "yf": "BTC-USD",
+   "group": "Krypto",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 730,
+     "trend": "short",
+     "price": 63899.4609,
+     "adx": 22.9,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 2.97,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 35.7,
+      "price": 61485.30078125,
+      "bars_ago": 15,
+      "bar_time": "2026-07-02 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1752,
+     "trend": "long",
+     "price": 63950.9297,
+     "adx": 18.2,
+     "adx_label": "SŁABY",
+     "atr_pct": 0.98,
+     "last_bar_time": "2026-07-18 04:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 20.9,
+      "price": 64710.05859375,
+      "bars_ago": 22,
+      "bar_time": "2026-07-14 12:00",
+      "fresh": false
+     }
+    }
+   }
+  },
+  {
+   "asset": "ETH",
+   "name": "Ethereum",
+   "yf": "ETH-USD",
+   "group": "Krypto",
+   "tf": {
+    "1d": {
+     "ok": true,
+     "bars": 730,
+     "trend": "short",
+     "price": 1840.9882,
+     "adx": 23.6,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 4.07,
+     "last_bar_time": "2026-07-17 00:00",
+     "last_setup": {
+      "type": "AAA",
+      "direction": "short",
+      "suffix": "",
+      "adx_label": "SILNY",
+      "adx": 28.5,
+      "price": 1698.16943359375,
+      "bars_ago": 15,
+      "bar_time": "2026-07-02 00:00",
+      "fresh": false
+     }
+    },
+    "4h": {
+     "ok": true,
+     "bars": 1752,
+     "trend": "long",
+     "price": 1843.03,
+     "adx": 21.6,
+     "adx_label": "UMIARKOWANY",
+     "atr_pct": 1.31,
+     "last_bar_time": "2026-07-18 04:00",
+     "last_setup": {
+      "type": "AA+",
+      "direction": "long",
+      "suffix": "*",
+      "adx_label": "UMIARKOWANY",
+      "adx": 21.7,
+      "price": 1873.7099609375,
+      "bars_ago": 22,
+      "bar_time": "2026-07-14 12:00",
+      "fresh": false
+     }
+    }
+   }
+  }
+ ]
+}

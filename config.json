@@ -1,0 +1,21 @@
+{
+  "strategy": {
+    "fast_ma": 33,
+    "slow_ma": 144,
+    "ma_method": "SMA",
+    "smoothing": 20,
+    "dist_pct": 0.3,
+    "min_band_gap_pct": 0.5,
+    "min_pyramid_step_pct": 0.5,
+    "adx_threshold_weak": 20,
+    "adx_threshold_moderate": 25,
+    "adx_threshold_strong": 40,
+    "atr_length": 14,
+    "atr_lookback": 20,
+    "atr_change_threshold_pct": 5.0
+  },
+  "scan": {
+    "fresh_bars": 2,
+    "_comment": "Setup uznajemy za 'świeży' (premarket-actionable) gdy pojawił się na ostatnich N zamkniętych świecach. 0 = ostatnia zamknięta, 1 = przedostatnia."
+  }
+}

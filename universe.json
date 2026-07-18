@@ -1,0 +1,40 @@
+{
+  "_comment": "Uniwersum = instrumenty które monitoruje vtrade (feed regime HTS, 24 assety), zmapowane na tickery yfinance (chmurowe, działa w GitHub Actions). 'asset' = nazwa vtrade/HTS. Skanujemy D1 (headline, pewne dane) + H4 (best-effort, resample z 1h). Kilka uwag mapowania na dole.",
+  "timeframes": ["1d", "4h"],
+  "instruments": [
+    {"asset": "ES",     "yf": "^GSPC",      "name": "S&P 500",          "group": "Indeksy"},
+    {"asset": "NQ",     "yf": "^NDX",       "name": "Nasdaq 100",       "group": "Indeksy"},
+    {"asset": "YM",     "yf": "^DJI",       "name": "Dow Jones",        "group": "Indeksy"},
+    {"asset": "ES35",   "yf": "^IBEX",      "name": "IBEX 35 (Spain)",  "group": "Indeksy"},
+    {"asset": "DAX",    "yf": "^GDAXI",     "name": "DAX",              "group": "Indeksy"},
+    {"asset": "F40",    "yf": "^FCHI",      "name": "CAC 40",           "group": "Indeksy"},
+    {"asset": "FESX",   "yf": "^STOXX50E",  "name": "Euro Stoxx 50",    "group": "Indeksy"},
+    {"asset": "FTSE",   "yf": "^FTSE",      "name": "FTSE 100",         "group": "Indeksy"},
+    {"asset": "NIKKEI", "yf": "^N225",      "name": "Nikkei 225",       "group": "Indeksy"},
+    {"asset": "HS",     "yf": "^HSI",       "name": "Hang Seng",        "group": "Indeksy"},
+    {"asset": "VX",     "yf": "^VIX",       "name": "VIX",              "group": "Indeksy"},
+
+    {"asset": "GC",     "yf": "GC=F",       "name": "Gold",             "group": "Metale"},
+    {"asset": "SI",     "yf": "SI=F",       "name": "Silver",           "group": "Metale"},
+    {"asset": "HG",     "yf": "HG=F",       "name": "Copper",           "group": "Metale"},
+    {"asset": "PA",     "yf": "PA=F",       "name": "Palladium",        "group": "Metale"},
+    {"asset": "PL",     "yf": "PL=F",       "name": "Platinum",         "group": "Metale"},
+
+    {"asset": "WBS",    "yf": "CL=F",       "name": "WTI Crude (WBS→XTIUSD)", "group": "Energia"},
+    {"asset": "CC",     "yf": "CC=F",       "name": "Cocoa",            "group": "Miękkie"},
+    {"asset": "KC",     "yf": "KC=F",       "name": "Coffee",           "group": "Miękkie"},
+
+    {"asset": "DXY",    "yf": "DX-Y.NYB",   "name": "Dollar Index",     "group": "FX/Rates"},
+    {"asset": "GBPJPY", "yf": "GBPJPY=X",   "name": "GBP/JPY",          "group": "FX/Rates"},
+    {"asset": "US10",   "yf": "^TNX",       "name": "US 10Y Yield",     "group": "FX/Rates"},
+
+    {"asset": "BTC",    "yf": "BTC-USD",    "name": "Bitcoin",          "group": "Krypto"},
+    {"asset": "ETH",    "yf": "ETH-USD",    "name": "Ethereum",         "group": "Krypto"}
+  ],
+  "_mapping_notes": {
+    "ES35": "vtrade 'ES35' = Spain 35 / IBEX 35 (nie S&P). ES = S&P500.",
+    "WBS": "vtrade asset WBS realnie handluje XTIUSD (WTI) wg historii transakcji → CL=F. Jeśli chcesz Brent, zmień na BZ=F.",
+    "US10": "^TNX to rentowność 10Y ×10 (np. 45.4 = 4.54%). HTS liczy trend na serii — działa, ale to yield, nie cena obligacji.",
+    "futures": "Ciągłe futures (=F) na yfinance dają ~250 świec D1 (rok). Wystarcza na slow_ma 144 + warmup, ale krócej niż indeksy (~2 lata)."
+  }
+}

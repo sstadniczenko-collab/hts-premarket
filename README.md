@@ -32,7 +32,31 @@ liczy zewnętrzny system Darka na nietypowych TF (2D/3D/8H/12H). Tutaj biegnie
 - Sufiks **`*`** = trend umiarkowany (ADX 20–25), **`!`** = wyczerpany (ADX ≥ 40),
   brak sufiksu = silny (ADX 25–40). ADX < 20 blokuje sygnał.
 - **Świeży** = setup na ostatnich `fresh_bars+1` zamkniętych świecach (domyślnie 3).
-  Te trafiają do sekcji „premarket watchlist" u góry dashboardu.
+  Te trafiają do sekcji „co już strzeliło".
+
+## Plan wejścia — gdzie szukać wejść teraz
+
+Górna sekcja dashboardu odpowiada wprost: *jakich poziomów szukać i z jakiego
+setupu*. Dla każdego instrumentu w trendzie skaner liczy z końcowego stanu
+maszyny HTS (`hts_logic.entry_plan`):
+
+- **wejście @** — linia retestu = krawędź szybkiej wstęgi (SMA 33) od strony, z
+  której wraca cena (górna dla longa, dolna dla shorta). Tu strategia szuka wejścia.
+- **strefa** — cała szybka wstęga (`fast_l … fast_h`); dotyk wystarczy do retestu.
+- **z jakiego setupu** — **AAA** jeśli nie było jeszcze retestu po crossie
+  (`retest_count == 0`), inaczej **AA+** (dokładka).
+- **stop za** — wolna wstęga (SMA 144); przebicie = zagrożenie odwrócenia trendu.
+- **cofka %/ATR** — ile cena musi wrócić do linii wejścia.
+- **status**:
+  - `W STREFIE` — cena już na wstędze teraz, obserwuj reakcję,
+  - `UZBROJONY` — zrobiła „oddech", czeka na powrót do linii (trafia na karty),
+  - `BRAK ODDECHU` — musi najpierw wybić dalej od wstęgi, potem retest,
+  - `PRZEGŁĘBIONY` — cofka przebiła całą wstęgę na wylot (retest niedomknięty),
+  - `WSTĘGI WĄSKIE` / `ADX SŁABY` — setup strukturalnie zablokowany.
+
+Karty u góry pokazują tylko `W STREFIE` + `UZBROJONY` (actionable teraz),
+posortowane wg odległości do linii. Pełne poziomy dla wszystkich instrumentów są
+w tabeli (kolumna *plan*). **To poziomy do obserwacji, nie automatyczne zlecenia.**
 
 ## Harmonogram
 

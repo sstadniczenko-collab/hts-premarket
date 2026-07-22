@@ -116,17 +116,13 @@ def adx_label_pl(cls: str) -> str:
 # ---------------------------------------------------------------------------
 # Główny detektor setupów - przejście barami z stanem (jak Pine)
 # ---------------------------------------------------------------------------
-def scan(df: pd.DataFrame, cfg: dict) -> list[dict]:
-    """
-    df: DataFrame zindeksowany czasem, kolumny open/high/low/close (lowercase).
-        WAŻNE: tylko ZAMKNIĘTE świece. Ostatnia formująca się świeca powinna
-        zostać odcięta zanim wejdzie tutaj.
-    cfg: parametry strategii (sekcja 'strategy' z config.json).
-
-    Zwraca listę dictów z setupami (AAA/AA+) w kolejności chronologicznej.
-    """
+def _run(df: pd.DataFrame, cfg: dict) -> dict | None:
+    """Jednokrotne przejście maszyny stanu HTS (jedno źródło prawdy dla setupów
+    ORAZ końcowego stanu). Zwraca listę setupów + stan po ostatniej świecy
+    (trend/ready/retest_count/last_price) + tablice wstęg — z tego `scan()` bierze
+    setupy, a `entry_plan()` buduje plan wejścia na 'teraz'."""
     if len(df) < cfg["slow_ma"] + cfg["smoothing"] + 5:
-        return []
+        return None
 
     fast_h, fast_l, fast_hl2, fast_hl2_avg = _bands(
         df, cfg["fast_ma"], cfg["ma_method"], cfg["smoothing"]
@@ -146,6 +142,7 @@ def scan(df: pd.DataFrame, cfg: dict) -> list[dict]:
 
     setups: list[dict] = []
     warmup_done = False
+    last_valid_i = -1  # ostatnia świeca z policzonymi wstęgami
 
     close = df["close"].to_numpy()
     high = df["high"].to_numpy()
@@ -170,6 +167,7 @@ def scan(df: pd.DataFrame, cfg: dict) -> list[dict]:
             or np.isnan(shl2[i])
         ):
             continue
+        last_valid_i = i
 
         c = close[i]
         dist_price = c * cfg["dist_pct"] / 100.0
@@ -241,7 +239,33 @@ def scan(df: pd.DataFrame, cfg: dict) -> list[dict]:
                         last_price = c
                         setups.append(_make_setup("AA+", trend, i, c, times, fh, fl, sh, sl, adx_a, atr_a, atr_lb_a, cfg))
 
-    return setups
+    return {
+        "setups": setups,
+        "trend": trend,
+        "ready": ready,
+        "retest_count": retest_count,
+        "last_price": last_price,
+        "last_valid_i": last_valid_i,
+        "arr": {
+            "close": close, "high": high, "low": low,
+            "fh": fh, "fl": fl, "sh": sh, "sl": sl,
+            "adx": adx_a, "atr": atr_a,
+        },
+        "times": times,
+    }
+
+
+def scan(df: pd.DataFrame, cfg: dict) -> list[dict]:
+    """
+    df: DataFrame zindeksowany czasem, kolumny open/high/low/close (lowercase).
+        WAŻNE: tylko ZAMKNIĘTE świece. Ostatnia formująca się świeca powinna
+        zostać odcięta zanim wejdzie tutaj.
+    cfg: parametry strategii (sekcja 'strategy' z config.json).
+
+    Zwraca listę dictów z setupami (AAA/AA+) w kolejności chronologicznej.
+    """
+    res = _run(df, cfg)
+    return res["setups"] if res else []
 
 
 def _make_setup(kind, trend, i, c, times, fh, fl, sh, sl, adx_a, atr_a, atr_lb_a, cfg):
@@ -299,4 +323,98 @@ def trend_state(df: pd.DataFrame, cfg: dict) -> dict | None:
         "atr_pct": (atr_v / close * 100.0) if atr_v else None,
         "last_bar_index": len(df) - 1,
         "last_bar_time": df.index[-1].to_pydatetime(),
+    }
+
+
+def entry_plan(df: pd.DataFrame, cfg: dict) -> dict | None:
+    """Plan wejścia na 'teraz' — na podstawie KOŃCOWEGO stanu maszyny HTS.
+
+    Odpowiada na: jakich poziomów szukać (linia retestu = krawędź szybkiej
+    wstęgi), z jakiego setupu (AAA gdy retest_count==0, inaczej AA+) i czy
+    setup jest uzbrojony (ready) czy dopiero czeka na 'oddech' nad/pod wstęgą.
+
+    Zwraca None, gdy brak trendu / za mało danych / setup strukturalnie zablokowany
+    tak, że nie ma czego pokazać.
+    """
+    res = _run(df, cfg)
+    if res is None or res["trend"] == 0:
+        return None
+    i = res["last_valid_i"]
+    if i < 0:
+        return None
+
+    a = res["arr"]
+    c = float(a["close"][i])
+    fh, fl = float(a["fh"][i]), float(a["fl"][i])
+    sh, sl = float(a["sh"][i]), float(a["sl"][i])
+    adx_v = float(a["adx"][i]) if not np.isnan(a["adx"][i]) else None
+    atr_v = float(a["atr"][i]) if not np.isnan(a["atr"][i]) else None
+
+    trend = res["trend"]
+    long = trend == 1
+    dist_price = c * cfg["dist_pct"] / 100.0
+
+    # linia retestu = krawędź szybkiej wstęgi od strony, z której wraca cena
+    if long:
+        entry_line = fh          # górna krawędź — pierwszy dotyk przy cofnięciu z góry
+        entry_far = fl           # dolna krawędź strefy
+        breath_line = fh + dist_price   # 'oddech' — powyżej tego cena uzbraja retest
+        invalidation = sh        # wolna wstęga (SMA slow) — poniżej = zagrożenie flipa
+        gap = fl - sh
+        dist_to_entry = c - entry_line       # >0 = cena wyżej, musi cofnąć w dół
+    else:
+        entry_line = fl
+        entry_far = fh
+        breath_line = fl - dist_price
+        invalidation = sl
+        gap = sl - fh
+        dist_to_entry = entry_line - c       # >0 = cena niżej, musi cofnąć w górę
+
+    min_band_gap = c * cfg["min_band_gap_pct"] / 100.0
+    band_wide = gap >= min_band_gap
+    adx_ok = adx_v is not None and adx_v >= cfg["adx_threshold_weak"]
+    next_type = "AAA" if res["retest_count"] == 0 else "AA+"
+
+    # w strefie? (cena już dotyka szybkiej wstęgi) / przegłębiona? (przebiła całą wstęgę)
+    band_lo, band_hi = min(entry_line, entry_far), max(entry_line, entry_far)
+    in_zone = band_lo <= c <= band_hi
+    deep = (c < band_lo) if long else (c > band_hi)  # cofka przeszła przez całą wstęgę
+
+    # status uzbrojenia
+    if not band_wide:
+        status = "blocked_gap"      # wstęgi za wąskie
+    elif not adx_ok:
+        status = "blocked_adx"      # trend za słaby (ADX < weak)
+    elif in_zone:
+        status = "in_zone"          # cena w strefie retestu TERAZ
+    elif deep:
+        status = "deep"             # przegłębiony — cena przebiła wstęgę na wylot
+    elif res["ready"]:
+        status = "armed"            # uzbrojony — czekaj na powrót do linii wejścia
+    else:
+        status = "needs_breath"     # czekaj aż cena wybije oddech, potem retest
+
+    cls = adx_class(adx_v, cfg) if adx_v is not None else None
+    return {
+        "trend": "long" if long else "short",
+        "next_setup": next_type,
+        "suffix": adx_suffix(cls) if cls else "",
+        "status": status,
+        "ready": bool(res["ready"]),
+        "retest_count": int(res["retest_count"]),
+        "price": c,
+        "entry_line": entry_line,
+        "entry_far": entry_far,
+        "breath_line": breath_line,
+        "invalidation": invalidation,
+        "band_gap_pct": gap / c * 100.0,
+        "band_wide": band_wide,
+        "adx": adx_v,
+        "adx_label": adx_label_pl(cls) if cls else None,
+        "atr": atr_v,
+        "atr_pct": (atr_v / c * 100.0) if atr_v else None,
+        # dystans do linii wejścia (dodatni = cena musi się cofnąć do wstęgi)
+        "dist_to_entry": dist_to_entry,
+        "dist_to_entry_pct": dist_to_entry / c * 100.0,
+        "dist_to_entry_atr": (dist_to_entry / atr_v) if atr_v else None,
     }

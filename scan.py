@@ -34,6 +34,36 @@ def load_json(name: str) -> dict:
         return json.load(f)
 
 
+def _px(x):
+    """Zaokrąglij poziom cenowy sensownie do skali instrumentu."""
+    if x is None:
+        return None
+    ax = abs(x)
+    if ax >= 1000:
+        return round(x, 1)
+    if ax >= 100:
+        return round(x, 2)
+    if ax >= 10:
+        return round(x, 3)
+    return round(x, 4)
+
+
+def _round_plan(plan: dict | None) -> dict | None:
+    if not plan:
+        return None
+    p = dict(plan)
+    for k in ("price", "entry_line", "entry_far", "breath_line", "invalidation", "atr", "dist_to_entry"):
+        p[k] = _px(p.get(k))
+    for k in ("band_gap_pct", "atr_pct", "dist_to_entry_pct"):
+        if p.get(k) is not None:
+            p[k] = round(p[k], 2)
+    if p.get("dist_to_entry_atr") is not None:
+        p["dist_to_entry_atr"] = round(p["dist_to_entry_atr"], 2)
+    if p.get("adx") is not None:
+        p["adx"] = round(p["adx"], 1)
+    return p
+
+
 def _fetch(yf_symbol: str, tf: str):
     if tf == "1d":
         return D.fetch_daily(yf_symbol)
@@ -58,6 +88,7 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
                 continue
             state = H.trend_state(df, strat)
             setups = H.scan(df, strat)
+            plan = H.entry_plan(df, strat)
             last = setups[-1] if setups else None
             last_bar = len(df) - 1
             last_setup = None
@@ -84,6 +115,7 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
                 "atr_pct": round(state["atr_pct"], 2) if state and state["atr_pct"] is not None else None,
                 "last_bar_time": state["last_bar_time"].strftime("%Y-%m-%d %H:%M") if state else None,
                 "last_setup": last_setup,
+                "plan": _round_plan(plan),
             }
         except Exception as e:  # jeden instrument nie może wywalić całego skanu
             out["tf"][tf] = {"ok": False, "reason": f"błąd: {e}"}
@@ -141,6 +173,17 @@ def main() -> int:
     # najświeższe najpierw, potem AAA przed AA+
     fresh.sort(key=lambda x: (x["bars_ago"], 0 if x["type"] == "AAA" else 1))
 
+    # plan wejścia: instrumenty uzbrojone lub już w strefie retestu (actionable teraz)
+    armed = []
+    _rank = {"in_zone": 0, "armed": 1}
+    for r in results:
+        for tf, d in r["tf"].items():
+            pl = d.get("plan") if d.get("ok") else None
+            if pl and pl.get("status") in ("in_zone", "armed"):
+                armed.append({"asset": r["asset"], "name": r["name"], "tf": tf, **pl})
+    # najpierw w strefie, potem najbliżej linii wejścia
+    armed.sort(key=lambda x: (_rank.get(x["status"], 9), abs(x.get("dist_to_entry_pct") or 0)))
+
     payload = {
         "generated_utc": now.strftime("%Y-%m-%d %H:%M:%S"),
         "session_hint": session_hint(now),
@@ -148,16 +191,17 @@ def main() -> int:
         "universe_count": len(instruments),
         "fresh_bars": fresh_bars,
         "strategy": strat,
+        "armed": armed,
         "fresh": fresh,
         "instruments": results,
     }
 
     n_ok = sum(1 for r in results for d in r["tf"].values() if d.get("ok"))
     n_tot = sum(len(r["tf"]) for r in results)
-    print(f"Gotowe: {n_ok}/{n_tot} (instr,tf) OK · {len(fresh)} świeżych setupów")
+    print(f"Gotowe: {n_ok}/{n_tot} (instr,tf) OK · {len(fresh)} świeżych setupów · {len(armed)} w planie wejścia")
 
     if args.dry_run:
-        print(json.dumps({"fresh": fresh}, indent=2, ensure_ascii=False))
+        print(json.dumps({"armed": armed, "fresh": fresh}, indent=2, ensure_ascii=False))
         return 0
 
     os.makedirs(args.out, exist_ok=True)

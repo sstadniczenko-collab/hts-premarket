@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-07-22 13:38:08",
+ "generated_utc": "2026-07-22 14:59:39",
  "session_hint": "przed / w trakcie sesji US",
  "timeframes": [
   "1d",
@@ -160,18 +160,18 @@
    "retest_count": 5,
    "price": 4.628,
    "entry_line": 4.5398,
-   "entry_far": 4.5104,
+   "entry_far": 4.5106,
    "breath_line": 4.5536,
    "invalidation": 4.4643,
    "band_gap_pct": 1.0,
    "band_wide": true,
    "adx": 21.0,
    "adx_label": "UMIARKOWANY",
-   "atr": 0.0348,
-   "atr_pct": 0.75,
+   "atr": 0.0344,
+   "atr_pct": 0.74,
    "dist_to_entry": 0.0882,
    "dist_to_entry_pct": 1.91,
-   "dist_to_entry_atr": 2.53
+   "dist_to_entry_atr": 2.56
   },
   {
    "asset": "ETH",
@@ -2346,7 +2346,7 @@
      "price": 4.628,
      "adx": 21.0,
      "adx_label": "UMIARKOWANY",
-     "atr_pct": 0.75,
+     "atr_pct": 0.74,
      "last_bar_time": "2026-07-21 16:00",
      "last_setup": {
       "type": "AA+",
@@ -2368,18 +2368,18 @@
       "retest_count": 5,
       "price": 4.628,
       "entry_line": 4.5398,
-      "entry_far": 4.5104,
+      "entry_far": 4.5106,
       "breath_line": 4.5536,
       "invalidation": 4.4643,
       "band_gap_pct": 1.0,
       "band_wide": true,
       "adx": 21.0,
       "adx_label": "UMIARKOWANY",
-      "atr": 0.0348,
-      "atr_pct": 0.75,
+      "atr": 0.0344,
+      "atr_pct": 0.74,
       "dist_to_entry": 0.0882,
       "dist_to_entry_pct": 1.91,
-      "dist_to_entry_atr": 2.53
+      "dist_to_entry_atr": 2.56
      }
     }
    }

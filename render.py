@@ -65,7 +65,7 @@ def _plan_card(p: dict) -> str:
       <div class="card-sig">{_dir_arrow(d)} {_esc(p['next_setup'])}{_esc(p.get('suffix',''))} {'LONG' if d=='long' else 'SHORT'}</div>
       <div class="card-name">{_esc(p['name'])}</div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">{_esc(p['entry_line'])}</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">{_esc(p['entry_line'])} <span class="tf-tag">{_esc(p['tf'].upper())}</span></span>
         <span class="pl-k">strefa</span><span class="pl-v">{_esc(p['entry_far'])} – {_esc(p['entry_line'])}</span>
         <span class="pl-k">cena</span><span class="pl-v">{_esc(p['price'])} <span class="age">({_esc(dist_txt)})</span></span>
         <span class="pl-k">stop za</span><span class="pl-v cold">{_esc(p['invalidation'])}</span>
@@ -203,6 +203,8 @@ def build_html(payload: dict) -> str:
   .plan-grid .pl-v {{ font-weight:600; font-variant-numeric:tabular-nums; }}
   .plan-grid .pl-v.hot {{ color:var(--accent); }}
   .plan-grid .pl-v.cold {{ color:var(--muted); }}
+  .tf-tag {{ font-size:10px; font-weight:700; padding:1px 5px; border-radius:4px;
+    background:var(--panel2); color:var(--muted); letter-spacing:.4px; vertical-align:middle; }}
   .stat {{ font-weight:700; font-size:11px; padding:2px 8px; border-radius:20px;
     letter-spacing:.4px; }}
   .stat-in_zone {{ background:rgba(45,212,167,.18); color:var(--up); }}

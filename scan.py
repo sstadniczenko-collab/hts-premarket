@@ -76,6 +76,7 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
     out = {
         "asset": inst["asset"],
         "name": inst["name"],
+        "ftmo": inst.get("ftmo"),
         "yf": inst["yf"],
         "group": inst.get("group", ""),
         "tf": {},
@@ -167,7 +168,7 @@ def main() -> int:
             ls = d.get("last_setup") if d.get("ok") else None
             if ls and ls.get("fresh"):
                 fresh.append({
-                    "asset": r["asset"], "name": r["name"], "tf": tf,
+                    "asset": r["asset"], "name": r["name"], "ftmo": r.get("ftmo"), "tf": tf,
                     **ls,
                 })
     # najświeższe najpierw, potem AAA przed AA+
@@ -180,7 +181,7 @@ def main() -> int:
         for tf, d in r["tf"].items():
             pl = d.get("plan") if d.get("ok") else None
             if pl and pl.get("status") in ("in_zone", "armed"):
-                armed.append({"asset": r["asset"], "name": r["name"], "tf": tf, **pl})
+                armed.append({"asset": r["asset"], "name": r["name"], "ftmo": r.get("ftmo"), "tf": tf, **pl})
     # najpierw w strefie, potem najbliżej linii wejścia
     armed.sort(key=lambda x: (_rank.get(x["status"], 9), abs(x.get("dist_to_entry_pct") or 0)))
 

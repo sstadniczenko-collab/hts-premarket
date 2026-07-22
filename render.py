@@ -12,6 +12,13 @@ def _dir_arrow(direction: str) -> str:
     return "▲" if direction == "long" else "▼"
 
 
+def _nm(name: str, ftmo) -> str:
+    """Nazwa instrumentu + symbol FTMO w małym nawiasie (jeśli jest)."""
+    if ftmo:
+        return f'{_esc(name)} <span class="ftmo">({_esc(ftmo)})</span>'
+    return _esc(name)
+
+
 def _trend_badge(trend: str) -> str:
     cls = {"long": "up", "short": "down"}.get(trend, "flat")
     txt = {"long": "LONG", "short": "SHORT", "none": "—"}.get(trend, "—")
@@ -63,7 +70,7 @@ def _plan_card(p: dict) -> str:
         <span class="tf">{_esc(p['tf'].upper())}</span>
       </div>
       <div class="card-sig">{_dir_arrow(d)} {_esc(p['next_setup'])}{_esc(p.get('suffix',''))} {'LONG' if d=='long' else 'SHORT'}</div>
-      <div class="card-name">{_esc(p['name'])}</div>
+      <div class="card-name">{_nm(p['name'], p.get('ftmo'))}</div>
       <div class="plan-grid">
         <span class="pl-k">wejście @</span><span class="pl-v hot">{_esc(p['entry_line'])} <span class="tf-tag">{_esc(p['tf'].upper())}</span></span>
         <span class="pl-k">strefa</span><span class="pl-v">{_esc(p['entry_far'])} – {_esc(p['entry_line'])}</span>
@@ -108,7 +115,7 @@ def _fresh_card(f: dict) -> str:
         <span class="tf">{_esc(f['tf'].upper())}</span>
       </div>
       <div class="card-sig">{_dir_arrow(d)} {_esc(f['type'])}{_esc(f['suffix'])} {'LONG' if d=='long' else 'SHORT'}</div>
-      <div class="card-name">{_esc(f['name'])}</div>
+      <div class="card-name">{_nm(f['name'], f.get('ftmo'))}</div>
       <div class="card-meta">
         <span>@ {_esc(f['price'])}</span>
         <span>ADX {_esc(f['adx'])} · {_esc(f['adx_label'])}</span>
@@ -128,7 +135,7 @@ def _rows(instruments: list[dict], timeframes: list[str]) -> str:
     for gname, items in groups.items():
         parts.append(f'<tr class="grp"><td colspan="{2 + 3*len(tf_cols)}">{_esc(gname)}</td></tr>')
         for r in items:
-            cells = [f'<td class="tick">{_esc(r["asset"])}</td><td class="nm">{_esc(r["name"])}</td>']
+            cells = [f'<td class="tick">{_esc(r["asset"])}</td><td class="nm">{_nm(r["name"], r.get("ftmo"))}</td>']
             for tf in tf_cols:
                 d = r["tf"].get(tf, {})
                 if not d.get("ok"):
@@ -228,6 +235,7 @@ def build_html(payload: dict) -> str:
     text-transform:uppercase; letter-spacing:1px; }}
   td.tick {{ font-weight:700; }}
   td.nm {{ color:var(--muted); }}
+  .ftmo {{ color:var(--accent); font-size:11.5px; font-weight:600; opacity:.85; }}
   .badge {{ font-weight:700; font-size:11.5px; padding:2px 9px; border-radius:20px;
     background:var(--panel2); }}
   .badge.up {{ color:var(--up); }}

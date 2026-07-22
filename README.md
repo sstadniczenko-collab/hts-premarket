@@ -76,6 +76,29 @@ Obok setupów HTS każdy instrument dostaje kontekst z ostatniej zamkniętej św
 Parametry w `config.json` → `levels`: `gap_min_pct` (min. luka % — odsiewa szum),
 `gap_lookback` (ile sesji D1 skanować pod niewypełnione luki).
 
+## News + wpływ AI (`news_ai.py`)
+
+Każdy instrument dostaje ocenę **potencjalnego wpływu newsów na cenę** liczoną
+przez **Claude Haiku** na świeżych nagłówkach z yfinance (`Ticker.news`):
+
+- **bias** — byczy / niedźwiedzi / neutralny / obustronne ryzyko,
+- **siła** — niski / średni / wysoki,
+- **katalizator** — najważniejsze wydarzenie w kilku słowach,
+- **notka** — jedno zdanie „jak to może ruszyć cenę i na co uważać".
+
+Widoczne jako chip w kolumnie *News (AI)* w tabeli (notka w tooltipie) oraz pełny
+blok na kartach planu wejścia.
+
+**Klucz API.** Aktywne tylko gdy w środowisku jest `ANTHROPIC_API_KEY`:
+- w GitHub Actions — jako **repo secret** (`Settings → Secrets → Actions`);
+  workflow podaje go do kroku skanu przez `env:`,
+- lokalnie — z `.env` obok skryptu lub `Y:\15_AI\02_TRADING\.env`.
+
+Bez klucza skaner działa normalnie, tylko pomija sekcję news. `--no-news` wyłącza
+ocenę na żądanie (zero wywołań API). Koszt: ~24 wywołania Haiku na run × 2/dobę
+(groszowy). To **potencjalny** wpływ z nagłówków, nie prognoza — nagłówki bywają
+ogólnorynkowe.
+
 ## Harmonogram
 
 | Cron (UTC) | Kiedy | Po co |

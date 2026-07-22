@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-07-22 16:32:10",
+ "generated_utc": "2026-07-22 17:34:15",
  "session_hint": "przed / w trakcie sesji US",
  "timeframes": [
   "1d",
@@ -7,6 +7,7 @@
  ],
  "universe_count": 24,
  "fresh_bars": 2,
+ "news_enabled": true,
  "strategy": {
   "fast_ma": 33,
   "slow_ma": 144,
@@ -64,6 +65,13 @@
      }
     }
    },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Opóźnienia zbioru w Brazylii ograniczają podaż",
+    "note": "Susze i opóźnienia brazylijskiego zbioru wspierają ceny KC przez redukcję podaży, ale forecast suchej pogody może zmienić sentyment — uważać na rewizje warunków pogodowych.",
+    "n_headlines": 6
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "*",
@@ -120,6 +128,13 @@
      "magnet": null
     }
    },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "średni",
+    "catalyst": "Dollar dips after four-day streak gains",
+    "note": "Osłabienie dolara po czterodniowej serii wzrostów sugeruje potencjalny spadek DXY, szczególnie jeśli yen umacnia się mimo słabości, co może przyciągnąć przepływy z USD.",
+    "n_headlines": 6
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "*",
@@ -175,6 +190,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "średni",
+    "catalyst": "BoE dovish, słabe dane gospodarcze GBP",
+    "note": "Osłabienie funta wobec japońskiego jena przez mniej jastrzębie stanowisko BoE i słabe dane makro, przy czym należy monitorować przychody z budżetu jako potencjalny czynnik wspierający.",
+    "n_headlines": 6
    },
    "trend": "long",
    "next_setup": "AA+",
@@ -238,6 +260,13 @@
      "magnet": null
     }
    },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Popyt na safe-haven i słabszy dolar",
+    "note": "Złoto zyskuje na obawach rynkowych i osłabieniu dolara, ale siła trendu zależy od dalszych danych ekonomicznych i decyzji Fed.",
+    "n_headlines": 6
+   },
    "trend": "short",
    "next_setup": "AAA",
    "suffix": "",
@@ -293,6 +322,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Harmonizacja regulacyjna i napływ kapitału ETF",
+    "note": "Wzrost instytucjonalnego zainteresowania poprzez ETF i pozytywne otoczenie regulacyjne wspierają popyt na BTC, jednak ostrożność inwestorów (tracenie tempa wzrostu) sugeruje ograniczoną siłę ruchu.",
+    "n_headlines": 6
    },
    "trend": "long",
    "next_setup": "AA+",
@@ -360,6 +396,13 @@
      }
     }
    },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Zakłócenia produkcji w Chile i raporty FCX",
+    "note": "Spadek podaży miedzi z Chile oraz wyniki finansowe FCX mogą ograniczyć dostępność surowca, ale trzeba obserwować skalę zakłóceń i prognozę produkcji.",
+    "n_headlines": 6
+   },
    "trend": "long",
    "next_setup": "AAA",
    "suffix": "",
@@ -415,6 +458,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "wysoki",
+    "catalyst": "Inflacja i obawy przed wzrostem cen",
+    "note": "Wzrost rentowności obligacji skarbowych napędzany obawami inflacyjnymi i wzrostem cen ropy naftowej powinien podnieść US10Y, ale należy monitorować dane o chłodzeniu się gospodarki.",
+    "n_headlines": 6
    },
    "trend": "long",
    "next_setup": "AA+",
@@ -474,6 +524,13 @@
      "magnet": null
     }
    },
+   "news": {
+    "bias": "neutralny",
+    "strength": "niski",
+    "catalyst": "brak bezpośrednich wiadomości o platynie",
+    "note": "Nagłówki dotyczą głównie złota i geopolityki; platyna reaguje słabo na safe-haven demand w przeciwieństwie do Au, czuwać na zmianę sentymentu wobec metali przemysłowych.",
+    "n_headlines": 6
+   },
    "trend": "short",
    "next_setup": "AAA",
    "suffix": "",
@@ -529,6 +586,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Bullish sygnał ETH i aktywność builder",
+    "note": "Pozytywne sygnały techniczne dla Ethereum mogą przyciągnąć kupujących, ale niski poziom przejrzystości regulacyjnej (CLARITY Act) i zmienność BTC stanowią ryzyko korekcji.",
+    "n_headlines": 6
    },
    "trend": "long",
    "next_setup": "AA+",
@@ -592,6 +656,13 @@
      "magnet": null
     }
    },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Inflacyjne obawy z powodu wzrostu cen ropy",
+    "note": "Podwyższone rentowności obligacji mogą ograniczać popyt, ale obawy inflacyjne wspierają cenę ropy; obserwować równowagę między tymi siłami.",
+    "n_headlines": 6
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "",
@@ -654,6 +725,13 @@
      "magnet": null
     }
    },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Wzrost złota wspiera popyt na srebro",
+    "note": "Spadek produkcji u Fresnillo oraz wzrost zainteresowania metalami szlachetnymi mogą podpierać cenę, ale należy monitorować ryzyko inflacyjne i rentowności górnictwa srebra.",
+    "n_headlines": 6
+   },
    "trend": "short",
    "next_setup": "AAA",
    "suffix": "",
@@ -715,6 +793,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "wysoki",
+    "catalyst": "Wzrost popytu nord-amerykańskiego i raporty grinding",
+    "note": "Silny popyt North American i zbliżające się dane o mieleniu mogą pchnąć ceny wyżej, ale czuwać na rozczarowania Hershey dotyczące wolumenów.",
+    "n_headlines": 6
    },
    "trend": "long",
    "next_setup": "AAA",
@@ -900,6 +985,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "obustronne ryzyko",
+    "strength": "średni",
+    "catalyst": "Volatilność chipów vs. stabilność blue-chipów",
+    "note": "Sprzeczne sygnały: słabość Nasdaqu (duża waga w ES) kontra stabilność Dow Jones mogą powodować wahania, z ryzykiem po stronie technologii.",
+    "n_headlines": 6
    }
   },
   {
@@ -1031,6 +1123,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "wysoki",
+    "catalyst": "Earnings technologicznych gigantów i potencjał AI",
+    "note": "Nasdaq 100 powinien zyskać na silnych wynikach GOOGL, AAPL, TSLA i wzroście sektora chipów, ale wzrost obaw inflacyjnych stanowi ryzyko gwałtownych spadków.",
+    "n_headlines": 6
    }
   },
   {
@@ -1156,6 +1255,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "neutralny",
+    "strength": "średni",
+    "catalyst": "Wyniki Big Tech (Alphabet) i reakcja na nich",
+    "note": "Dow Jones reaguje opornie na wstrząsy (olej, geopolityka), ale czeka na earnings Tech - główny katalizator to wyniki Alphabet i ocena zadłużenia hyperscalerów w AI.",
+    "n_headlines": 6
    }
   },
   {
@@ -1291,6 +1397,13 @@
       "pct": 0.2543105854613283
      }
     }
+   },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "wysoki",
+    "catalyst": "Groźby handlowe Trumpa wobec Hiszpanii",
+    "note": "Bezpośrednie zagrożenia dla handlu z USA oraz spadek akcji Telefónici (ex-dividend) przesłaniają pozytywne sygnały z rynku technologicznego i bankowego, co może utrzymać presję spadkową.",
+    "n_headlines": 6
    }
   },
   {
@@ -1422,6 +1535,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Chłodzenie inflacji w strefie euro i decyzja ECB",
+    "note": "Spadek inflacji w UK może wskazywać na podobne trendy w eurolandzie, wspierając DAX poprzez potencjalną łagodniejszą politykę ECB, choć geopolityczne zagrożenia z Bliskiego Wschodu pozostają ryzykiem dla sektora energety",
+    "n_headlines": 6
    }
   },
   {
@@ -1547,6 +1667,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "neutralny",
+    "strength": "niski",
+    "catalyst": "Mieszane sygnały z rynków europejskich",
+    "note": "CAC 40 może podążać za sentymentem FTSE, ale nagłówki dotyczą głównie rynku brytyjskiego - bezpośredni wpływ na indeks francuski będzie marginalny.",
+    "n_headlines": 6
    }
   },
   {
@@ -1672,6 +1799,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "obustronne ryzyko",
+    "strength": "średni",
+    "catalyst": "Decyzja ECB vs. wzrost cen ropy naftowej",
+    "note": "Decyzja ECB jest głównym katalizatorem dla FESX, jednak geopolityczne napięcia na Bliskim Wschodzie i obawy o dywidendy europejskich giant mogą obniżyć notowania w krótkim terminie.",
+    "n_headlines": 6
    }
   },
   {
@@ -1797,6 +1931,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "wysoki",
+    "catalyst": "Spadek inflacji, podwyższona prognoza zysków",
+    "note": "Chłodniejsza inflacja wspiera scenariusz niższych stóp procentowych, a podniesienie perspektyw zysków przez Deutsche Bank wzmacnia przypadek dla wzrostu, jednak uważać na korektę jeśli dane gospodarcze rozczarują.",
+    "n_headlines": 6
    }
   },
   {
@@ -1928,6 +2069,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Wyceny atrakcyjne po spadku, tech rebound",
+    "note": "UBS rekomenduje kupno przy obecnych cenach, ale zmienność tech sektora i ceny ropy pozostają ryzykiem dla japońskich eksporterów.",
+    "n_headlines": 6
    }
   },
   {
@@ -2053,6 +2201,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "średni",
+    "catalyst": "Techturmoil i spadek cen ropy naftowej",
+    "note": "Hang Seng ma wysoką ekspozycję na tech i energetykę, więc niedawne turbulencje w sektorze technologicznym oraz fluktuacje cen ropy mogą wywierać presję na indeks w krótkim terminie.",
+    "n_headlines": 6
    }
   },
   {
@@ -2184,6 +2339,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "obustronne ryzyko",
+    "strength": "średni",
+    "catalyst": "Rozpaczliwa likwidacja AI versus powrót do Tech",
+    "note": "VIX może oscylować między wzrostami (AI unwind) a spadkami (pile back into Tech), z kluczową obserwacją krzywej futures jako sygnału zmienności.",
+    "n_headlines": 6
    }
   },
   {
@@ -2315,6 +2477,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Popyt na safe-haven i słabszy dolar",
+    "note": "Złoto zyskuje na obawach rynkowych i osłabieniu dolara, ale siła trendu zależy od dalszych danych ekonomicznych i decyzji Fed.",
+    "n_headlines": 6
    }
   },
   {
@@ -2446,6 +2615,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Wzrost złota wspiera popyt na srebro",
+    "note": "Spadek produkcji u Fresnillo oraz wzrost zainteresowania metalami szlachetnymi mogą podpierać cenę, ale należy monitorować ryzyko inflacyjne i rentowności górnictwa srebra.",
+    "n_headlines": 6
    }
   },
   {
@@ -2581,6 +2757,13 @@
       "pct": 0.24774739830578488
      }
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Zakłócenia produkcji w Chile i raporty FCX",
+    "note": "Spadek podaży miedzi z Chile oraz wyniki finansowe FCX mogą ograniczyć dostępność surowca, ale trzeba obserwować skalę zakłóceń i prognozę produkcji.",
+    "n_headlines": 6
    }
   },
   {
@@ -2712,6 +2895,13 @@
       "pct": 1.3665594855305467
      }
     }
+   },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "średni",
+    "catalyst": "Presja na metale szlachetne z Fed i stóp",
+    "note": "Wzrost stóp procentowych i siła dolara zmniejszają popyt na pallad jako aktywa pozaoprocentowane, ale ograniczona podaż i popyt przemysłowy mogą działać wspierająco.",
+    "n_headlines": 6
    }
   },
   {
@@ -2839,6 +3029,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "neutralny",
+    "strength": "niski",
+    "catalyst": "brak bezpośrednich wiadomości o platynie",
+    "note": "Nagłówki dotyczą głównie złota i geopolityki; platyna reaguje słabo na safe-haven demand w przeciwieństwie do Au, czuwać na zmianę sentymentu wobec metali przemysłowych.",
+    "n_headlines": 6
    }
   },
   {
@@ -2970,6 +3167,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Inflacyjne obawy z powodu wzrostu cen ropy",
+    "note": "Podwyższone rentowności obligacji mogą ograniczać popyt, ale obawy inflacyjne wspierają cenę ropy; obserwować równowagę między tymi siłami.",
+    "n_headlines": 6
    }
   },
   {
@@ -3101,6 +3305,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "wysoki",
+    "catalyst": "Wzrost popytu nord-amerykańskiego i raporty grinding",
+    "note": "Silny popyt North American i zbliżające się dane o mieleniu mogą pchnąć ceny wyżej, ale czuwać na rozczarowania Hershey dotyczące wolumenów.",
+    "n_headlines": 6
    }
   },
   {
@@ -3232,6 +3443,13 @@
       "pct": 0.8155397095037998
      }
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Opóźnienia zbioru w Brazylii ograniczają podaż",
+    "note": "Susze i opóźnienia brazylijskiego zbioru wspierają ceny KC przez redukcję podaży, ale forecast suchej pogody może zmienić sentyment — uważać na rewizje warunków pogodowych.",
+    "n_headlines": 6
    }
   },
   {
@@ -3357,6 +3575,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "średni",
+    "catalyst": "Dollar dips after four-day streak gains",
+    "note": "Osłabienie dolara po czterodniowej serii wzrostów sugeruje potencjalny spadek DXY, szczególnie jeśli yen umacnia się mimo słabości, co może przyciągnąć przepływy z USD.",
+    "n_headlines": 6
    }
   },
   {
@@ -3482,6 +3707,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "niedźwiedzi",
+    "strength": "średni",
+    "catalyst": "BoE dovish, słabe dane gospodarcze GBP",
+    "note": "Osłabienie funta wobec japońskiego jena przez mniej jastrzębie stanowisko BoE i słabe dane makro, przy czym należy monitorować przychody z budżetu jako potencjalny czynnik wspierający.",
+    "n_headlines": 6
    }
   },
   {
@@ -3607,6 +3839,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "wysoki",
+    "catalyst": "Inflacja i obawy przed wzrostem cen",
+    "note": "Wzrost rentowności obligacji skarbowych napędzany obawami inflacyjnymi i wzrostem cen ropy naftowej powinien podnieść US10Y, ale należy monitorować dane o chłodzeniu się gospodarki.",
+    "n_headlines": 6
    }
   },
   {
@@ -3732,6 +3971,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Harmonizacja regulacyjna i napływ kapitału ETF",
+    "note": "Wzrost instytucjonalnego zainteresowania poprzez ETF i pozytywne otoczenie regulacyjne wspierają popyt na BTC, jednak ostrożność inwestorów (tracenie tempa wzrostu) sugeruje ograniczoną siłę ruchu.",
+    "n_headlines": 6
    }
   },
   {
@@ -3857,6 +4103,13 @@
      "gap_over_gap": false,
      "magnet": null
     }
+   },
+   "news": {
+    "bias": "byczy",
+    "strength": "średni",
+    "catalyst": "Bullish sygnał ETH i aktywność builder",
+    "note": "Pozytywne sygnały techniczne dla Ethereum mogą przyciągnąć kupujących, ale niski poziom przejrzystości regulacyjnej (CLARITY Act) i zmienność BTC stanowią ryzyko korekcji.",
+    "n_headlines": 6
    }
   }
  ]

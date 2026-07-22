@@ -25,6 +25,7 @@ from datetime import datetime, timezone
 import hts_logic as H
 import data_yf as D
 import levels as L
+import news_ai as N
 import render
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -164,6 +165,7 @@ def main() -> int:
     ap.add_argument("--only", help="skanuj tylko ten timeframe (1d / 4h)")
     ap.add_argument("--assets", help="przecinkami: podzbiór assetów do skanu (test)")
     ap.add_argument("--dry-run", action="store_true", help="nie zapisuj plików")
+    ap.add_argument("--no-news", action="store_true", help="pomiń ocenę AI newsów (brak wywołań API)")
     args = ap.parse_args()
 
     cfg = load_json("config.json")
@@ -186,6 +188,13 @@ def main() -> int:
         print(f"- {inst['asset']:7} ({inst['yf']}) ...", flush=True)
         results.append(scan_instrument(inst, timeframes, strat, fresh_bars, lvl_cfg))
 
+    # ocena AI wpływu newsów (osobny pass; no-op bez klucza / z --no-news)
+    news_count = 0
+    if not args.no_news:
+        print("News AI: pobieram nagłówki + ocena Haiku ...", flush=True)
+        news_count = N.enrich(results)
+        print(f"News AI: oceniono {news_count} instrumentów")
+
     # spłaszczona lista świeżych setupów (premarket watchlist)
     fresh = []
     for r in results:
@@ -207,7 +216,7 @@ def main() -> int:
             pl = d.get("plan") if d.get("ok") else None
             if pl and pl.get("status") in ("in_zone", "armed"):
                 armed.append({"asset": r["asset"], "name": r["name"], "ftmo": r.get("ftmo"),
-                              "tf": tf, "daily": r.get("daily"), **pl})
+                              "tf": tf, "daily": r.get("daily"), "news": r.get("news"), **pl})
     # najpierw w strefie, potem najbliżej linii wejścia
     armed.sort(key=lambda x: (_rank.get(x["status"], 9), abs(x.get("dist_to_entry_pct") or 0)))
 
@@ -217,6 +226,7 @@ def main() -> int:
         "timeframes": timeframes,
         "universe_count": len(instruments),
         "fresh_bars": fresh_bars,
+        "news_enabled": news_count > 0,
         "strategy": strat,
         "armed": armed,
         "fresh": fresh,

@@ -82,6 +82,7 @@ def _plan_card(p: dict) -> str:
         <span>ADX {_esc(p['adx'])} · {_esc(p['adx_label'])}</span>
       </div>
       {_daily_block(p.get('daily'))}
+      {_news_block(p.get('news'))}
     </div>"""
 
 
@@ -158,6 +159,37 @@ def _daily_block(daily: dict | None) -> str:
     return f'<div class="plan-grid daily">{"".join(rows)}</div>'
 
 
+_NEWS_BIAS_CLS = {"byczy": "nb-up", "niedźwiedzi": "nb-down",
+                  "neutralny": "nb-flat", "obustronne ryzyko": "nb-warn"}
+
+
+def _news_chip(news: dict | None) -> str:
+    """Kompaktowy chip: bias + siła, z notką w title."""
+    if not news or news.get("error"):
+        return '<span class="muted">—</span>'
+    bias = news.get("bias", "neutralny")
+    cls = _NEWS_BIAS_CLS.get(bias, "nb-flat")
+    tip = f'{news.get("catalyst","")} · {news.get("note","")}'.strip(" ·")
+    return (f'<span class="nbias {cls}" title="{_esc(tip)}">{_esc(bias)}</span>'
+            f' <span class="age">{_esc(news.get("strength",""))}</span>')
+
+
+def _news_block(news: dict | None) -> str:
+    """Pełna notka newsowa na karcie planu."""
+    if not news or news.get("error"):
+        return ""
+    bias = news.get("bias", "neutralny")
+    cls = _NEWS_BIAS_CLS.get(bias, "nb-flat")
+    cat = news.get("catalyst", "")
+    note = news.get("note", "")
+    return (f'<div class="news-block">'
+            f'<span class="nbias {cls}">news: {_esc(bias)}</span> '
+            f'<span class="age">{_esc(news.get("strength",""))}</span>'
+            + (f' <b>{_esc(cat)}</b>' if cat else "")
+            + (f'<div class="news-note">{_esc(note)}</div>' if note else "")
+            + '</div>')
+
+
 def _fresh_card(f: dict) -> str:
     d = f["direction"]
     cls = "up" if d == "long" else "down"
@@ -178,16 +210,17 @@ def _fresh_card(f: dict) -> str:
     </div>"""
 
 
-def _rows(instruments: list[dict], timeframes: list[str]) -> str:
+def _rows(instruments: list[dict], timeframes: list[str], news_on: bool) -> str:
     # grupuj wg 'group'
     groups: dict[str, list[dict]] = {}
     for r in instruments:
         groups.setdefault(r.get("group") or "Inne", []).append(r)
 
     tf_cols = timeframes
+    span = 3 + 3 * len(tf_cols) + (1 if news_on else 0)
     parts = []
     for gname, items in groups.items():
-        parts.append(f'<tr class="grp"><td colspan="{3 + 3*len(tf_cols)}">{_esc(gname)}</td></tr>')
+        parts.append(f'<tr class="grp"><td colspan="{span}">{_esc(gname)}</td></tr>')
         for r in items:
             cells = [f'<td class="tick">{_esc(r["asset"])}</td><td class="nm">{_nm(r["name"], r.get("ftmo"))}</td>']
             for tf in tf_cols:
@@ -199,6 +232,8 @@ def _rows(instruments: list[dict], timeframes: list[str]) -> str:
                     cells.append(f'<td>{_setup_cell(d.get("last_setup"))}</td>')
                     cells.append(f'<td>{_plan_cell(d.get("plan"))}</td>')
             cells.append(f'<td class="dcell">{_daily_cell(r.get("daily"))}</td>')
+            if news_on:
+                cells.append(f'<td class="ncell">{_news_chip(r.get("news"))}</td>')
             parts.append(f'<tr>{"".join(cells)}</tr>')
     return "\n".join(parts)
 
@@ -219,9 +254,10 @@ def build_html(payload: dict) -> str:
     else:
         fresh_html = '<p class="muted empty">Brak świeżych setupów AAA/AA+ w oknie skanu. Poniżej pełny stan trendów.</p>'
 
+    news_on = bool(payload.get("news_enabled"))
     tf_head = "".join(
         f'<th>{tf.upper()} trend</th><th>{tf.upper()} setup</th><th>{tf.upper()} plan (wejście @)</th>' for tf in tfs
-    ) + '<th>D1 kontekst (pivot / gap)</th>'
+    ) + '<th>D1 kontekst (pivot / gap)</th>' + ('<th>News (AI)</th>' if news_on else '')
 
     return f"""<!DOCTYPE html>
 <html lang="pl">
@@ -284,6 +320,14 @@ def build_html(payload: dict) -> str:
   .gog {{ background:rgba(247,109,109,.16); color:var(--down); font-weight:700; font-size:11px;
     padding:1px 6px; border-radius:5px; }}
   td.dcell {{ font-size:12px; line-height:1.7; white-space:normal; min-width:210px; }}
+  td.ncell {{ font-size:12px; white-space:normal; min-width:120px; }}
+  .nbias {{ font-weight:700; font-size:11px; padding:1px 7px; border-radius:20px; letter-spacing:.3px; }}
+  .nbias.nb-up {{ background:rgba(45,212,167,.18); color:var(--up); }}
+  .nbias.nb-down {{ background:rgba(247,109,109,.16); color:var(--down); }}
+  .nbias.nb-flat {{ background:var(--panel2); color:var(--muted); }}
+  .nbias.nb-warn {{ background:rgba(240,180,80,.18); color:#f0b450; }}
+  .news-block {{ margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); font-size:12.5px; }}
+  .news-note {{ color:var(--muted); margin-top:4px; }}
   .empty {{ padding:14px; background:var(--panel); border-radius:10px; }}
   .tbl-scroll {{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; }}
   table {{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }}
@@ -332,7 +376,7 @@ def build_html(payload: dict) -> str:
   <table>
     <thead><tr><th>Ticker</th><th>Instrument</th>{tf_head}</tr></thead>
     <tbody>
-    {_rows(payload['instruments'], tfs)}
+    {_rows(payload['instruments'], tfs, news_on)}
     </tbody>
   </table>
   </div>
@@ -356,6 +400,11 @@ def build_html(payload: dict) -> str:
     nad/pod P. <b>Gap</b> = luka otwarcia ostatniej sesji (kierunek, %, czy <span class="gap-open">OTWARTA</span>
     czy wypełniona). <span class="gog">GoG magnes</span> = gap-over-gap: otwarcie przeskoczyło starszą wciąż
     niewypełnioną lukę → podwójna niewypełniona strefa jako magnes (poziomy podane).</p>
+    <p><b>News (AI).</b> Ocena <b>Claude Haiku</b> na świeżych nagłówkach z yfinance:
+    <span class="nbias nb-up">byczy</span> / <span class="nbias nb-down">niedźwiedzi</span> /
+    <span class="nbias nb-flat">neutralny</span> / <span class="nbias nb-warn">obustronne ryzyko</span>
+    + siła (niski/średni/wysoki), katalizator i jedno zdanie „na co uważać" (najedź kursorem / karta planu).
+    To <b>potencjalny</b> wpływ z nagłówków, nie prognoza — nagłówki bywają ogólnorynkowe, waż z kontekstem.</p>
     <p><b>Uwaga o danych.</b> Źródło: yfinance (chmurowo). D1 = pewne; H4 składane z 1h (resample) —
     kotwica sesji może różnić się od brokera/TV, traktuj jako pomocnicze. To <b>nie</b> są sygnały regime
     v-tradera (Departure/RT/Cross) — to Twoja własna logika HTS Swing na koszyku instrumentów vtrade.</p>

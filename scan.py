@@ -24,6 +24,7 @@ from datetime import datetime, timezone
 
 import hts_logic as H
 import data_yf as D
+import levels as L
 import render
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -64,6 +65,26 @@ def _round_plan(plan: dict | None) -> dict | None:
     return p
 
 
+def _daily_context(daily_df, lvl_cfg: dict) -> dict:
+    """Pivot dzienny + gapy (+gap-over-gap) z danych D1, zaokrąglone do skali."""
+    piv = L.daily_pivot(daily_df)
+    gap = L.gap_analysis(daily_df, lvl_cfg.get("gap_min_pct", 0.15), lvl_cfg.get("gap_lookback", 40))
+    if piv:
+        for k in ("P", "R1", "R2", "R3", "S1", "S2", "S3", "price"):
+            piv[k] = _px(piv[k])
+        for side in ("res", "sup"):
+            if piv.get(side):
+                piv[side]["val"] = _px(piv[side]["val"])
+                piv[side]["dist_pct"] = round(piv[side]["dist_pct"], 2)
+    if gap and gap.get("last"):
+        gap["last"]["top"] = _px(gap["last"]["top"])
+        gap["last"]["bottom"] = _px(gap["last"]["bottom"])
+    if gap and gap.get("magnet"):
+        gap["magnet"]["top"] = _px(gap["magnet"]["top"])
+        gap["magnet"]["bottom"] = _px(gap["magnet"]["bottom"])
+    return {"pivot": piv, "gap": gap}
+
+
 def _fetch(yf_symbol: str, tf: str):
     if tf == "1d":
         return D.fetch_daily(yf_symbol)
@@ -72,7 +93,7 @@ def _fetch(yf_symbol: str, tf: str):
     raise ValueError(f"Nieobsługiwany timeframe: {tf}")
 
 
-def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: int) -> dict:
+def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: int, lvl_cfg: dict) -> dict:
     out = {
         "asset": inst["asset"],
         "name": inst["name"],
@@ -80,6 +101,7 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
         "yf": inst["yf"],
         "group": inst.get("group", ""),
         "tf": {},
+        "daily": None,
     }
     for tf in timeframes:
         try:
@@ -87,6 +109,8 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
             if df is None or df.empty or len(df) < strat["slow_ma"] + strat["smoothing"] + 5:
                 out["tf"][tf] = {"ok": False, "reason": "za mało danych" if df is not None else "brak danych"}
                 continue
+            if tf == "1d":
+                out["daily"] = _daily_context(df, lvl_cfg)
             state = H.trend_state(df, strat)
             setups = H.scan(df, strat)
             plan = H.entry_plan(df, strat)
@@ -156,10 +180,11 @@ def main() -> int:
     now = datetime.now(timezone.utc)
     print(f"HTS Premarket Scan · {now:%Y-%m-%d %H:%M} UTC · {len(instruments)} instr. · tf={timeframes}")
 
+    lvl_cfg = cfg.get("levels", {})
     results = []
     for inst in instruments:
         print(f"- {inst['asset']:7} ({inst['yf']}) ...", flush=True)
-        results.append(scan_instrument(inst, timeframes, strat, fresh_bars))
+        results.append(scan_instrument(inst, timeframes, strat, fresh_bars, lvl_cfg))
 
     # spłaszczona lista świeżych setupów (premarket watchlist)
     fresh = []
@@ -181,7 +206,8 @@ def main() -> int:
         for tf, d in r["tf"].items():
             pl = d.get("plan") if d.get("ok") else None
             if pl and pl.get("status") in ("in_zone", "armed"):
-                armed.append({"asset": r["asset"], "name": r["name"], "ftmo": r.get("ftmo"), "tf": tf, **pl})
+                armed.append({"asset": r["asset"], "name": r["name"], "ftmo": r.get("ftmo"),
+                              "tf": tf, "daily": r.get("daily"), **pl})
     # najpierw w strefie, potem najbliżej linii wejścia
     armed.sort(key=lambda x: (_rank.get(x["status"], 9), abs(x.get("dist_to_entry_pct") or 0)))
 

@@ -17,5 +17,10 @@
   "scan": {
     "fresh_bars": 2,
     "_comment": "Setup uznajemy za 'świeży' (premarket-actionable) gdy pojawił się na ostatnich N zamkniętych świecach. 0 = ostatnia zamknięta, 1 = przedostatnia."
+  },
+  "levels": {
+    "gap_min_pct": 0.15,
+    "gap_lookback": 40,
+    "_comment": "Kontekst dzienny: gap_min_pct = minimalna luka % żeby liczyć (odsiewa szum); gap_lookback = ile ostatnich sesji D1 skanować pod niewypełnione luki (gap-over-gap)."
   }
 }

@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-07-22 16:04:58",
+ "generated_utc": "2026-07-22 16:32:10",
  "session_hint": "przed / w trakcie sesji US",
  "timeframes": [
   "1d",
@@ -28,32 +28,98 @@
    "name": "Coffee",
    "ftmo": "COFFEE",
    "tf": "4h",
+   "daily": {
+    "pivot": {
+     "P": 331.95,
+     "R1": 331.95,
+     "R2": 331.95,
+     "R3": 331.95,
+     "S1": 331.95,
+     "S2": 331.95,
+     "S3": 331.95,
+     "price": 331.95,
+     "zone": ">R3",
+     "bias": "byczy",
+     "res": null,
+     "sup": {
+      "name": "S3",
+      "val": 331.95,
+      "dist_pct": 0.0
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 0.73,
+      "filled": false,
+      "top": 334.4,
+      "bottom": 331.95
+     },
+     "unfilled_count": 11,
+     "gap_over_gap": true,
+     "magnet": {
+      "top": 337.2,
+      "bottom": 334.45,
+      "pct": 0.8155397095037998
+     }
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "*",
    "status": "in_zone",
    "ready": false,
    "retest_count": 1,
-   "price": 314.5,
+   "price": 316.85,
    "entry_line": 330.18,
    "entry_far": 310.2,
    "breath_line": 331.13,
    "invalidation": 286.6,
-   "band_gap_pct": 7.5,
+   "band_gap_pct": 7.45,
    "band_wide": true,
    "adx": 20.7,
    "adx_label": "UMIARKOWANY",
    "atr": 18.442,
-   "atr_pct": 5.86,
-   "dist_to_entry": -15.683,
-   "dist_to_entry_pct": -4.99,
-   "dist_to_entry_atr": -0.85
+   "atr_pct": 5.82,
+   "dist_to_entry": -13.333,
+   "dist_to_entry_pct": -4.21,
+   "dist_to_entry_atr": -0.72
   },
   {
    "asset": "DXY",
    "name": "Dollar Index",
    "ftmo": null,
    "tf": "1d",
+   "daily": {
+    "pivot": {
+     "P": 101.08,
+     "R1": 101.31,
+     "R2": 101.43,
+     "R3": 101.66,
+     "S1": 100.96,
+     "S2": 100.73,
+     "S3": 100.61,
+     "price": 101.18,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 101.31,
+      "dist_pct": 0.13
+     },
+     "sup": {
+      "name": "P",
+      "val": 101.08,
+      "dist_pct": 0.1
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 1,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "*",
@@ -80,6 +146,36 @@
    "name": "GBP/JPY",
    "ftmo": "GBPJPY",
    "tf": "1d",
+   "daily": {
+    "pivot": {
+     "P": 218.15,
+     "R1": 218.79,
+     "R2": 219.35,
+     "R3": 219.99,
+     "S1": 217.59,
+     "S2": 216.95,
+     "S3": 216.39,
+     "price": 218.23,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 218.79,
+      "dist_pct": 0.26
+     },
+     "sup": {
+      "name": "P",
+      "val": 218.15,
+      "dist_pct": 0.03
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 7,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "*",
@@ -106,6 +202,42 @@
    "name": "Gold",
    "ftmo": "XAUUSD",
    "tf": "1d",
+   "daily": {
+    "pivot": {
+     "P": 4047.3,
+     "R1": 4094.9,
+     "R2": 4118.7,
+     "R3": 4166.3,
+     "S1": 4023.5,
+     "S2": 3975.9,
+     "S3": 3952.1,
+     "price": 4071.1,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 4094.9,
+      "dist_pct": 0.58
+     },
+     "sup": {
+      "name": "P",
+      "val": 4047.3,
+      "dist_pct": 0.58
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 0.2,
+      "filled": true,
+      "top": 4010.3,
+      "bottom": 4002.1
+     },
+     "unfilled_count": 6,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "short",
    "next_setup": "AAA",
    "suffix": "",
@@ -132,6 +264,36 @@
    "name": "Bitcoin",
    "ftmo": "BTCUSD",
    "tf": "4h",
+   "daily": {
+    "pivot": {
+     "P": 66176.3,
+     "R1": 67238.9,
+     "R2": 67972.7,
+     "R3": 69035.3,
+     "S1": 65442.5,
+     "S2": 64379.9,
+     "S3": 63646.1,
+     "price": 66505.1,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 67238.9,
+      "dist_pct": 1.1
+     },
+     "sup": {
+      "name": "P",
+      "val": 66176.3,
+      "dist_pct": 0.49
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 0,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "",
@@ -158,13 +320,53 @@
    "name": "Copper",
    "ftmo": "XCUUSD",
    "tf": "4h",
+   "daily": {
+    "pivot": {
+     "P": 6.4925,
+     "R1": 6.5395,
+     "R2": 6.568,
+     "R3": 6.615,
+     "S1": 6.464,
+     "S2": 6.417,
+     "S3": 6.3885,
+     "price": 6.511,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 6.5395,
+      "dist_pct": 0.44
+     },
+     "sup": {
+      "name": "P",
+      "val": 6.4925,
+      "dist_pct": 0.28
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 2.33,
+      "filled": false,
+      "top": 6.4455,
+      "bottom": 6.299
+     },
+     "unfilled_count": 4,
+     "gap_over_gap": true,
+     "magnet": {
+      "top": 6.0695,
+      "bottom": 6.0545,
+      "pct": 0.24774739830578488
+     }
+    }
+   },
    "trend": "long",
    "next_setup": "AAA",
    "suffix": "",
    "status": "armed",
    "ready": true,
    "retest_count": 0,
-   "price": 6.5045,
+   "price": 6.5025,
    "entry_line": 6.3972,
    "entry_far": 6.3488,
    "breath_line": 6.4167,
@@ -175,25 +377,55 @@
    "adx_label": "SILNY",
    "atr": 0.0461,
    "atr_pct": 0.71,
-   "dist_to_entry": 0.1073,
-   "dist_to_entry_pct": 1.65,
-   "dist_to_entry_atr": 2.33
+   "dist_to_entry": 0.1053,
+   "dist_to_entry_pct": 1.62,
+   "dist_to_entry_atr": 2.29
   },
   {
    "asset": "US10",
    "name": "US 10Y Yield",
    "ftmo": null,
    "tf": "4h",
+   "daily": {
+    "pivot": {
+     "P": 4.622,
+     "R1": 4.646,
+     "R2": 4.664,
+     "R3": 4.688,
+     "S1": 4.604,
+     "S2": 4.58,
+     "S3": 4.562,
+     "price": 4.628,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 4.646,
+      "dist_pct": 0.39
+     },
+     "sup": {
+      "name": "P",
+      "val": 4.622,
+      "dist_pct": 0.13
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 4,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "*",
    "status": "armed",
    "ready": true,
    "retest_count": 5,
-   "price": 4.642,
+   "price": 4.65,
    "entry_line": 4.5482,
    "entry_far": 4.5185,
-   "breath_line": 4.5621,
+   "breath_line": 4.5622,
    "invalidation": 4.467,
    "band_gap_pct": 1.11,
    "band_wide": true,
@@ -201,15 +433,47 @@
    "adx_label": "UMIARKOWANY",
    "atr": 0.0343,
    "atr_pct": 0.74,
-   "dist_to_entry": 0.0938,
-   "dist_to_entry_pct": 2.02,
-   "dist_to_entry_atr": 2.73
+   "dist_to_entry": 0.1018,
+   "dist_to_entry_pct": 2.19,
+   "dist_to_entry_atr": 2.97
   },
   {
    "asset": "PL",
    "name": "Platinum",
    "ftmo": "XPTUSD",
    "tf": "1d",
+   "daily": {
+    "pivot": {
+     "P": 1626.1,
+     "R1": 1626.1,
+     "R2": 1626.1,
+     "R3": 1626.1,
+     "S1": 1626.1,
+     "S2": 1626.1,
+     "S3": 1626.1,
+     "price": 1626.1,
+     "zone": ">R3",
+     "bias": "byczy",
+     "res": null,
+     "sup": {
+      "name": "S3",
+      "val": 1626.1,
+      "dist_pct": 0.0
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 2.13,
+      "filled": false,
+      "top": 1626.1,
+      "bottom": 1592.2
+     },
+     "unfilled_count": 10,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "short",
    "next_setup": "AAA",
    "suffix": "",
@@ -236,6 +500,36 @@
    "name": "Ethereum",
    "ftmo": "ETHUSD",
    "tf": "4h",
+   "daily": {
+    "pivot": {
+     "P": 1926.0,
+     "R1": 1951.9,
+     "R2": 1975.5,
+     "R3": 2001.4,
+     "S1": 1902.5,
+     "S2": 1876.5,
+     "S3": 1853.0,
+     "price": 1928.4,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 1951.9,
+      "dist_pct": 1.22
+     },
+     "sup": {
+      "name": "P",
+      "val": 1926.0,
+      "dist_pct": 0.12
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 0,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "",
@@ -262,32 +556,104 @@
    "name": "WTI Crude",
    "ftmo": "XTIUSD",
    "tf": "4h",
+   "daily": {
+    "pivot": {
+     "P": 84.32,
+     "R1": 86.39,
+     "R2": 87.87,
+     "R3": 89.94,
+     "S1": 82.84,
+     "S2": 80.77,
+     "S3": 79.29,
+     "price": 84.91,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 86.39,
+      "dist_pct": 1.74
+     },
+     "sup": {
+      "name": "P",
+      "val": 84.32,
+      "dist_pct": 0.69
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 0.3,
+      "filled": true,
+      "top": 83.48,
+      "bottom": 83.23
+     },
+     "unfilled_count": 4,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AA+",
    "suffix": "",
    "status": "armed",
    "ready": true,
    "retest_count": 3,
-   "price": 86.03,
+   "price": 86.02,
    "entry_line": 82.553,
    "entry_far": 81.103,
    "breath_line": 82.811,
    "invalidation": 75.085,
-   "band_gap_pct": 6.99,
+   "band_gap_pct": 7.0,
    "band_wide": true,
    "adx": 29.8,
    "adx_label": "SILNY",
    "atr": 1.5664,
    "atr_pct": 1.82,
-   "dist_to_entry": 3.477,
-   "dist_to_entry_pct": 4.04,
-   "dist_to_entry_atr": 2.22
+   "dist_to_entry": 3.467,
+   "dist_to_entry_pct": 4.03,
+   "dist_to_entry_atr": 2.21
   },
   {
    "asset": "SI",
    "name": "Silver",
    "ftmo": "XAGUSD",
    "tf": "1d",
+   "daily": {
+    "pivot": {
+     "P": 58.065,
+     "R1": 59.795,
+     "R2": 60.755,
+     "R3": 62.485,
+     "S1": 57.105,
+     "S2": 55.375,
+     "S3": 54.415,
+     "price": 58.835,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 59.795,
+      "dist_pct": 1.63
+     },
+     "sup": {
+      "name": "P",
+      "val": 58.065,
+      "dist_pct": 1.31
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 0.82,
+      "filled": true,
+      "top": 56.802,
+      "bottom": 56.335
+     },
+     "unfilled_count": 9,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "short",
    "next_setup": "AAA",
    "suffix": "",
@@ -314,6 +680,42 @@
    "name": "Cocoa",
    "ftmo": "COCOA?",
    "tf": "1d",
+   "daily": {
+    "pivot": {
+     "P": 5581.7,
+     "R1": 5758.3,
+     "R2": 5909.7,
+     "R3": 6086.3,
+     "S1": 5430.3,
+     "S2": 5253.7,
+     "S3": 5102.3,
+     "price": 5607.0,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 5758.3,
+      "dist_pct": 2.7
+     },
+     "sup": {
+      "name": "P",
+      "val": 5581.7,
+      "dist_pct": 0.45
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 1.27,
+      "filled": true,
+      "top": 5520.0,
+      "bottom": 5450.0
+     },
+     "unfilled_count": 8,
+     "gap_over_gap": false,
+     "magnet": null
+    }
+   },
    "trend": "long",
    "next_setup": "AAA",
    "suffix": "",
@@ -347,7 +749,7 @@
    "suffix": "*",
    "adx_label": "UMIARKOWANY",
    "adx": 20.7,
-   "price": 314.5,
+   "price": 316.8500061035156,
    "bars_ago": 0,
    "bar_time": "2026-07-22 12:00",
    "fresh": true
@@ -423,7 +825,7 @@
      "ok": true,
      "bars": 681,
      "trend": "long",
-     "price": 7522.6099,
+     "price": 7524.1299,
      "adx": 16.9,
      "adx_label": "SŁABY",
      "atr_pct": 0.66,
@@ -446,21 +848,57 @@
       "status": "blocked_adx",
       "ready": true,
       "retest_count": 2,
-      "price": 7522.6,
-      "entry_line": 7524.9,
+      "price": 7524.1,
+      "entry_line": 7525.0,
       "entry_far": 7480.4,
-      "breath_line": 7547.5,
+      "breath_line": 7547.6,
       "invalidation": 7381.2,
       "band_gap_pct": 1.32,
       "band_wide": true,
       "adx": 16.9,
       "adx_label": "SŁABY",
-      "atr": 49.595,
+      "atr": 49.724,
       "atr_pct": 0.66,
-      "dist_to_entry": -2.3201,
-      "dist_to_entry_pct": -0.03,
-      "dist_to_entry_atr": -0.05
+      "dist_to_entry": -0.8547,
+      "dist_to_entry_pct": -0.01,
+      "dist_to_entry_atr": -0.02
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 7497.5,
+     "R1": 7527.1,
+     "R2": 7544.9,
+     "R3": 7574.5,
+     "S1": 7479.6,
+     "S2": 7450.0,
+     "S3": 7432.2,
+     "price": 7509.2,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 7527.1,
+      "dist_pct": 0.24
+     },
+     "sup": {
+      "name": "P",
+      "val": 7497.5,
+      "dist_pct": 0.16
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 0.63,
+      "filled": false,
+      "top": 7490.0,
+      "bottom": 7443.3
+     },
+     "unfilled_count": 4,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -518,7 +956,7 @@
      "ok": true,
      "bars": 681,
      "trend": "long",
-     "price": 29153.2715,
+     "price": 29144.0234,
      "adx": 24.7,
      "adx_label": "UMIARKOWANY",
      "atr_pct": 1.25,
@@ -541,7 +979,7 @@
       "status": "deep",
       "ready": true,
       "retest_count": 2,
-      "price": 29153.3,
+      "price": 29144.0,
       "entry_line": 29535.1,
       "entry_far": 29233.2,
       "breath_line": 29622.6,
@@ -552,10 +990,46 @@
       "adx_label": "UMIARKOWANY",
       "atr": 365.7,
       "atr_pct": 1.25,
-      "dist_to_entry": -381.85,
-      "dist_to_entry_pct": -1.31,
-      "dist_to_entry_atr": -1.04
+      "dist_to_entry": -391.1,
+      "dist_to_entry_pct": -1.34,
+      "dist_to_entry_atr": -1.07
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 29079.5,
+     "R1": 29268.0,
+     "R2": 29380.7,
+     "R3": 29569.2,
+     "S1": 28966.7,
+     "S2": 28778.3,
+     "S3": 28665.5,
+     "price": 29155.2,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 29268.0,
+      "dist_pct": 0.39
+     },
+     "sup": {
+      "name": "P",
+      "val": 29079.5,
+      "dist_pct": 0.26
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 1.59,
+      "filled": false,
+      "top": 29059.4,
+      "bottom": 28604.2
+     },
+     "unfilled_count": 5,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -613,7 +1087,7 @@
      "ok": true,
      "bars": 681,
      "trend": "long",
-     "price": 52415.1016,
+     "price": 52428.0195,
      "adx": 15.9,
      "adx_label": "SŁABY",
      "atr_pct": 0.71,
@@ -636,7 +1110,7 @@
       "status": "blocked_adx",
       "ready": true,
       "retest_count": 4,
-      "price": 52415.1,
+      "price": 52428.0,
       "entry_line": 52639.2,
       "entry_far": 52282.8,
       "breath_line": 52796.5,
@@ -647,10 +1121,40 @@
       "adx_label": "SŁABY",
       "atr": 371.14,
       "atr_pct": 0.71,
-      "dist_to_entry": -224.1,
-      "dist_to_entry_pct": -0.43,
-      "dist_to_entry_atr": -0.6
+      "dist_to_entry": -211.19,
+      "dist_to_entry_pct": -0.4,
+      "dist_to_entry_atr": -0.57
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 52161.8,
+     "R1": 52433.5,
+     "R2": 52642.3,
+     "R3": 52914.0,
+     "S1": 51952.9,
+     "S2": 51681.2,
+     "S3": 51472.4,
+     "price": 52224.6,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 52433.5,
+      "dist_pct": 0.4
+     },
+     "sup": {
+      "name": "P",
+      "val": 52161.8,
+      "dist_pct": 0.12
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 2,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -745,6 +1249,46 @@
       "dist_to_entry": 221.76,
       "dist_to_entry_pct": 1.13,
       "dist_to_entry_atr": 1.58
+     }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 19325.3,
+     "R1": 19442.5,
+     "R2": 19505.3,
+     "R3": 19622.5,
+     "S1": 19262.5,
+     "S2": 19145.3,
+     "S3": 19082.5,
+     "price": 19379.8,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 19442.5,
+      "dist_pct": 0.32
+     },
+     "sup": {
+      "name": "P",
+      "val": 19325.3,
+      "dist_pct": 0.28
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 0.22,
+      "filled": false,
+      "top": 19248.4,
+      "bottom": 19206.9
+     },
+     "unfilled_count": 7,
+     "gap_over_gap": true,
+     "magnet": {
+      "top": 19080.4,
+      "bottom": 19032.0,
+      "pct": 0.2543105854613283
      }
     }
    }
@@ -842,6 +1386,42 @@
       "dist_to_entry_atr": 0.7
      }
     }
+   },
+   "daily": {
+    "pivot": {
+     "P": 24946.7,
+     "R1": 25076.0,
+     "R2": 25140.7,
+     "R3": 25270.0,
+     "S1": 24882.0,
+     "S2": 24752.7,
+     "S3": 24688.0,
+     "price": 25011.3,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 25076.0,
+      "dist_pct": 0.26
+     },
+     "sup": {
+      "name": "P",
+      "val": 24946.7,
+      "dist_pct": 0.26
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 0.3,
+      "filled": true,
+      "top": 24922.1,
+      "bottom": 24846.7
+     },
+     "unfilled_count": 5,
+     "gap_over_gap": false,
+     "magnet": null
+    }
    }
   },
   {
@@ -936,6 +1516,36 @@
       "dist_to_entry_pct": 0.95,
       "dist_to_entry_atr": 1.57
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 8346.1,
+     "R1": 8392.3,
+     "R2": 8421.5,
+     "R3": 8467.8,
+     "S1": 8316.9,
+     "S2": 8270.7,
+     "S3": 8241.5,
+     "price": 8363.1,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 8392.3,
+      "dist_pct": 0.35
+     },
+     "sup": {
+      "name": "P",
+      "val": 8346.1,
+      "dist_pct": 0.2
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 3,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -1032,6 +1642,36 @@
       "dist_to_entry_atr": 1.08
      }
     }
+   },
+   "daily": {
+    "pivot": {
+     "P": 6267.1,
+     "R1": 6304.1,
+     "R2": 6322.7,
+     "R3": 6359.7,
+     "S1": 6248.6,
+     "S2": 6211.6,
+     "S3": 6193.0,
+     "price": 6285.6,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 6304.1,
+      "dist_pct": 0.29
+     },
+     "sup": {
+      "name": "P",
+      "val": 6267.1,
+      "dist_pct": 0.29
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 2,
+     "gap_over_gap": false,
+     "magnet": null
+    }
    }
   },
   {
@@ -1126,6 +1766,36 @@
       "dist_to_entry_pct": 1.5,
       "dist_to_entry_atr": 2.39
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 10551.6,
+     "R1": 10620.2,
+     "R2": 10654.4,
+     "R3": 10723.0,
+     "S1": 10517.4,
+     "S2": 10448.8,
+     "S3": 10414.6,
+     "price": 10585.9,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 10620.2,
+      "dist_pct": 0.32
+     },
+     "sup": {
+      "name": "P",
+      "val": 10551.6,
+      "dist_pct": 0.32
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 0,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -1222,6 +1892,42 @@
       "dist_to_entry_atr": -2.03
      }
     }
+   },
+   "daily": {
+    "pivot": {
+     "P": 65555.9,
+     "R1": 66908.4,
+     "R2": 67584.7,
+     "R3": 68937.1,
+     "S1": 64879.7,
+     "S2": 63527.2,
+     "S3": 62851.0,
+     "price": 66232.2,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 66908.4,
+      "dist_pct": 1.02
+     },
+     "sup": {
+      "name": "P",
+      "val": 65555.9,
+      "dist_pct": 1.02
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 0.63,
+      "filled": false,
+      "top": 64544.1,
+      "bottom": 64141.1
+     },
+     "unfilled_count": 5,
+     "gap_over_gap": false,
+     "magnet": null
+    }
    }
   },
   {
@@ -1317,6 +2023,36 @@
       "dist_to_entry_atr": -2.94
      }
     }
+   },
+   "daily": {
+    "pivot": {
+     "P": 25125.8,
+     "R1": 25260.2,
+     "R2": 25388.0,
+     "R3": 25522.4,
+     "S1": 24997.9,
+     "S2": 24863.5,
+     "S3": 24735.6,
+     "price": 25132.3,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 25260.2,
+      "dist_pct": 0.51
+     },
+     "sup": {
+      "name": "P",
+      "val": 25125.8,
+      "dist_pct": 0.03
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 7,
+     "gap_over_gap": false,
+     "magnet": null
+    }
    }
   },
   {
@@ -1373,10 +2109,10 @@
      "ok": true,
      "bars": 1375,
      "trend": "none",
-     "price": 16.84,
+     "price": 16.76,
      "adx": 18.9,
      "adx_label": "SŁABY",
-     "atr_pct": 4.08,
+     "atr_pct": 4.1,
      "last_bar_time": "2026-07-22 12:00",
      "last_setup": {
       "type": "AAA",
@@ -1396,21 +2132,57 @@
       "status": "blocked_gap",
       "ready": true,
       "retest_count": 0,
-      "price": 16.84,
+      "price": 16.76,
       "entry_line": 16.942,
       "entry_far": 17.535,
       "breath_line": 16.892,
       "invalidation": 17.045,
-      "band_gap_pct": -2.91,
+      "band_gap_pct": -2.93,
       "band_wide": false,
       "adx": 18.9,
       "adx_label": "SŁABY",
       "atr": 0.6867,
-      "atr_pct": 4.08,
-      "dist_to_entry": 0.1021,
-      "dist_to_entry_pct": 0.61,
-      "dist_to_entry_atr": 0.15
+      "atr_pct": 4.1,
+      "dist_to_entry": 0.1821,
+      "dist_to_entry_pct": 1.09,
+      "dist_to_entry_atr": 0.27
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 17.3,
+     "R1": 17.74,
+     "R2": 18.43,
+     "R3": 18.87,
+     "S1": 16.61,
+     "S2": 16.17,
+     "S3": 15.48,
+     "price": 17.05,
+     "zone": "S1–P",
+     "bias": "niedźwiedzi",
+     "res": {
+      "name": "P",
+      "val": 17.3,
+      "dist_pct": 1.47
+     },
+     "sup": {
+      "name": "S1",
+      "val": 16.61,
+      "dist_pct": 2.58
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 6.27,
+      "filled": false,
+      "top": 18.65,
+      "bottom": 17.48
+     },
+     "unfilled_count": 4,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -1468,7 +2240,7 @@
      "ok": true,
      "bars": 1525,
      "trend": "short",
-     "price": 4167.1001,
+     "price": 4164.1001,
      "adx": 28.9,
      "adx_label": "SILNY",
      "atr_pct": 0.77,
@@ -1491,10 +2263,10 @@
       "status": "blocked_gap",
       "ready": false,
       "retest_count": 2,
-      "price": 4167.1,
+      "price": 4164.1,
       "entry_line": 4025.6,
       "entry_far": 4056.9,
-      "breath_line": 4013.1,
+      "breath_line": 4013.2,
       "invalidation": 4070.2,
       "band_gap_pct": 0.32,
       "band_wide": false,
@@ -1502,10 +2274,46 @@
       "adx_label": "SILNY",
       "atr": 31.973,
       "atr_pct": 0.77,
-      "dist_to_entry": -141.45,
-      "dist_to_entry_pct": -3.39,
-      "dist_to_entry_atr": -4.42
+      "dist_to_entry": -138.45,
+      "dist_to_entry_pct": -3.32,
+      "dist_to_entry_atr": -4.33
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 4047.3,
+     "R1": 4094.9,
+     "R2": 4118.7,
+     "R3": 4166.3,
+     "S1": 4023.5,
+     "S2": 3975.9,
+     "S3": 3952.1,
+     "price": 4071.1,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 4094.9,
+      "dist_pct": 0.58
+     },
+     "sup": {
+      "name": "P",
+      "val": 4047.3,
+      "dist_pct": 0.58
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 0.2,
+      "filled": true,
+      "top": 4010.3,
+      "bottom": 4002.1
+     },
+     "unfilled_count": 6,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -1563,7 +2371,7 @@
      "ok": true,
      "bars": 1525,
      "trend": "short",
-     "price": 60.585,
+     "price": 60.595,
      "adx": 28.0,
      "adx_label": "SILNY",
      "atr_pct": 1.5,
@@ -1586,7 +2394,7 @@
       "status": "deep",
       "ready": true,
       "retest_count": 5,
-      "price": 60.585,
+      "price": 60.595,
       "entry_line": 57.076,
       "entry_far": 57.97,
       "breath_line": 56.894,
@@ -1597,10 +2405,46 @@
       "adx_label": "SILNY",
       "atr": 0.9109,
       "atr_pct": 1.5,
-      "dist_to_entry": -3.5089,
-      "dist_to_entry_pct": -5.79,
-      "dist_to_entry_atr": -3.85
+      "dist_to_entry": -3.5189,
+      "dist_to_entry_pct": -5.81,
+      "dist_to_entry_atr": -3.86
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 58.065,
+     "R1": 59.795,
+     "R2": 60.755,
+     "R3": 62.485,
+     "S1": 57.105,
+     "S2": 55.375,
+     "S3": 54.415,
+     "price": 58.835,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 59.795,
+      "dist_pct": 1.63
+     },
+     "sup": {
+      "name": "P",
+      "val": 58.065,
+      "dist_pct": 1.31
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 0.82,
+      "filled": true,
+      "top": 56.802,
+      "bottom": 56.335
+     },
+     "unfilled_count": 9,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -1658,7 +2502,7 @@
      "ok": true,
      "bars": 1525,
      "trend": "long",
-     "price": 6.5045,
+     "price": 6.5025,
      "adx": 35.5,
      "adx_label": "SILNY",
      "atr_pct": 0.71,
@@ -1681,7 +2525,7 @@
       "status": "armed",
       "ready": true,
       "retest_count": 0,
-      "price": 6.5045,
+      "price": 6.5025,
       "entry_line": 6.3972,
       "entry_far": 6.3488,
       "breath_line": 6.4167,
@@ -1692,9 +2536,49 @@
       "adx_label": "SILNY",
       "atr": 0.0461,
       "atr_pct": 0.71,
-      "dist_to_entry": 0.1073,
-      "dist_to_entry_pct": 1.65,
-      "dist_to_entry_atr": 2.33
+      "dist_to_entry": 0.1053,
+      "dist_to_entry_pct": 1.62,
+      "dist_to_entry_atr": 2.29
+     }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 6.4925,
+     "R1": 6.5395,
+     "R2": 6.568,
+     "R3": 6.615,
+     "S1": 6.464,
+     "S2": 6.417,
+     "S3": 6.3885,
+     "price": 6.511,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 6.5395,
+      "dist_pct": 0.44
+     },
+     "sup": {
+      "name": "P",
+      "val": 6.4925,
+      "dist_pct": 0.28
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 2.33,
+      "filled": false,
+      "top": 6.4455,
+      "bottom": 6.299
+     },
+     "unfilled_count": 4,
+     "gap_over_gap": true,
+     "magnet": {
+      "top": 6.0695,
+      "bottom": 6.0545,
+      "pct": 0.24774739830578488
      }
     }
    }
@@ -1753,7 +2637,7 @@
      "ok": true,
      "bars": 1521,
      "trend": "long",
-     "price": 1319.5,
+     "price": 1318.0,
      "adx": 22.4,
      "adx_label": "UMIARKOWANY",
      "atr_pct": 1.52,
@@ -1776,7 +2660,7 @@
       "status": "blocked_gap",
       "ready": true,
       "retest_count": 0,
-      "price": 1319.5,
+      "price": 1318.0,
       "entry_line": 1287.6,
       "entry_far": 1267.5,
       "breath_line": 1291.5,
@@ -1787,9 +2671,45 @@
       "adx_label": "UMIARKOWANY",
       "atr": 20.054,
       "atr_pct": 1.52,
-      "dist_to_entry": 31.909,
-      "dist_to_entry_pct": 2.42,
-      "dist_to_entry_atr": 1.59
+      "dist_to_entry": 30.409,
+      "dist_to_entry_pct": 2.31,
+      "dist_to_entry_atr": 1.52
+     }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 1279.5,
+     "R1": 1279.5,
+     "R2": 1279.5,
+     "R3": 1279.5,
+     "S1": 1279.5,
+     "S2": 1279.5,
+     "S3": 1279.5,
+     "price": 1279.5,
+     "zone": ">R3",
+     "bias": "byczy",
+     "res": null,
+     "sup": {
+      "name": "S3",
+      "val": 1279.5,
+      "dist_pct": 0.0
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 1.47,
+      "filled": false,
+      "top": 1279.5,
+      "bottom": 1261.0
+     },
+     "unfilled_count": 12,
+     "gap_over_gap": true,
+     "magnet": {
+      "top": 1261.0,
+      "bottom": 1244.0,
+      "pct": 1.3665594855305467
      }
     }
    }
@@ -1848,7 +2768,7 @@
      "ok": true,
      "bars": 1521,
      "trend": "none",
-     "price": 1661.7,
+     "price": 1661.6,
      "adx": 17.8,
      "adx_label": "SŁABY",
      "atr_pct": 1.33,
@@ -1871,7 +2791,7 @@
       "status": "blocked_gap",
       "ready": true,
       "retest_count": 11,
-      "price": 1661.7,
+      "price": 1661.6,
       "entry_line": 1619.5,
       "entry_far": 1643.6,
       "breath_line": 1614.5,
@@ -1882,10 +2802,42 @@
       "adx_label": "SŁABY",
       "atr": 22.171,
       "atr_pct": 1.33,
-      "dist_to_entry": -42.197,
-      "dist_to_entry_pct": -2.54,
+      "dist_to_entry": -42.097,
+      "dist_to_entry_pct": -2.53,
       "dist_to_entry_atr": -1.9
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 1626.1,
+     "R1": 1626.1,
+     "R2": 1626.1,
+     "R3": 1626.1,
+     "S1": 1626.1,
+     "S2": 1626.1,
+     "S3": 1626.1,
+     "price": 1626.1,
+     "zone": ">R3",
+     "bias": "byczy",
+     "res": null,
+     "sup": {
+      "name": "S3",
+      "val": 1626.1,
+      "dist_pct": 0.0
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 2.13,
+      "filled": false,
+      "top": 1626.1,
+      "bottom": 1592.2
+     },
+     "unfilled_count": 10,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -1943,7 +2895,7 @@
      "ok": true,
      "bars": 1515,
      "trend": "long",
-     "price": 86.03,
+     "price": 86.02,
      "adx": 29.8,
      "adx_label": "SILNY",
      "atr_pct": 1.82,
@@ -1966,21 +2918,57 @@
       "status": "armed",
       "ready": true,
       "retest_count": 3,
-      "price": 86.03,
+      "price": 86.02,
       "entry_line": 82.553,
       "entry_far": 81.103,
       "breath_line": 82.811,
       "invalidation": 75.085,
-      "band_gap_pct": 6.99,
+      "band_gap_pct": 7.0,
       "band_wide": true,
       "adx": 29.8,
       "adx_label": "SILNY",
       "atr": 1.5664,
       "atr_pct": 1.82,
-      "dist_to_entry": 3.477,
-      "dist_to_entry_pct": 4.04,
-      "dist_to_entry_atr": 2.22
+      "dist_to_entry": 3.467,
+      "dist_to_entry_pct": 4.03,
+      "dist_to_entry_atr": 2.21
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 84.32,
+     "R1": 86.39,
+     "R2": 87.87,
+     "R3": 89.94,
+     "S1": 82.84,
+     "S2": 80.77,
+     "S3": 79.29,
+     "price": 84.91,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 86.39,
+      "dist_pct": 1.74
+     },
+     "sup": {
+      "name": "P",
+      "val": 84.32,
+      "dist_pct": 0.69
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "up",
+      "pct": 0.3,
+      "filled": true,
+      "top": 83.48,
+      "bottom": 83.23
+     },
+     "unfilled_count": 4,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -2038,7 +3026,7 @@
      "ok": true,
      "bars": 726,
      "trend": "long",
-     "price": 5303.0,
+     "price": 5302.0,
      "adx": 25.1,
      "adx_label": "SILNY",
      "atr_pct": 5.33,
@@ -2061,7 +3049,7 @@
       "status": "deep",
       "ready": true,
       "retest_count": 3,
-      "price": 5303.0,
+      "price": 5302.0,
       "entry_line": 5945.7,
       "entry_far": 5658.2,
       "breath_line": 5961.6,
@@ -2072,10 +3060,46 @@
       "adx_label": "SILNY",
       "atr": 282.74,
       "atr_pct": 5.33,
-      "dist_to_entry": -642.67,
-      "dist_to_entry_pct": -12.12,
-      "dist_to_entry_atr": -2.27
+      "dist_to_entry": -643.67,
+      "dist_to_entry_pct": -12.14,
+      "dist_to_entry_atr": -2.28
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 5581.7,
+     "R1": 5758.3,
+     "R2": 5909.7,
+     "R3": 6086.3,
+     "S1": 5430.3,
+     "S2": 5253.7,
+     "S3": 5102.3,
+     "price": 5607.0,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 5758.3,
+      "dist_pct": 2.7
+     },
+     "sup": {
+      "name": "P",
+      "val": 5581.7,
+      "dist_pct": 0.45
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 1.27,
+      "filled": true,
+      "top": 5520.0,
+      "bottom": 5450.0
+     },
+     "unfilled_count": 8,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -2133,10 +3157,10 @@
      "ok": true,
      "bars": 737,
      "trend": "long",
-     "price": 314.5,
+     "price": 316.85,
      "adx": 20.7,
      "adx_label": "UMIARKOWANY",
-     "atr_pct": 5.86,
+     "atr_pct": 5.82,
      "last_bar_time": "2026-07-22 12:00",
      "last_setup": {
       "type": "AAA",
@@ -2144,7 +3168,7 @@
       "suffix": "*",
       "adx_label": "UMIARKOWANY",
       "adx": 20.7,
-      "price": 314.5,
+      "price": 316.8500061035156,
       "bars_ago": 0,
       "bar_time": "2026-07-22 12:00",
       "fresh": true
@@ -2156,20 +3180,56 @@
       "status": "in_zone",
       "ready": false,
       "retest_count": 1,
-      "price": 314.5,
+      "price": 316.85,
       "entry_line": 330.18,
       "entry_far": 310.2,
       "breath_line": 331.13,
       "invalidation": 286.6,
-      "band_gap_pct": 7.5,
+      "band_gap_pct": 7.45,
       "band_wide": true,
       "adx": 20.7,
       "adx_label": "UMIARKOWANY",
       "atr": 18.442,
-      "atr_pct": 5.86,
-      "dist_to_entry": -15.683,
-      "dist_to_entry_pct": -4.99,
-      "dist_to_entry_atr": -0.85
+      "atr_pct": 5.82,
+      "dist_to_entry": -13.333,
+      "dist_to_entry_pct": -4.21,
+      "dist_to_entry_atr": -0.72
+     }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 331.95,
+     "R1": 331.95,
+     "R2": 331.95,
+     "R3": 331.95,
+     "S1": 331.95,
+     "S2": 331.95,
+     "S3": 331.95,
+     "price": 331.95,
+     "zone": ">R3",
+     "bias": "byczy",
+     "res": null,
+     "sup": {
+      "name": "S3",
+      "val": 331.95,
+      "dist_pct": 0.0
+     }
+    },
+    "gap": {
+     "last": {
+      "dir": "down",
+      "pct": 0.73,
+      "filled": false,
+      "top": 334.4,
+      "bottom": 331.95
+     },
+     "unfilled_count": 11,
+     "gap_over_gap": true,
+     "magnet": {
+      "top": 337.2,
+      "bottom": 334.45,
+      "pct": 0.8155397095037998
      }
     }
    }
@@ -2228,7 +3288,7 @@
      "ok": true,
      "bars": 1536,
      "trend": "short",
-     "price": 101.11,
+     "price": 101.092,
      "adx": 14.5,
      "adx_label": "SŁABY",
      "atr_pct": 0.13,
@@ -2251,7 +3311,7 @@
       "status": "blocked_gap",
       "ready": false,
       "retest_count": 0,
-      "price": 101.11,
+      "price": 101.09,
       "entry_line": 100.77,
       "entry_far": 100.91,
       "breath_line": 100.46,
@@ -2262,10 +3322,40 @@
       "adx_label": "SŁABY",
       "atr": 0.1273,
       "atr_pct": 0.13,
-      "dist_to_entry": -0.3443,
-      "dist_to_entry_pct": -0.34,
-      "dist_to_entry_atr": -2.7
+      "dist_to_entry": -0.3263,
+      "dist_to_entry_pct": -0.32,
+      "dist_to_entry_atr": -2.56
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 101.08,
+     "R1": 101.31,
+     "R2": 101.43,
+     "R3": 101.66,
+     "S1": 100.96,
+     "S2": 100.73,
+     "S3": 100.61,
+     "price": 101.18,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 101.31,
+      "dist_pct": 0.13
+     },
+     "sup": {
+      "name": "P",
+      "val": 101.08,
+      "dist_pct": 0.1
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 1,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -2362,6 +3452,36 @@
       "dist_to_entry_atr": -1.42
      }
     }
+   },
+   "daily": {
+    "pivot": {
+     "P": 218.15,
+     "R1": 218.79,
+     "R2": 219.35,
+     "R3": 219.99,
+     "S1": 217.59,
+     "S2": 216.95,
+     "S3": 216.39,
+     "price": 218.23,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 218.79,
+      "dist_pct": 0.26
+     },
+     "sup": {
+      "name": "P",
+      "val": 218.15,
+      "dist_pct": 0.03
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 7,
+     "gap_over_gap": false,
+     "magnet": null
+    }
    }
   },
   {
@@ -2418,7 +3538,7 @@
      "ok": true,
      "bars": 599,
      "trend": "long",
-     "price": 4.642,
+     "price": 4.65,
      "adx": 21.6,
      "adx_label": "UMIARKOWANY",
      "atr_pct": 0.74,
@@ -2441,10 +3561,10 @@
       "status": "armed",
       "ready": true,
       "retest_count": 5,
-      "price": 4.642,
+      "price": 4.65,
       "entry_line": 4.5482,
       "entry_far": 4.5185,
-      "breath_line": 4.5621,
+      "breath_line": 4.5622,
       "invalidation": 4.467,
       "band_gap_pct": 1.11,
       "band_wide": true,
@@ -2452,10 +3572,40 @@
       "adx_label": "UMIARKOWANY",
       "atr": 0.0343,
       "atr_pct": 0.74,
-      "dist_to_entry": 0.0938,
-      "dist_to_entry_pct": 2.02,
-      "dist_to_entry_atr": 2.73
+      "dist_to_entry": 0.1018,
+      "dist_to_entry_pct": 2.19,
+      "dist_to_entry_atr": 2.97
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 4.622,
+     "R1": 4.646,
+     "R2": 4.664,
+     "R3": 4.688,
+     "S1": 4.604,
+     "S2": 4.58,
+     "S3": 4.562,
+     "price": 4.628,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 4.646,
+      "dist_pct": 0.39
+     },
+     "sup": {
+      "name": "P",
+      "val": 4.622,
+      "dist_pct": 0.13
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 4,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   },
@@ -2552,6 +3702,36 @@
       "dist_to_entry_atr": 1.53
      }
     }
+   },
+   "daily": {
+    "pivot": {
+     "P": 66176.3,
+     "R1": 67238.9,
+     "R2": 67972.7,
+     "R3": 69035.3,
+     "S1": 65442.5,
+     "S2": 64379.9,
+     "S3": 63646.1,
+     "price": 66505.1,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 67238.9,
+      "dist_pct": 1.1
+     },
+     "sup": {
+      "name": "P",
+      "val": 66176.3,
+      "dist_pct": 0.49
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 0,
+     "gap_over_gap": false,
+     "magnet": null
+    }
    }
   },
   {
@@ -2646,6 +3826,36 @@
       "dist_to_entry_pct": 2.66,
       "dist_to_entry_atr": 2.17
      }
+    }
+   },
+   "daily": {
+    "pivot": {
+     "P": 1926.0,
+     "R1": 1951.9,
+     "R2": 1975.5,
+     "R3": 2001.4,
+     "S1": 1902.5,
+     "S2": 1876.5,
+     "S3": 1853.0,
+     "price": 1928.4,
+     "zone": "P–R1",
+     "bias": "byczy",
+     "res": {
+      "name": "R1",
+      "val": 1951.9,
+      "dist_pct": 1.22
+     },
+     "sup": {
+      "name": "P",
+      "val": 1926.0,
+      "dist_pct": 0.12
+     }
+    },
+    "gap": {
+     "last": null,
+     "unfilled_count": 0,
+     "gap_over_gap": false,
+     "magnet": null
     }
    }
   }

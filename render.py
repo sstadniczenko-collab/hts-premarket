@@ -81,6 +81,7 @@ def _plan_card(p: dict) -> str:
         <span class="stat stat-{_esc(p['status'])}" title="{_esc(stat_desc)}">{_esc(stat_txt)}</span>
         <span>ADX {_esc(p['adx'])} · {_esc(p['adx_label'])}</span>
       </div>
+      {_daily_block(p.get('daily'))}
     </div>"""
 
 
@@ -102,6 +103,59 @@ def _plan_cell(pl: dict | None) -> str:
         f'{_esc(pl["next_setup"])}{_esc(pl.get("suffix",""))} @ {_esc(pl["entry_line"])}</span>'
         f' <span class="ptag {tcls}">{_esc(tag)}</span>{dist}'
     )
+
+
+def _gap_txt(gap: dict | None) -> str:
+    """Zwięzły opis gapu: kierunek, %, wypełnienie, flaga gap-over-gap."""
+    if not gap or not gap.get("last"):
+        return '<span class="muted">brak luki</span>'
+    g = gap["last"]
+    arrow = "↑" if g["dir"] == "up" else "↓"
+    fill = "wypełniona" if g["filled"] else "OTWARTA"
+    fcls = "" if g["filled"] else "gap-open"
+    out = f'<span class="{fcls}">luka {arrow} {g["pct"]:.2f}% {fill}</span>'
+    if gap.get("gap_over_gap") and gap.get("magnet"):
+        m = gap["magnet"]
+        out += f' <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes {_esc(m["bottom"])}–{_esc(m["top"])}">GoG magnes {_esc(m["bottom"])}–{_esc(m["top"])}</span>'
+    return out
+
+
+def _pivot_txt(piv: dict | None) -> str:
+    if not piv:
+        return '<span class="muted">—</span>'
+    bcls = "up" if piv["bias"] == "byczy" else "down"
+    parts = [f'<span class="badge {bcls}">P {_esc(piv["P"])}</span> <span class="age">strefa {_esc(piv["zone"])}</span>']
+    if piv.get("res"):
+        parts.append(f'<span class="age">opór {_esc(piv["res"]["name"])} {_esc(piv["res"]["val"])} (+{piv["res"]["dist_pct"]:.2f}%)</span>')
+    if piv.get("sup"):
+        parts.append(f'<span class="age">wsparcie {_esc(piv["sup"]["name"])} {_esc(piv["sup"]["val"])} (−{piv["sup"]["dist_pct"]:.2f}%)</span>')
+    return " ".join(parts)
+
+
+def _daily_cell(daily: dict | None) -> str:
+    if not daily:
+        return '<span class="muted">—</span>'
+    piv = daily.get("pivot")
+    gap = daily.get("gap")
+    bits = []
+    if piv:
+        bcls = "up" if piv["bias"] == "byczy" else "down"
+        bits.append(f'<span class="badge {bcls}">P {_esc(piv["P"])}</span> <span class="age">{_esc(piv["zone"])}</span>')
+    bits.append(_gap_txt(gap))
+    return "<br>".join(bits)
+
+
+def _daily_block(daily: dict | None) -> str:
+    """Blok pivot+gap na karcie planu."""
+    if not daily:
+        return ""
+    piv = daily.get("pivot")
+    gap = daily.get("gap")
+    rows = []
+    if piv:
+        rows.append(f'<span class="pl-k">pivot D1</span><span class="pl-v">{_pivot_txt(piv)}</span>')
+    rows.append(f'<span class="pl-k">gap D1</span><span class="pl-v">{_gap_txt(gap)}</span>')
+    return f'<div class="plan-grid daily">{"".join(rows)}</div>'
 
 
 def _fresh_card(f: dict) -> str:
@@ -133,7 +187,7 @@ def _rows(instruments: list[dict], timeframes: list[str]) -> str:
     tf_cols = timeframes
     parts = []
     for gname, items in groups.items():
-        parts.append(f'<tr class="grp"><td colspan="{2 + 3*len(tf_cols)}">{_esc(gname)}</td></tr>')
+        parts.append(f'<tr class="grp"><td colspan="{3 + 3*len(tf_cols)}">{_esc(gname)}</td></tr>')
         for r in items:
             cells = [f'<td class="tick">{_esc(r["asset"])}</td><td class="nm">{_nm(r["name"], r.get("ftmo"))}</td>']
             for tf in tf_cols:
@@ -144,6 +198,7 @@ def _rows(instruments: list[dict], timeframes: list[str]) -> str:
                     cells.append(f'<td>{_trend_badge(d["trend"])}</td>')
                     cells.append(f'<td>{_setup_cell(d.get("last_setup"))}</td>')
                     cells.append(f'<td>{_plan_cell(d.get("plan"))}</td>')
+            cells.append(f'<td class="dcell">{_daily_cell(r.get("daily"))}</td>')
             parts.append(f'<tr>{"".join(cells)}</tr>')
     return "\n".join(parts)
 
@@ -166,7 +221,7 @@ def build_html(payload: dict) -> str:
 
     tf_head = "".join(
         f'<th>{tf.upper()} trend</th><th>{tf.upper()} setup</th><th>{tf.upper()} plan (wejście @)</th>' for tf in tfs
-    )
+    ) + '<th>D1 kontekst (pivot / gap)</th>'
 
     return f"""<!DOCTYPE html>
 <html lang="pl">
@@ -224,6 +279,11 @@ def build_html(payload: dict) -> str:
   .ptag.t-armed {{ background:rgba(110,168,254,.18); color:var(--accent); }}
   .ptag.t-deep {{ background:rgba(247,109,109,.16); color:var(--down); }}
   .ptag.t-wait {{ background:var(--panel2); color:var(--muted); }}
+  .plan-grid.daily {{ margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); }}
+  .gap-open {{ color:var(--accent); font-weight:600; }}
+  .gog {{ background:rgba(247,109,109,.16); color:var(--down); font-weight:700; font-size:11px;
+    padding:1px 6px; border-radius:5px; }}
+  td.dcell {{ font-size:12px; line-height:1.7; white-space:normal; min-width:210px; }}
   .empty {{ padding:14px; background:var(--panel); border-radius:10px; }}
   .tbl-scroll {{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; }}
   table {{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }}
@@ -290,6 +350,12 @@ def build_html(payload: dict) -> str:
     <span class="stat stat-armed">UZBROJONY</span> zrobiła oddech, czeka na powrót do linii ·
     <span class="stat stat-needs_breath">BRAK ODDECHU</span> najpierw musi wybić dalej od wstęgi.
     <b>cofka %</b> = ile cena musi wrócić do linii wejścia. To poziomy do OBSERWACJI, nie automatyczne zlecenia.</p>
+    <p><b>Kontekst D1 (pivot / gap).</b> <b>Pivot</b> = klasyczny floor pivot z ostatniej zamkniętej
+    świecy dziennej rzutowany na następną sesję (P, R1/R2, S1/S2); „strefa" = między którymi poziomami
+    siedzi cena, <span class="badge up">byczy</span>/<span class="badge down">niedźwiedzi</span> = zamknięcie
+    nad/pod P. <b>Gap</b> = luka otwarcia ostatniej sesji (kierunek, %, czy <span class="gap-open">OTWARTA</span>
+    czy wypełniona). <span class="gog">GoG magnes</span> = gap-over-gap: otwarcie przeskoczyło starszą wciąż
+    niewypełnioną lukę → podwójna niewypełniona strefa jako magnes (poziomy podane).</p>
     <p><b>Uwaga o danych.</b> Źródło: yfinance (chmurowo). D1 = pewne; H4 składane z 1h (resample) —
     kotwica sesji może różnić się od brokera/TV, traktuj jako pomocnicze. To <b>nie</b> są sygnały regime
     v-tradera (Departure/RT/Cross) — to Twoja własna logika HTS Swing na koszyku instrumentów vtrade.</p>

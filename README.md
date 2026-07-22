@@ -58,6 +58,24 @@ Karty u góry pokazują tylko `W STREFIE` + `UZBROJONY` (actionable teraz),
 posortowane wg odległości do linii. Pełne poziomy dla wszystkich instrumentów są
 w tabeli (kolumna *plan*). **To poziomy do obserwacji, nie automatyczne zlecenia.**
 
+## Kontekst dzienny — pivot + gapy (`levels.py`)
+
+Obok setupów HTS każdy instrument dostaje kontekst z ostatniej zamkniętej świecy D1:
+
+- **Pivot dzienny** — klasyczny floor pivot (`P=(H+L+C)/3`, R1/R2/R3, S1/S2/S3)
+  rzutowany na następną sesję. Dashboard pokazuje `P`, strefę (między którymi
+  poziomami jest cena), bias (zamknięcie nad/pod P) oraz najbliższy opór/wsparcie
+  z dystansem %.
+- **Gap** — luka otwarcia ostatniej sesji (open vs poprzednie zamknięcie):
+  kierunek ↑/↓, wielkość %, oraz czy **OTWARTA** czy już wypełniona.
+- **Gap-over-gap (GoG)** — flaga, gdy otwarcie przeskoczyło **starszą, wciąż
+  niewypełnioną** lukę w tym samym kierunku, zostawiając **podwójną niewypełnioną
+  strefę** jako magnes (poziomy magnesu podane: pod spodem dla luk w górę, nad dla
+  luk w dół). Wymaga, by obie luki były otwarte.
+
+Parametry w `config.json` → `levels`: `gap_min_pct` (min. luka % — odsiewa szum),
+`gap_lookback` (ile sesji D1 skanować pod niewypełnione luki).
+
 ## Harmonogram
 
 | Cron (UTC) | Kiedy | Po co |

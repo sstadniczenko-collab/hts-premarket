@@ -24,6 +24,7 @@ from datetime import datetime, timezone
 
 import hts_logic as H
 import data_yf as D
+import data_bars as B
 import levels as L
 import news_ai as N
 import render
@@ -86,15 +87,21 @@ def _daily_context(daily_df, lvl_cfg: dict) -> dict:
     return {"pivot": piv, "gap": gap}
 
 
-def _fetch(yf_symbol: str, tf: str):
+def _fetch(inst: dict, tf: str, store: dict | None):
+    """Zwraca (df, source). Preferuje lokalny snapshot cTradera (bars.json),
+    spada na yfinance gdy brak symbolu/danych."""
+    df = B.frame(store, inst["asset"], tf)
+    if df is not None and not df.empty:
+        return df, "ctrader"
+    yf_symbol = inst["yf"]
     if tf == "1d":
-        return D.fetch_daily(yf_symbol)
+        return D.fetch_daily(yf_symbol), "yfinance"
     if tf == "4h":
-        return D.fetch_h4(yf_symbol)
+        return D.fetch_h4(yf_symbol), "yfinance"
     raise ValueError(f"Nieobsługiwany timeframe: {tf}")
 
 
-def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: int, lvl_cfg: dict) -> dict:
+def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: int, lvl_cfg: dict, store: dict | None) -> dict:
     out = {
         "asset": inst["asset"],
         "name": inst["name"],
@@ -103,13 +110,15 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
         "group": inst.get("group", ""),
         "tf": {},
         "daily": None,
+        "src": None,
     }
     for tf in timeframes:
         try:
-            df = _fetch(inst["yf"], tf)
+            df, src = _fetch(inst, tf, store)
             if df is None or df.empty or len(df) < strat["slow_ma"] + strat["smoothing"] + 5:
-                out["tf"][tf] = {"ok": False, "reason": "za mało danych" if df is not None else "brak danych"}
+                out["tf"][tf] = {"ok": False, "reason": "za mało danych" if df is not None else "brak danych", "src": src}
                 continue
+            out["src"] = src if out["src"] in (None, src) else "mieszane"
             if tf == "1d":
                 out["daily"] = _daily_context(df, lvl_cfg)
             state = H.trend_state(df, strat)
@@ -133,6 +142,7 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
                 }
             out["tf"][tf] = {
                 "ok": True,
+                "src": src,
                 "bars": len(df),
                 "trend": state["trend"] if state else "none",
                 "price": round(state["price"], 4) if state else None,
@@ -166,10 +176,13 @@ def main() -> int:
     ap.add_argument("--assets", help="przecinkami: podzbiór assetów do skanu (test)")
     ap.add_argument("--dry-run", action="store_true", help="nie zapisuj plików")
     ap.add_argument("--no-news", action="store_true", help="pomiń ocenę AI newsów (brak wywołań API)")
+    ap.add_argument("--bars", default=os.path.join(HERE, "bars.json"),
+                    help="snapshot OHLC z cTradera (bars.json); brak pliku → yfinance")
     args = ap.parse_args()
 
     cfg = load_json("config.json")
     uni = load_json("universe.json")
+    store = B.load(args.bars)
     strat = cfg["strategy"]
     fresh_bars = cfg["scan"]["fresh_bars"]
 
@@ -180,13 +193,14 @@ def main() -> int:
         instruments = [i for i in instruments if i["asset"].upper() in want]
 
     now = datetime.now(timezone.utc)
-    print(f"HTS Premarket Scan · {now:%Y-%m-%d %H:%M} UTC · {len(instruments)} instr. · tf={timeframes}")
+    src_label = f"cTrader snapshot {store.get('generated_utc')} UTC" if store else "yfinance (brak bars.json)"
+    print(f"HTS Premarket Scan · {now:%Y-%m-%d %H:%M} UTC · {len(instruments)} instr. · tf={timeframes} · dane: {src_label}")
 
     lvl_cfg = cfg.get("levels", {})
     results = []
     for inst in instruments:
         print(f"- {inst['asset']:7} ({inst['yf']}) ...", flush=True)
-        results.append(scan_instrument(inst, timeframes, strat, fresh_bars, lvl_cfg))
+        results.append(scan_instrument(inst, timeframes, strat, fresh_bars, lvl_cfg, store))
 
     # ocena AI wpływu newsów (osobny pass; no-op bez klucza / z --no-news)
     news_count = 0
@@ -226,6 +240,8 @@ def main() -> int:
         "timeframes": timeframes,
         "universe_count": len(instruments),
         "fresh_bars": fresh_bars,
+        "data_primary": "ctrader" if store else "yfinance",
+        "bars_generated": store.get("generated_utc") if store else None,
         "news_enabled": news_count > 0,
         "strategy": strat,
         "armed": armed,

@@ -17,6 +17,11 @@
   header h1 { margin:0 0 4px; font-size:24px; letter-spacing:.2px; }
   header .sub { color:var(--muted); font-size:13.5px; }
   header .sub b { color:var(--accent); }
+  header .src-line { margin-top:3px; font-size:12.5px; }
+  .src-ct { color:var(--up); }
+  .src-yf { color:#f0b450; }
+  .srcmark { font-size:9.5px; font-weight:700; color:#f0b450; background:rgba(240,180,80,.14);
+    padding:0 4px; border-radius:3px; vertical-align:super; }
   h2 { font-size:14px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);
     margin:34px 0 12px; border-bottom:1px solid var(--line); padding-bottom:8px; }
   .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }
@@ -99,32 +104,93 @@
   <header>
     <h1>HTS Premarket Scanner</h1>
     <div class="sub">
-      Wygenerowano <b>2026-07-22 17:34:15 UTC</b> · przed / w trakcie sesji US ·
+      Wygenerowano <b>2026-07-23 06:29:37 UTC</b> · przed otwarciem sesji europejskiej ·
       24 instrumentów (uniwersum vtrade) · logika HTS Swing Pro Filter 3.0 (AAA/AA+)
     </div>
+    <div class="sub src-line">Poziomy: <b class="src-ct">realny feed cTrader</b> (konto 1114770) · snapshot 2026-07-23 06:29:05 UTC · fallback yfinance dla braków</div>
   </header>
 
   <h2>Plan wejścia — gdzie szukać wejść teraz</h2>
   <div class="cards">
     <div class="card up">
       <div class="card-top">
-        <span class="tick">KC</span>
-        <span class="tf">4H</span>
+        <span class="tick">YM</span>
+        <span class="tf">1D</span>
       </div>
       <div class="card-sig">▲ AA+* LONG</div>
-      <div class="card-name">Coffee <span class="ftmo">(COFFEE)</span></div>
+      <div class="card-name">Dow Jones <span class="ftmo">(US30)</span></div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">330.18 <span class="tf-tag">4H</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">310.2 – 330.18</span>
-        <span class="pl-k">cena</span><span class="pl-v">316.85 <span class="age">(w strefie)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">286.6</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">52385.3 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">51762.6 – 52385.3</span>
+        <span class="pl-k">cena</span><span class="pl-v">52307.9 <span class="age">(w strefie)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">49908.6</span>
       </div>
       <div class="card-meta">
         <span class="stat stat-in_zone" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">W STREFIE</span>
-        <span>ADX 20.7 · UMIARKOWANY</span>
+        <span>ADX 20.2 · UMIARKOWANY</span>
       </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 331.95</span> <span class="age">strefa &gt;R3</span> <span class="age">wsparcie S3 331.95 (−0.00%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="gap-open">luka ↓ 0.73% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 334.45–337.2">GoG magnes 334.45–337.2</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Opóźnienia zbioru w Brazylii ograniczają podaż</b><div class="news-note">Susze i opóźnienia brazylijskiego zbioru wspierają ceny KC przez redukcję podaży, ale forecast suchej pogody może zmienić sentyment — uważać na rewizje warunków pogodowych.</div></div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 52321.4</span> <span class="age">strefa S1–P</span> <span class="age">opór P 52321.4 (+0.03%)</span> <span class="age">wsparcie S1 52084.4 (−0.43%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
+    </div>
+    <div class="card down">
+      <div class="card-top">
+        <span class="tick">NQ</span>
+        <span class="tf">4H</span>
+      </div>
+      <div class="card-sig">▼ AA+* SHORT</div>
+      <div class="card-name">Nasdaq 100 <span class="ftmo">(US100)</span></div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">28853.9 <span class="tf-tag">4H</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">29090.2 – 28853.9</span>
+        <span class="pl-k">cena</span><span class="pl-v">28985.4 <span class="age">(w strefie)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">29382.7</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-in_zone" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">W STREFIE</span>
+        <span>ADX 23.1 · UMIARKOWANY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 29015.8</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 29209.7 (+0.64%)</span> <span class="age">wsparcie P 29015.8 (−0.03%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
+    </div>
+    <div class="card down">
+      <div class="card-top">
+        <span class="tick">GC</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▼ AA+ SHORT</div>
+      <div class="card-name">Gold <span class="ftmo">(XAUUSD)</span></div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">4073.2 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">4176.7 – 4073.2</span>
+        <span class="pl-k">cena</span><span class="pl-v">4130.0 <span class="age">(w strefie)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">4549.7</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-in_zone" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">W STREFIE</span>
+        <span>ADX 37.6 · SILNY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 4124.3</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 4171.8 (+1.01%)</span> <span class="age">wsparcie P 4124.3 (−0.14%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
+    </div>
+    <div class="card down">
+      <div class="card-top">
+        <span class="tick">PL</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▼ AA+ SHORT</div>
+      <div class="card-name">Platinum <span class="ftmo">(XPTUSD)</span></div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">1615.3 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">1685.3 – 1615.3</span>
+        <span class="pl-k">cena</span><span class="pl-v">1639.4 <span class="age">(w strefie)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">1947.5</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-in_zone" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">W STREFIE</span>
+        <span>ADX 27.7 · SILNY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 1639.8</span> <span class="age">strefa S1–P</span> <span class="age">opór P 1639.8 (+0.02%)</span> <span class="age">wsparcie S1 1608.7 (−1.87%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="">luka ↓ 0.99% wypełniona</span></span></div>
+      
     </div>
     <div class="card up">
       <div class="card-top">
@@ -134,57 +200,17 @@
       <div class="card-sig">▲ AA+* LONG</div>
       <div class="card-name">Dollar Index</div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">100.83 <span class="tf-tag">1D</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">100.37 – 100.83</span>
-        <span class="pl-k">cena</span><span class="pl-v">101.18 <span class="age">(cofka ↓ 0.34% · 0.78 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">99.278</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">100.73 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">100.26 – 100.73</span>
+        <span class="pl-k">cena</span><span class="pl-v">100.91 <span class="age">(cofka ↓ 0.19% · 0.42 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">99.171</span>
       </div>
       <div class="card-meta">
         <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 24.3 · UMIARKOWANY</span>
+        <span>ADX 22.0 · UMIARKOWANY</span>
       </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 101.08</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 101.31 (+0.13%)</span> <span class="age">wsparcie P 101.08 (−0.10%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
-      <div class="news-block"><span class="nbias nb-down">news: niedźwiedzi</span> <span class="age">średni</span> <b>Dollar dips after four-day streak gains</b><div class="news-note">Osłabienie dolara po czterodniowej serii wzrostów sugeruje potencjalny spadek DXY, szczególnie jeśli yen umacnia się mimo słabości, co może przyciągnąć przepływy z USD.</div></div>
-    </div>
-    <div class="card up">
-      <div class="card-top">
-        <span class="tick">GBPJPY</span>
-        <span class="tf">1D</span>
-      </div>
-      <div class="card-sig">▲ AA+* LONG</div>
-      <div class="card-name">GBP/JPY <span class="ftmo">(GBPJPY)</span></div>
-      <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">215.99 <span class="tf-tag">1D</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">215.0 – 215.99</span>
-        <span class="pl-k">cena</span><span class="pl-v">218.23 <span class="age">(cofka ↓ 1.03% · 1.72 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">213.69</span>
-      </div>
-      <div class="card-meta">
-        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 21.4 · UMIARKOWANY</span>
-      </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 218.15</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 218.79 (+0.26%)</span> <span class="age">wsparcie P 218.15 (−0.03%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
-      <div class="news-block"><span class="nbias nb-down">news: niedźwiedzi</span> <span class="age">średni</span> <b>BoE dovish, słabe dane gospodarcze GBP</b><div class="news-note">Osłabienie funta wobec japońskiego jena przez mniej jastrzębie stanowisko BoE i słabe dane makro, przy czym należy monitorować przychody z budżetu jako potencjalny czynnik wspierający.</div></div>
-    </div>
-    <div class="card down">
-      <div class="card-top">
-        <span class="tick">GC</span>
-        <span class="tf">1D</span>
-      </div>
-      <div class="card-sig">▼ AAA SHORT</div>
-      <div class="card-name">Gold <span class="ftmo">(XAUUSD)</span></div>
-      <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">4114.4 <span class="tf-tag">1D</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">4189.0 – 4114.4</span>
-        <span class="pl-k">cena</span><span class="pl-v">4071.1 <span class="age">(cofka ↑ 1.06% · 0.56 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">4572.1</span>
-      </div>
-      <div class="card-meta">
-        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 36.7 · SILNY</span>
-      </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 4047.3</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 4094.9 (+0.58%)</span> <span class="age">wsparcie P 4047.3 (−0.58%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="">luka ↓ 0.20% wypełniona</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Popyt na safe-haven i słabszy dolar</b><div class="news-note">Złoto zyskuje na obawach rynkowych i osłabieniu dolara, ale siła trendu zależy od dalszych danych ekonomicznych i decyzji Fed.</div></div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 100.91</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 101.01 (+0.10%)</span> <span class="age">wsparcie P 100.91 (−0.00%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
     </div>
     <div class="card up">
       <div class="card-top">
@@ -194,17 +220,77 @@
       <div class="card-sig">▲ AA+ LONG</div>
       <div class="card-name">Bitcoin <span class="ftmo">(BTCUSD)</span></div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">65099.7 <span class="tf-tag">4H</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">64526.3 – 65099.7</span>
-        <span class="pl-k">cena</span><span class="pl-v">66015.0 <span class="age">(cofka ↓ 1.39% · 1.53 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">63287.5</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">65320.5 <span class="tf-tag">4H</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">64608.2 – 65320.5</span>
+        <span class="pl-k">cena</span><span class="pl-v">65578.5 <span class="age">(cofka ↓ 0.39% · 0.37 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">63135.7</span>
       </div>
       <div class="card-meta">
         <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 30.7 · SILNY</span>
+        <span>ADX 26.1 · SILNY</span>
       </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 66176.3</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 67238.9 (+1.10%)</span> <span class="age">wsparcie P 66176.3 (−0.49%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Harmonizacja regulacyjna i napływ kapitału ETF</b><div class="news-note">Wzrost instytucjonalnego zainteresowania poprzez ETF i pozytywne otoczenie regulacyjne wspierają popyt na BTC, jednak ostrożność inwestorów (tracenie tempa wzrostu) sugeruje ograniczoną siłę ruchu.</div></div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 66014.0</span> <span class="age">strefa S1–P</span> <span class="age">opór P 66014.0 (+0.22%)</span> <span class="age">wsparcie S1 65334.4 (−0.81%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
+    </div>
+    <div class="card up">
+      <div class="card-top">
+        <span class="tick">ETH</span>
+        <span class="tf">4H</span>
+      </div>
+      <div class="card-sig">▲ AA+* LONG</div>
+      <div class="card-name">Ethereum <span class="ftmo">(ETHUSD)</span></div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">1907.9 <span class="tf-tag">4H</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">1880.2 – 1907.9</span>
+        <span class="pl-k">cena</span><span class="pl-v">1917.0 <span class="age">(cofka ↓ 0.48% · 0.33 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">1760.0</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
+        <span>ADX 23.2 · UMIARKOWANY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 1927.0</span> <span class="age">strefa S1–P</span> <span class="age">opór P 1927.0 (+0.18%)</span> <span class="age">wsparcie S1 1900.1 (−1.22%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="">luka ↓ 0.21% wypełniona</span></span></div>
+      
+    </div>
+    <div class="card down">
+      <div class="card-top">
+        <span class="tick">US10</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▼ AA+* SHORT</div>
+      <div class="card-name">US 10Y Yield</div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">109.14 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">109.59 – 109.14</span>
+        <span class="pl-k">cena</span><span class="pl-v">108.41 <span class="age">(cofka ↑ 0.67% · 1.65 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">110.64</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
+        <span>ADX 22.3 · UMIARKOWANY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 108.47</span> <span class="age">strefa S1–P</span> <span class="age">opór P 108.47 (+0.06%)</span> <span class="age">wsparcie S1 108.29 (−0.11%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
+    </div>
+    <div class="card up">
+      <div class="card-top">
+        <span class="tick">GBPJPY</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▲ AA+* LONG</div>
+      <div class="card-name">GBP/JPY <span class="ftmo">(GBPJPY)</span></div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">216.15 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">214.95 – 216.15</span>
+        <span class="pl-k">cena</span><span class="pl-v">218.21 <span class="age">(cofka ↓ 0.95% · 1.79 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">213.81</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
+        <span>ADX 24.3 · UMIARKOWANY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 218.16</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 218.48 (+0.12%)</span> <span class="age">wsparcie P 218.16 (−0.03%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
     </div>
     <div class="card up">
       <div class="card-top">
@@ -214,77 +300,17 @@
       <div class="card-sig">▲ AAA LONG</div>
       <div class="card-name">Copper <span class="ftmo">(XCUUSD)</span></div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">6.3972 <span class="tf-tag">4H</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">6.3488 – 6.3972</span>
-        <span class="pl-k">cena</span><span class="pl-v">6.5025 <span class="age">(cofka ↓ 1.62% · 2.29 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">6.2836</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">6.407 <span class="tf-tag">4H</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">6.3599 – 6.407</span>
+        <span class="pl-k">cena</span><span class="pl-v">6.532 <span class="age">(cofka ↓ 1.91% · 2.80 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">6.2855</span>
       </div>
       <div class="card-meta">
         <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
         <span>ADX 35.5 · SILNY</span>
       </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 6.4925</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 6.5395 (+0.44%)</span> <span class="age">wsparcie P 6.4925 (−0.28%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="gap-open">luka ↑ 2.33% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 6.0545–6.0695">GoG magnes 6.0545–6.0695</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Zakłócenia produkcji w Chile i raporty FCX</b><div class="news-note">Spadek podaży miedzi z Chile oraz wyniki finansowe FCX mogą ograniczyć dostępność surowca, ale trzeba obserwować skalę zakłóceń i prognozę produkcji.</div></div>
-    </div>
-    <div class="card up">
-      <div class="card-top">
-        <span class="tick">US10</span>
-        <span class="tf">4H</span>
-      </div>
-      <div class="card-sig">▲ AA+* LONG</div>
-      <div class="card-name">US 10Y Yield</div>
-      <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">4.5482 <span class="tf-tag">4H</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">4.5185 – 4.5482</span>
-        <span class="pl-k">cena</span><span class="pl-v">4.65 <span class="age">(cofka ↓ 2.19% · 2.97 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">4.467</span>
-      </div>
-      <div class="card-meta">
-        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 21.6 · UMIARKOWANY</span>
-      </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 4.622</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 4.646 (+0.39%)</span> <span class="age">wsparcie P 4.622 (−0.13%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">wysoki</span> <b>Inflacja i obawy przed wzrostem cen</b><div class="news-note">Wzrost rentowności obligacji skarbowych napędzany obawami inflacyjnymi i wzrostem cen ropy naftowej powinien podnieść US10Y, ale należy monitorować dane o chłodzeniu się gospodarki.</div></div>
-    </div>
-    <div class="card down">
-      <div class="card-top">
-        <span class="tick">PL</span>
-        <span class="tf">1D</span>
-      </div>
-      <div class="card-sig">▼ AAA SHORT</div>
-      <div class="card-name">Platinum <span class="ftmo">(XPTUSD)</span></div>
-      <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">1665.5 <span class="tf-tag">1D</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">1675.1 – 1665.5</span>
-        <span class="pl-k">cena</span><span class="pl-v">1626.1 <span class="age">(cofka ↑ 2.42% · 1.16 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">2008.0</span>
-      </div>
-      <div class="card-meta">
-        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 26.3 · SILNY</span>
-      </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 1626.1</span> <span class="age">strefa &gt;R3</span> <span class="age">wsparcie S3 1626.1 (−0.00%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="gap-open">luka ↑ 2.13% OTWARTA</span></span></div>
-      <div class="news-block"><span class="nbias nb-flat">news: neutralny</span> <span class="age">niski</span> <b>brak bezpośrednich wiadomości o platynie</b><div class="news-note">Nagłówki dotyczą głównie złota i geopolityki; platyna reaguje słabo na safe-haven demand w przeciwieństwie do Au, czuwać na zmianę sentymentu wobec metali przemysłowych.</div></div>
-    </div>
-    <div class="card up">
-      <div class="card-top">
-        <span class="tick">ETH</span>
-        <span class="tf">4H</span>
-      </div>
-      <div class="card-sig">▲ AA+ LONG</div>
-      <div class="card-name">Ethereum <span class="ftmo">(ETHUSD)</span></div>
-      <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">1890.2 <span class="tf-tag">4H</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">1868.4 – 1890.2</span>
-        <span class="pl-k">cena</span><span class="pl-v">1941.9 <span class="age">(cofka ↓ 2.66% · 2.17 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">1784.5</span>
-      </div>
-      <div class="card-meta">
-        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 27.4 · SILNY</span>
-      </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 1926.0</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 1951.9 (+1.22%)</span> <span class="age">wsparcie P 1926.0 (−0.12%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Bullish sygnał ETH i aktywność builder</b><div class="news-note">Pozytywne sygnały techniczne dla Ethereum mogą przyciągnąć kupujących, ale niski poziom przejrzystości regulacyjnej (CLARITY Act) i zmienność BTC stanowią ryzyko korekcji.</div></div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 6.468</span> <span class="age">strefa S1–P</span> <span class="age">opór P 6.468 (+0.26%)</span> <span class="age">wsparcie S1 6.419 (−0.50%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
     </div>
     <div class="card up">
       <div class="card-top">
@@ -294,37 +320,17 @@
       <div class="card-sig">▲ AA+ LONG</div>
       <div class="card-name">WTI Crude <span class="ftmo">(XTIUSD)</span></div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">82.553 <span class="tf-tag">4H</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">81.103 – 82.553</span>
-        <span class="pl-k">cena</span><span class="pl-v">86.02 <span class="age">(cofka ↓ 4.03% · 2.21 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">75.085</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">82.832 <span class="tf-tag">4H</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">81.525 – 82.832</span>
+        <span class="pl-k">cena</span><span class="pl-v">87.257 <span class="age">(cofka ↓ 5.07% · 3.19 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">75.348</span>
       </div>
       <div class="card-meta">
         <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 29.8 · SILNY</span>
+        <span>ADX 30.6 · SILNY</span>
       </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 84.32</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 86.39 (+1.74%)</span> <span class="age">wsparcie P 84.32 (−0.69%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="">luka ↑ 0.30% wypełniona</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Inflacyjne obawy z powodu wzrostu cen ropy</b><div class="news-note">Podwyższone rentowności obligacji mogą ograniczać popyt, ale obawy inflacyjne wspierają cenę ropy; obserwować równowagę między tymi siłami.</div></div>
-    </div>
-    <div class="card down">
-      <div class="card-top">
-        <span class="tick">SI</span>
-        <span class="tf">1D</span>
-      </div>
-      <div class="card-sig">▼ AAA SHORT</div>
-      <div class="card-name">Silver <span class="ftmo">(XAGUSD)</span></div>
-      <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">61.913 <span class="tf-tag">1D</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">63.315 – 61.913</span>
-        <span class="pl-k">cena</span><span class="pl-v">58.835 <span class="age">(cofka ↑ 5.23% · 1.47 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">74.494</span>
-      </div>
-      <div class="card-meta">
-        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 37.5 · SILNY</span>
-      </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 58.065</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 59.795 (+1.63%)</span> <span class="age">wsparcie P 58.065 (−1.31%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="">luka ↓ 0.82% wypełniona</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">średni</span> <b>Wzrost złota wspiera popyt na srebro</b><div class="news-note">Spadek produkcji u Fresnillo oraz wzrost zainteresowania metalami szlachetnymi mogą podpierać cenę, ale należy monitorować ryzyko inflacyjne i rentowności górnictwa srebra.</div></div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 85.895</span> <span class="age">strefa S1–P</span> <span class="age">opór P 85.895 (+0.01%)</span> <span class="age">wsparcie S1 83.968 (−2.23%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
     </div>
     <div class="card up">
       <div class="card-top">
@@ -332,85 +338,118 @@
         <span class="tf">1D</span>
       </div>
       <div class="card-sig">▲ AAA LONG</div>
-      <div class="card-name">Cocoa <span class="ftmo">(COCOA?)</span></div>
+      <div class="card-name">Cocoa <span class="ftmo">(COCOA)</span></div>
       <div class="plan-grid">
-        <span class="pl-k">wejście @</span><span class="pl-v hot">4871.2 <span class="tf-tag">1D</span></span>
-        <span class="pl-k">strefa</span><span class="pl-v">4745.2 – 4871.2</span>
-        <span class="pl-k">cena</span><span class="pl-v">5607.0 <span class="age">(cofka ↓ 13.12% · 2.94 ATR)</span></span>
-        <span class="pl-k">stop za</span><span class="pl-v cold">4229.7</span>
+        <span class="pl-k">wejście @</span><span class="pl-v hot">5120.2 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">4808.1 – 5120.2</span>
+        <span class="pl-k">cena</span><span class="pl-v">5438.9 <span class="age">(cofka ↓ 5.86% · 0.85 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">4537.9</span>
       </div>
       <div class="card-meta">
         <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
-        <span>ADX 28.1 · SILNY</span>
+        <span>ADX 35.7 · SILNY</span>
       </div>
-      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 5581.7</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 5758.3 (+2.70%)</span> <span class="age">wsparcie P 5581.7 (−0.45%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="">luka ↓ 1.27% wypełniona</span></span></div>
-      <div class="news-block"><span class="nbias nb-up">news: byczy</span> <span class="age">wysoki</span> <b>Wzrost popytu nord-amerykańskiego i raporty grinding</b><div class="news-note">Silny popyt North American i zbliżające się dane o mieleniu mogą pchnąć ceny wyżej, ale czuwać na rozczarowania Hershey dotyczące wolumenów.</div></div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge down">P 5469.4</span> <span class="age">strefa S1–P</span> <span class="age">opór P 5469.4 (+0.56%)</span> <span class="age">wsparcie S1 5312.1 (−2.33%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="gap-open">luka ↓ 1.23% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 6283.6–6409.3">GoG magnes 6283.6–6409.3</span></span></div>
+      
+    </div>
+    <div class="card up">
+      <div class="card-top">
+        <span class="tick">ES35</span>
+        <span class="tf">1D</span>
+      </div>
+      <div class="card-sig">▲ AA+ LONG</div>
+      <div class="card-name">IBEX 35 (Spain) <span class="ftmo">(SPA35)</span></div>
+      <div class="plan-grid">
+        <span class="pl-k">wejście @</span><span class="pl-v hot">18281.4 <span class="tf-tag">1D</span></span>
+        <span class="pl-k">strefa</span><span class="pl-v">17990.6 – 18281.4</span>
+        <span class="pl-k">cena</span><span class="pl-v">19596.1 <span class="age">(cofka ↓ 6.71% · 4.02 ATR)</span></span>
+        <span class="pl-k">stop za</span><span class="pl-v cold">17375.3</span>
+      </div>
+      <div class="card-meta">
+        <span class="stat stat-armed" title="Czeka na powrót ceny do linii wejścia">UZBROJONY</span>
+        <span>ADX 25.1 · SILNY</span>
+      </div>
+      <div class="plan-grid daily"><span class="pl-k">pivot D1</span><span class="pl-v"><span class="badge up">P 19490.2</span> <span class="age">strefa P–R1</span> <span class="age">opór R1 19756.6 (+0.82%)</span> <span class="age">wsparcie P 19490.2 (−0.54%)</span></span><span class="pl-k">gap D1</span><span class="pl-v"><span class="muted">brak luki</span></span></div>
+      
     </div></div>
 
   <h2>Świeże setupy — co już strzeliło</h2>
   <div class="cards">
-    <div class="card up">
+    <div class="card down">
       <div class="card-top">
-        <span class="tick">KC</span>
-        <span class="tf">4H</span>
+        <span class="tick">SI</span>
+        <span class="tf">1D</span>
       </div>
-      <div class="card-sig">▲ AAA* LONG</div>
-      <div class="card-name">Coffee <span class="ftmo">(COFFEE)</span></div>
+      <div class="card-sig">▼ AAA SHORT</div>
+      <div class="card-name">Silver <span class="ftmo">(XAGUSD)</span></div>
       <div class="card-meta">
-        <span>@ 316.8500061035156</span>
-        <span>ADX 20.7 · UMIARKOWANY</span>
+        <span>@ 59.692</span>
+        <span>ADX 39.6 · SILNY</span>
         <span class="age">ostatnia świeca</span>
       </div>
     </div>
     <div class="card up">
       <div class="card-top">
-        <span class="tick">YM</span>
+        <span class="tick">HS</span>
+        <span class="tf">4H</span>
+      </div>
+      <div class="card-sig">▲ AA+! LONG</div>
+      <div class="card-name">Hang Seng <span class="ftmo">(HK50)</span></div>
+      <div class="card-meta">
+        <span>@ 25205.0</span>
+        <span>ADX 40.8 · WYCZERPANY</span>
+        <span class="age">ostatnia świeca</span>
+      </div>
+    </div>
+    <div class="card down">
+      <div class="card-top">
+        <span class="tick">GC</span>
         <span class="tf">1D</span>
       </div>
-      <div class="card-sig">▲ AA+* LONG</div>
-      <div class="card-name">Dow Jones <span class="ftmo">(US30)</span></div>
+      <div class="card-sig">▼ AAA SHORT</div>
+      <div class="card-name">Gold <span class="ftmo">(XAUUSD)</span></div>
       <div class="card-meta">
-        <span>@ 52146.421875</span>
-        <span>ADX 23.0 · UMIARKOWANY</span>
-        <span class="age">2 św. temu</span>
+        <span>@ 4077.73</span>
+        <span>ADX 39.6 · SILNY</span>
+        <span class="age">1 św. temu</span>
       </div>
     </div></div>
 
   <h2>Pełny stan trendów, setupy i poziomy wejścia</h2>
   <div class="tbl-scroll">
   <table>
-    <thead><tr><th>Ticker</th><th>Instrument</th><th>1D trend</th><th>1D setup</th><th>1D plan (wejście @)</th><th>4H trend</th><th>4H setup</th><th>4H plan (wejście @)</th><th>D1 kontekst (pivot / gap)</th><th>News (AI)</th></tr></thead>
+    <thead><tr><th>Ticker</th><th>Instrument</th><th>1D trend</th><th>1D setup</th><th>1D plan (wejście @)</th><th>4H trend</th><th>4H setup</th><th>4H plan (wejście @)</th><th>D1 kontekst (pivot / gap)</th></tr></thead>
     <tbody>
-    <tr class="grp"><td colspan="10">Indeksy</td></tr>
-<tr><td class="tick">ES</td><td class="nm">S&amp;P 500 <span class="ftmo">(US500)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-18 00:00 · ADX 21.9 UMIARKOWANY">▲ AA+*</span> <span class="age">21 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-16 16:00 · ADX 29.2 SILNY">▲ AA+</span> <span class="age">47 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 7497.5</span> <span class="age">P–R1</span><br><span class="gap-open">luka ↑ 0.63% OTWARTA</span></td><td class="ncell"><span class="nbias nb-warn" title="Volatilność chipów vs. stabilność blue-chipów · Sprzeczne sygnały: słabość Nasdaqu (duża waga w ES) kontra stabilność Dow Jones mogą powodować wahania, z ryzykiem po stronie technologii.">obustronne ryzyko</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">NQ</td><td class="nm">Nasdaq 100 <span class="ftmo">(US100)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-12 00:00 · ADX 31.3 SILNY">▲ AA+</span> <span class="age">25 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-16 16:00 · ADX 25.5 SILNY">▲ AA+</span> <span class="age">47 św. temu</span></td><td><span class="setup up" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+* @ 29535.1</span> <span class="ptag t-deep">przegł.</span> <span class="age">1.34%</span></td><td class="dcell"><span class="badge up">P 29079.5</span> <span class="age">P–R1</span><br><span class="gap-open">luka ↑ 1.59% OTWARTA</span></td><td class="ncell"><span class="nbias nb-up" title="Earnings technologicznych gigantów i potencjał AI · Nasdaq 100 powinien zyskać na silnych wynikach GOOGL, AAPL, TSLA i wzroście sektora chipów, ale wzrost obaw inflacyjnych stanowi ryzyko gwałtownych spadków.">byczy</span> <span class="age">wysoki</span></td></tr>
-<tr><td class="tick">YM</td><td class="nm">Dow Jones <span class="ftmo">(US30)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up fresh" title="2026-07-17 00:00 · ADX 23.0 UMIARKOWANY">▲ AA+*</span> <span class="age">2 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-09 12:00 · ADX 26.4 SILNY">▲ AA+</span> <span class="age">18 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 52161.8</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-flat" title="Wyniki Big Tech (Alphabet) i reakcja na nich · Dow Jones reaguje opornie na wstrząsy (olej, geopolityka), ale czeka na earnings Tech - główny katalizator to wyniki Alphabet i ocena zadłużenia hyperscalerów w AI.">neutralny</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">ES35</td><td class="nm">IBEX 35 (Spain) <span class="ftmo">(SPA35?)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-14 00:00 · ADX 23.8 UMIARKOWANY">▲ AA+*</span> <span class="age">5 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-30 08:00 · ADX 27.7 SILNY">▲ AA+</span> <span class="age">49 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 19325.3</span> <span class="age">P–R1</span><br><span class="gap-open">luka ↑ 0.22% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 19032.0–19080.4">GoG magnes 19032.0–19080.4</span></td><td class="ncell"><span class="nbias nb-down" title="Groźby handlowe Trumpa wobec Hiszpanii · Bezpośrednie zagrożenia dla handlu z USA oraz spadek akcji Telefónici (ex-dividend) przesłaniają pozytywne sygnały z rynku technologicznego i bankowego, co może utrzymać presję spadkową.">niedźwiedzi</span> <span class="age">wysoki</span></td></tr>
-<tr><td class="tick">DAX</td><td class="nm">DAX <span class="ftmo">(GER40)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-20 00:00 · ADX 30.5 SILNY">▲ AAA</span> <span class="age">127 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-07-08 04:00 · ADX 22.9 UMIARKOWANY">▲ AA+*</span> <span class="age">32 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 24946.7</span> <span class="age">P–R1</span><br><span class="">luka ↑ 0.30% wypełniona</span></td><td class="ncell"><span class="nbias nb-up" title="Chłodzenie inflacji w strefie euro i decyzja ECB · Spadek inflacji w UK może wskazywać na podobne trendy w eurolandzie, wspierając DAX poprzez potencjalną łagodniejszą politykę ECB, choć geopolityczne zagrożenia z Bliskiego Wschodu pozostają ryzykiem dla sektora energety">byczy</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">F40</td><td class="nm">CAC 40 <span class="ftmo">(FRA40)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-19 00:00 · ADX 20.3 UMIARKOWANY">▲ AAA*</span> <span class="age">128 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-07-13 12:00 · ADX 22.0 UMIARKOWANY">▲ AAA*</span> <span class="age">21 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 8346.1</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-flat" title="Mieszane sygnały z rynków europejskich · CAC 40 może podążać za sentymentem FTSE, ale nagłówki dotyczą głównie rynku brytyjskiego - bezpośredni wpływ na indeks francuski będzie marginalny.">neutralny</span> <span class="age">niski</span></td></tr>
-<tr><td class="tick">FESX</td><td class="nm">Euro Stoxx 50 <span class="ftmo">(EU50)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-09 00:00 · ADX 20.1 UMIARKOWANY">▲ AA+*</span> <span class="age">8 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-08 04:00 · ADX 22.7 UMIARKOWANY">▲ AA+*</span> <span class="age">32 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 6267.1</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-warn" title="Decyzja ECB vs. wzrost cen ropy naftowej · Decyzja ECB jest głównym katalizatorem dla FESX, jednak geopolityczne napięcia na Bliskim Wschodzie i obawy o dywidendy europejskich giant mogą obniżyć notowania w krótkim terminie.">obustronne ryzyko</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">FTSE</td><td class="nm">FTSE 100 <span class="ftmo">(UK100)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-03-04 00:00 · ADX 52.9 WYCZERPANY">▲ AA+!</span> <span class="age">95 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-04-21 08:00 · ADX 32.8 SILNY">▲ AAA</span> <span class="age">193 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 10551.6</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-up" title="Spadek inflacji, podwyższona prognoza zysków · Chłodniejsza inflacja wspiera scenariusz niższych stóp procentowych, a podniesienie perspektyw zysków przez Deutsche Bank wzmacnia przypadek dla wzrostu, jednak uważać na korektę jeśli dane gospodarcze rozczarują.">byczy</span> <span class="age">wysoki</span></td></tr>
-<tr><td class="tick">NIKKEI</td><td class="nm">Nikkei 225 <span class="ftmo">(JP225)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-03 00:00 · ADX 24.6 UMIARKOWANY">▲ AA+*</span> <span class="age">11 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-24 04:00 · ADX 22.0 UMIARKOWANY">▲ AA+*</span> <span class="age">38 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 65555.9</span> <span class="age">P–R1</span><br><span class="gap-open">luka ↑ 0.63% OTWARTA</span></td><td class="ncell"><span class="nbias nb-up" title="Wyceny atrakcyjne po spadku, tech rebound · UBS rekomenduje kupno przy obecnych cenach, ale zmienność tech sektora i ceny ropy pozostają ryzykiem dla japońskich eksporterów.">byczy</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">HS</td><td class="nm">Hang Seng <span class="ftmo">(HK50)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-09 00:00 · ADX 29.2 SILNY">▼ AA+</span> <span class="age">8 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-06 00:00 · ADX 31.2 SILNY">▼ AA+</span> <span class="age">25 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+ @ 23980.5</span> <span class="ptag t-deep">przegł.</span> <span class="age">3.66%</span></td><td class="dcell"><span class="badge up">P 25125.8</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-down" title="Techturmoil i spadek cen ropy naftowej · Hang Seng ma wysoką ekspozycję na tech i energetykę, więc niedawne turbulencje w sektorze technologicznym oraz fluktuacje cen ropy mogą wywierać presję na indeks w krótkim terminie.">niedźwiedzi</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">VX</td><td class="nm">VIX <span class="ftmo">(VIX)</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-03-20 00:00 · ADX 41.4 WYCZERPANY">▲ AA+!</span> <span class="age">84 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-06-12 04:00 · ADX 36.8 SILNY">▲ AAA</span> <span class="age">138 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge down">P 17.3</span> <span class="age">S1–P</span><br><span class="gap-open">luka ↓ 6.27% OTWARTA</span></td><td class="ncell"><span class="nbias nb-warn" title="Rozpaczliwa likwidacja AI versus powrót do Tech · VIX może oscylować między wzrostami (AI unwind) a spadkami (pile back into Tech), z kluczową obserwacją krzywej futures jako sygnału zmienności.">obustronne ryzyko</span> <span class="age">średni</span></td></tr>
-<tr class="grp"><td colspan="10">Metale</td></tr>
-<tr><td class="tick">GC</td><td class="nm">Gold <span class="ftmo">(XAUUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-02-06 00:00 · ADX 35.6 SILNY">▲ AA+</span> <span class="age">112 św. temu</span></td><td><span class="setup down" title="Czeka na powrót ceny do linii wejścia">AAA @ 4114.4</span> <span class="ptag t-armed">uzbr.</span> <span class="age">1.06%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-20 12:00 · ADX 20.8 UMIARKOWANY">▼ AA+*</span> <span class="age">12 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 4047.3</span> <span class="age">P–R1</span><br><span class="">luka ↓ 0.20% wypełniona</span></td><td class="ncell"><span class="nbias nb-up" title="Popyt na safe-haven i słabszy dolar · Złoto zyskuje na obawach rynkowych i osłabieniu dolara, ale siła trendu zależy od dalszych danych ekonomicznych i decyzji Fed.">byczy</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">SI</td><td class="nm">Silver <span class="ftmo">(XAGUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 56.7 WYCZERPANY">▲ AA+!</span> <span class="age">117 św. temu</span></td><td><span class="setup down" title="Czeka na powrót ceny do linii wejścia">AAA @ 61.913</span> <span class="ptag t-armed">uzbr.</span> <span class="age">5.23%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-20 16:00 · ADX 21.5 UMIARKOWANY">▼ AA+*</span> <span class="age">11 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+ @ 57.076</span> <span class="ptag t-deep">przegł.</span> <span class="age">5.81%</span></td><td class="dcell"><span class="badge up">P 58.065</span> <span class="age">P–R1</span><br><span class="">luka ↓ 0.82% wypełniona</span></td><td class="ncell"><span class="nbias nb-up" title="Wzrost złota wspiera popyt na srebro · Spadek produkcji u Fresnillo oraz wzrost zainteresowania metalami szlachetnymi mogą podpierać cenę, ale należy monitorować ryzyko inflacyjne i rentowności górnictwa srebra.">byczy</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">HG</td><td class="nm">Copper <span class="ftmo">(XCUUSD)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 31.5 SILNY">▲ AAA</span> <span class="age">117 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-06-26 08:00 · ADX 28.9 SILNY">▼ AAA</span> <span class="age">108 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AAA @ 6.3972</span> <span class="ptag t-armed">uzbr.</span> <span class="age">1.62%</span></td><td class="dcell"><span class="badge up">P 6.4925</span> <span class="age">P–R1</span><br><span class="gap-open">luka ↑ 2.33% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 6.0545–6.0695">GoG magnes 6.0545–6.0695</span></td><td class="ncell"><span class="nbias nb-up" title="Zakłócenia produkcji w Chile i raporty FCX · Spadek podaży miedzi z Chile oraz wyniki finansowe FCX mogą ograniczyć dostępność surowca, ale trzeba obserwować skalę zakłóceń i prognozę produkcji.">byczy</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">PA</td><td class="nm">Palladium <span class="ftmo">(XPDUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 26.1 SILNY">▲ AA+</span> <span class="age">117 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-06-26 12:00 · ADX 30.9 SILNY">▼ AAA</span> <span class="age">107 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 1279.5</span> <span class="age">&gt;R3</span><br><span class="gap-open">luka ↑ 1.47% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 1244.0–1261.0">GoG magnes 1244.0–1261.0</span></td><td class="ncell"><span class="nbias nb-down" title="Presja na metale szlachetne z Fed i stóp · Wzrost stóp procentowych i siła dolara zmniejszają popyt na pallad jako aktywa pozaoprocentowane, ale ograniczona podaż i popyt przemysłowy mogą działać wspierająco.">niedźwiedzi</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">PL</td><td class="nm">Platinum <span class="ftmo">(XPTUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 31.4 SILNY">▲ AA+</span> <span class="age">117 św. temu</span></td><td><span class="setup down" title="Czeka na powrót ceny do linii wejścia">AAA @ 1665.5</span> <span class="ptag t-armed">uzbr.</span> <span class="age">2.42%</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-06-30 12:00 · ADX 27.0 SILNY">▼ AA+</span> <span class="age">94 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 1626.1</span> <span class="age">&gt;R3</span><br><span class="gap-open">luka ↑ 2.13% OTWARTA</span></td><td class="ncell"><span class="nbias nb-flat" title="brak bezpośrednich wiadomości o platynie · Nagłówki dotyczą głównie złota i geopolityki; platyna reaguje słabo na safe-haven demand w przeciwieństwie do Au, czuwać na zmianę sentymentu wobec metali przemysłowych.">neutralny</span> <span class="age">niski</span></td></tr>
-<tr class="grp"><td colspan="10">Energia</td></tr>
-<tr><td class="tick">WBS</td><td class="nm">WTI Crude <span class="ftmo">(XTIUSD)</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-04-29 00:00 · ADX 25.6 SILNY">▲ AA+</span> <span class="age">56 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-20 12:00 · ADX 29.2 SILNY">▲ AA+</span> <span class="age">12 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+ @ 82.553</span> <span class="ptag t-armed">uzbr.</span> <span class="age">4.03%</span></td><td class="dcell"><span class="badge up">P 84.32</span> <span class="age">P–R1</span><br><span class="">luka ↑ 0.30% wypełniona</span></td><td class="ncell"><span class="nbias nb-up" title="Inflacyjne obawy z powodu wzrostu cen ropy · Podwyższone rentowności obligacji mogą ograniczać popyt, ale obawy inflacyjne wspierają cenę ropy; obserwować równowagę między tymi siłami.">byczy</span> <span class="age">średni</span></td></tr>
-<tr class="grp"><td colspan="10">Miękkie</td></tr>
-<tr><td class="tick">CC</td><td class="nm">Cocoa <span class="ftmo">(COCOA?)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-04-07 00:00 · ADX 22.8 UMIARKOWANY">▼ AA+*</span> <span class="age">72 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AAA @ 4871.2</span> <span class="ptag t-armed">uzbr.</span> <span class="age">13.12%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-15 12:00 · ADX 30.2 SILNY">▲ AA+</span> <span class="age">15 św. temu</span></td><td><span class="setup up" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+ @ 5945.7</span> <span class="ptag t-deep">przegł.</span> <span class="age">12.14%</span></td><td class="dcell"><span class="badge up">P 5581.7</span> <span class="age">P–R1</span><br><span class="">luka ↓ 1.27% wypełniona</span></td><td class="ncell"><span class="nbias nb-up" title="Wzrost popytu nord-amerykańskiego i raporty grinding · Silny popyt North American i zbliżające się dane o mieleniu mogą pchnąć ceny wyżej, ale czuwać na rozczarowania Hershey dotyczące wolumenów.">byczy</span> <span class="age">wysoki</span></td></tr>
-<tr><td class="tick">KC</td><td class="nm">Coffee <span class="ftmo">(COFFEE)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-06-16 00:00 · ADX 36.5 SILNY">▼ AA+</span> <span class="age">23 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+ @ 292.9</span> <span class="ptag t-deep">przegł.</span> <span class="age">11.76%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up fresh" title="2026-07-22 12:00 · ADX 20.7 UMIARKOWANY">▲ AAA*</span> <span class="age">teraz</span></td><td><span class="setup up" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">AA+* @ 330.18</span> <span class="ptag t-zone">w strefie</span></td><td class="dcell"><span class="badge up">P 331.95</span> <span class="age">&gt;R3</span><br><span class="gap-open">luka ↓ 0.73% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 334.45–337.2">GoG magnes 334.45–337.2</span></td><td class="ncell"><span class="nbias nb-up" title="Opóźnienia zbioru w Brazylii ograniczają podaż · Susze i opóźnienia brazylijskiego zbioru wspierają ceny KC przez redukcję podaży, ale forecast suchej pogody może zmienić sentyment — uważać na rewizje warunków pogodowych.">byczy</span> <span class="age">średni</span></td></tr>
-<tr class="grp"><td colspan="10">FX/Rates</td></tr>
-<tr><td class="tick">DXY</td><td class="nm">Dollar Index</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-15 00:00 · ADX 29.7 SILNY">▲ AAA</span> <span class="age">4 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+* @ 100.83</span> <span class="ptag t-armed">uzbr.</span> <span class="age">0.34%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-06-26 08:00 · ADX 49.9 WYCZERPANY">▲ AAA!</span> <span class="age">108 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 101.08</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-down" title="Dollar dips after four-day streak gains · Osłabienie dolara po czterodniowej serii wzrostów sugeruje potencjalny spadek DXY, szczególnie jeśli yen umacnia się mimo słabości, co może przyciągnąć przepływy z USD.">niedźwiedzi</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">GBPJPY</td><td class="nm">GBP/JPY <span class="ftmo">(GBPJPY)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-04-30 00:00 · ADX 21.7 UMIARKOWANY">▲ AA+*</span> <span class="age">58 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+* @ 215.99</span> <span class="ptag t-armed">uzbr.</span> <span class="age">1.03%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-10 08:00 · ADX 25.1 SILNY">▲ AAA</span> <span class="age">51 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 218.15</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-down" title="BoE dovish, słabe dane gospodarcze GBP · Osłabienie funta wobec japońskiego jena przez mniej jastrzębie stanowisko BoE i słabe dane makro, przy czym należy monitorować przychody z budżetu jako potencjalny czynnik wspierający.">niedźwiedzi</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">US10</td><td class="nm">US 10Y Yield</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-05 00:00 · ADX 23.1 UMIARKOWANY">▲ AA+*</span> <span class="age">30 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-17 12:00 · ADX 23.9 UMIARKOWANY">▲ AA+*</span> <span class="age">6 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+* @ 4.5482</span> <span class="ptag t-armed">uzbr.</span> <span class="age">2.19%</span></td><td class="dcell"><span class="badge up">P 4.622</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-up" title="Inflacja i obawy przed wzrostem cen · Wzrost rentowności obligacji skarbowych napędzany obawami inflacyjnymi i wzrostem cen ropy naftowej powinien podnieść US10Y, ale należy monitorować dane o chłodzeniu się gospodarki.">byczy</span> <span class="age">wysoki</span></td></tr>
-<tr class="grp"><td colspan="10">Krypto</td></tr>
-<tr><td class="tick">BTC</td><td class="nm">Bitcoin <span class="ftmo">(BTCUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-02 00:00 · ADX 35.7 SILNY">▼ AAA</span> <span class="age">19 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+* @ 61721.9</span> <span class="ptag t-deep">przegł.</span> <span class="age">7.19%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-20 12:00 · ADX 20.8 UMIARKOWANY">▲ AA+*</span> <span class="age">12 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+ @ 65099.7</span> <span class="ptag t-armed">uzbr.</span> <span class="age">1.39%</span></td><td class="dcell"><span class="badge up">P 66176.3</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-up" title="Harmonizacja regulacyjna i napływ kapitału ETF · Wzrost instytucjonalnego zainteresowania poprzez ETF i pozytywne otoczenie regulacyjne wspierają popyt na BTC, jednak ostrożność inwestorów (tracenie tempa wzrostu) sugeruje ograniczoną siłę ruchu.">byczy</span> <span class="age">średni</span></td></tr>
-<tr><td class="tick">ETH</td><td class="nm">Ethereum <span class="ftmo">(ETHUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-02 00:00 · ADX 28.5 SILNY">▼ AAA</span> <span class="age">19 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+* @ 1704.9</span> <span class="ptag t-deep">przegł.</span> <span class="age">11.59%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-14 12:00 · ADX 21.7 UMIARKOWANY">▲ AA+*</span> <span class="age">48 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+ @ 1890.2</span> <span class="ptag t-armed">uzbr.</span> <span class="age">2.66%</span></td><td class="dcell"><span class="badge up">P 1926.0</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td><td class="ncell"><span class="nbias nb-up" title="Bullish sygnał ETH i aktywność builder · Pozytywne sygnały techniczne dla Ethereum mogą przyciągnąć kupujących, ale niski poziom przejrzystości regulacyjnej (CLARITY Act) i zmienność BTC stanowią ryzyko korekcji.">byczy</span> <span class="age">średni</span></td></tr>
+    <tr class="grp"><td colspan="9">Indeksy</td></tr>
+<tr><td class="tick">ES</td><td class="nm">S&amp;P 500 <span class="ftmo">(US500)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-16 21:00 · ADX 26.0 SILNY">▲ AA+</span> <span class="age">25 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-06-03 13:00 · ADX 22.3 UMIARKOWANY">▲ AA+*</span> <span class="age">212 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 7506.4</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">NQ</td><td class="nm">Nasdaq 100 <span class="ftmo">(US100)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-06-16 21:00 · ADX 27.0 SILNY">▲ AA+</span> <span class="age">25 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-21 05:00 · ADX 39.5 SILNY">▼ AAA</span> <span class="age">11 św. temu</span></td><td><span class="setup down" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">AA+* @ 28853.9</span> <span class="ptag t-zone">w strefie</span></td><td class="dcell"><span class="badge up">P 29015.8</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">YM</td><td class="nm">Dow Jones <span class="ftmo">(US30)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-13 21:00 · ADX 27.0 SILNY">▲ AA+</span> <span class="age">6 św. temu</span></td><td><span class="setup up" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">AA+* @ 52385.3</span> <span class="ptag t-zone">w strefie</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-07-07 21:00 · ADX 44.0 WYCZERPANY">▲ AA+!</span> <span class="age">67 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge down">P 52321.4</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">ES35</td><td class="nm">IBEX 35 (Spain) <span class="ftmo">(SPA35)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-02-05 22:00 · ADX 28.1 SILNY">▲ AA+</span> <span class="age">61 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+ @ 18281.4</span> <span class="ptag t-armed">uzbr.</span> <span class="age">6.71%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-04-20 09:00 · ADX 21.5 UMIARKOWANY">▲ AA+*</span> <span class="age">50 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 19490.2</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">DAX</td><td class="nm">DAX <span class="ftmo">(GER40)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-02-08 22:00 · ADX 25.3 SILNY">▲ AA+</span> <span class="age">114 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-07-07 13:00 · ADX 37.6 SILNY">▲ AAA</span> <span class="age">69 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 25133.9</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">F40</td><td class="nm">CAC 40 <span class="ftmo">(FRA40)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-03-02 22:00 · ADX 29.1 SILNY">▲ AA+</span> <span class="age">98 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-06-19 05:00 · ADX 23.6 UMIARKOWANY">▲ AA+*</span> <span class="age">143 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 8417.3</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">FESX</td><td class="nm">Euro Stoxx 50 <span class="ftmo">(EU50)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-08 21:00 · ADX 24.4 UMIARKOWANY">▲ AA+*</span> <span class="age">9 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-07-07 09:00 · ADX 21.6 UMIARKOWANY">▲ AA+*</span> <span class="age">70 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 6300.8</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">FTSE</td><td class="nm">FTSE 100 <span class="ftmo">(UK100)</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-03-03 22:00 · ADX 44.5 WYCZERPANY">▲ AA+!</span> <span class="age">96 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge flat">—</span></td><td><span class="setup up" title="2026-07-07 21:00 · ADX 30.3 SILNY">▲ AAA</span> <span class="age">67 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 10694.5</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">NIKKEI</td><td class="nm">Nikkei 225 <span class="ftmo">(JP225)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-02 21:00 · ADX 22.4 UMIARKOWANY">▲ AA+*</span> <span class="age">13 św. temu</span></td><td><span class="setup up" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+* @ 69442.6</span> <span class="ptag t-deep">przegł.</span> <span class="age">4.78%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-21 01:00 · ADX 39.8 SILNY">▼ AA+</span> <span class="age">12 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+* @ 65366.3</span> <span class="ptag t-deep">przegł.</span> <span class="age">1.73%</span></td><td class="dcell"><span class="badge down">P 66482.8</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">HS</td><td class="nm">Hang Seng <span class="ftmo">(HK50)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-07 21:00 · ADX 32.1 SILNY">▼ AAA</span> <span class="age">10 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up fresh" title="2026-07-23 01:00 · ADX 40.8 WYCZERPANY">▲ AA+!</span> <span class="age">teraz</span></td><td><span class="setup up" title="Cena musi najpierw wybić powyżej/poniżej wstęgi, potem retest">AA+! @ 24988.8</span> <span class="ptag t-wait">oddech</span> <span class="age">0.86%</span></td><td class="dcell"><span class="badge up">P 24932.8</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">VX</td><td class="nm">VIX <span class="ftmo">(VIX)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-03-17 21:00 · ADX 55.7 WYCZERPANY">▲ AA+!</span> <span class="age">85 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-07-07 13:00 · ADX 25.6 SILNY">▼ AAA</span> <span class="age">69 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge down">P 18.347</span> <span class="age">S1–P</span><br><span class="">luka ↓ 0.22% wypełniona</span></td></tr>
+<tr class="grp"><td colspan="9">Metale</td></tr>
+<tr><td class="tick">GC</td><td class="nm">Gold <span class="ftmo">(XAUUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down fresh" title="2026-07-20 21:00 · ADX 39.6 SILNY">▼ AAA</span> <span class="age">1 św. temu</span></td><td><span class="setup down" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">AA+ @ 4073.2</span> <span class="ptag t-zone">w strefie</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-06-30 05:00 · ADX 38.3 SILNY">▼ AA+</span> <span class="age">100 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 4124.3</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">SI</td><td class="nm">Silver <span class="ftmo">(XAGUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down fresh" title="2026-07-21 21:00 · ADX 39.6 SILNY">▼ AAA</span> <span class="age">teraz</span></td><td><span class="setup down" title="Cena musi najpierw wybić powyżej/poniżej wstęgi, potem retest">AA+ @ 60.085</span> <span class="ptag t-wait">oddech</span> <span class="age">0.66%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-20 17:00 · ADX 27.3 SILNY">▼ AA+</span> <span class="age">14 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+ @ 57.015</span> <span class="ptag t-deep">przegł.</span> <span class="age">4.35%</span></td><td class="dcell"><span class="badge down">P 59.771</span> <span class="age">S1–P</span><br><span class="">luka ↑ 0.20% wypełniona</span></td></tr>
+<tr><td class="tick">HG <span class="srcmark" title="Źródło danych: yfinance (nie feed cTrader)">yf</span></td><td class="nm">Copper <span class="ftmo">(XCUUSD)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-01-30 00:00 · ADX 31.5 SILNY">▲ AAA</span> <span class="age">118 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-06-26 08:00 · ADX 28.9 SILNY">▼ AAA</span> <span class="age">111 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AAA @ 6.407</span> <span class="ptag t-armed">uzbr.</span> <span class="age">1.91%</span></td><td class="dcell"><span class="badge down">P 6.468</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">PA</td><td class="nm">Palladium <span class="ftmo">(XPDUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-07 21:00 · ADX 21.7 UMIARKOWANY">▼ AA+*</span> <span class="age">10 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-06-26 17:00 · ADX 36.7 SILNY">▼ AA+</span> <span class="age">109 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge down">P 1288.6</span> <span class="age">S1–P</span><br><span class="">luka ↓ 1.30% wypełniona</span></td></tr>
+<tr><td class="tick">PL</td><td class="nm">Platinum <span class="ftmo">(XPTUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-15 21:00 · ADX 31.5 SILNY">▼ AA+</span> <span class="age">4 św. temu</span></td><td><span class="setup down" title="Cena w strefie retestu teraz — obserwuj reakcję na wstędze">AA+ @ 1615.3</span> <span class="ptag t-zone">w strefie</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-06-30 09:00 · ADX 26.8 SILNY">▼ AA+</span> <span class="age">99 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge down">P 1639.8</span> <span class="age">S1–P</span><br><span class="">luka ↓ 0.99% wypełniona</span></td></tr>
+<tr class="grp"><td colspan="9">Energia</td></tr>
+<tr><td class="tick">WBS</td><td class="nm">WTI Crude <span class="ftmo">(XTIUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-04-28 21:00 · ADX 26.5 SILNY">▲ AA+</span> <span class="age">60 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-20 09:00 · ADX 31.2 SILNY">▲ AAA</span> <span class="age">16 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+ @ 82.832</span> <span class="ptag t-armed">uzbr.</span> <span class="age">5.07%</span></td><td class="dcell"><span class="badge down">P 85.895</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr class="grp"><td colspan="9">Miękkie</td></tr>
+<tr><td class="tick">CC</td><td class="nm">Cocoa <span class="ftmo">(COCOA)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup down" title="2026-04-06 21:00 · ADX 38.9 SILNY">▼ AA+</span> <span class="age">60 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AAA @ 5120.2</span> <span class="ptag t-armed">uzbr.</span> <span class="age">5.86%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-15 13:00 · ADX 24.5 UMIARKOWANY">▲ AA+*</span> <span class="age">21 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge down">P 5469.4</span> <span class="age">S1–P</span><br><span class="gap-open">luka ↓ 1.23% OTWARTA</span> <span class="gog" title="Gap-over-gap: otwarcie ponad starą niewypełnioną luką — magnes 6283.6–6409.3">GoG magnes 6283.6–6409.3</span></td></tr>
+<tr><td class="tick">KC</td><td class="nm">Coffee <span class="ftmo">(COFFEE)</span></td><td><span class="badge flat">—</span></td><td><span class="setup down" title="2026-06-15 21:00 · ADX 31.9 SILNY">▼ AA+</span> <span class="age">24 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-15 09:00 · ADX 34.1 SILNY">▲ AAA</span> <span class="age">16 św. temu</span></td><td><span class="setup up" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+ @ 328.96</span> <span class="ptag t-deep">przegł.</span> <span class="age">4.14%</span></td><td class="dcell"><span class="badge down">P 317.62</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr class="grp"><td colspan="9">FX/Rates</td></tr>
+<tr><td class="tick">DXY</td><td class="nm">Dollar Index</td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-09 21:00 · ADX 30.4 SILNY">▲ AAA</span> <span class="age">8 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+* @ 100.73</span> <span class="ptag t-armed">uzbr.</span> <span class="age">0.19%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup up" title="2026-06-26 05:00 · ADX 52.5 WYCZERPANY">▲ AAA!</span> <span class="age">113 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge up">P 100.91</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">GBPJPY</td><td class="nm">GBP/JPY <span class="ftmo">(GBPJPY)</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-02-05 22:00 · ADX 25.3 SILNY">▲ AA+</span> <span class="age">118 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+* @ 216.15</span> <span class="ptag t-armed">uzbr.</span> <span class="age">0.95%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-20 13:00 · ADX 23.5 UMIARKOWANY">▲ AA+*</span> <span class="age">15 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td class="dcell"><span class="badge up">P 218.16</span> <span class="age">P–R1</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">US10</td><td class="nm">US 10Y Yield</td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-09 21:00 · ADX 21.7 UMIARKOWANY">▼ AA+*</span> <span class="age">8 św. temu</span></td><td><span class="setup down" title="Czeka na powrót ceny do linii wejścia">AA+* @ 109.14</span> <span class="ptag t-armed">uzbr.</span> <span class="age">0.67%</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-05-20 13:00 · ADX 41.2 WYCZERPANY">▼ AAA!</span> <span class="age">268 św. temu</span></td><td><span class="muted" title="Odstęp wstęg poniżej progu — setup zablokowany">WSTĘGI WĄSKIE</span></td><td class="dcell"><span class="badge down">P 108.47</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr class="grp"><td colspan="9">Krypto</td></tr>
+<tr><td class="tick">BTC</td><td class="nm">Bitcoin <span class="ftmo">(BTCUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-07 21:00 · ADX 32.2 SILNY">▼ AA+</span> <span class="age">10 św. temu</span></td><td><span class="muted" title="Trend za słaby (ADX &lt; 20) — setup zablokowany">ADX SŁABY</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-20 13:00 · ADX 20.1 UMIARKOWANY">▲ AA+*</span> <span class="age">15 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+ @ 65320.5</span> <span class="ptag t-armed">uzbr.</span> <span class="age">0.39%</span></td><td class="dcell"><span class="badge down">P 66014.0</span> <span class="age">S1–P</span><br><span class="muted">brak luki</span></td></tr>
+<tr><td class="tick">ETH</td><td class="nm">Ethereum <span class="ftmo">(ETHUSD)</span></td><td><span class="badge down">SHORT</span></td><td><span class="setup down" title="2026-07-02 21:00 · ADX 33.0 SILNY">▼ AA+</span> <span class="age">13 św. temu</span></td><td><span class="setup down" title="Cofka przebiła całą szybką wstęgę na wylot — retest niedomknięty, ostrożnie">AA+* @ 1686.6</span> <span class="ptag t-deep">przegł.</span> <span class="age">12.31%</span></td><td><span class="badge up">LONG</span></td><td><span class="setup up" title="2026-07-20 13:00 · ADX 21.9 UMIARKOWANY">▲ AA+*</span> <span class="age">15 św. temu</span></td><td><span class="setup up" title="Czeka na powrót ceny do linii wejścia">AA+* @ 1907.9</span> <span class="ptag t-armed">uzbr.</span> <span class="age">0.48%</span></td><td class="dcell"><span class="badge down">P 1927.0</span> <span class="age">S1–P</span><br><span class="">luka ↓ 0.21% wypełniona</span></td></tr>
     </tbody>
   </table>
   </div>

@@ -7,6 +7,44 @@ na **GitHub Pages**. Gotowa premarket-watchlista zanim usiądziesz do rynku.
 
 **Live:** https://sstadniczenko-collab.github.io/hts-premarket/
 
+## Źródło danych — realny feed cTrader (hybryda)
+
+Poziomy liczą się z **realnego feedu brokera przez cTrader**, nie z yfinance —
+żeby wstęgi/pivoty/gapy zgadzały się z tym, co widzisz na wykresie.
+
+Architektura hybrydowa (bo cTrader jest lokalny, a dashboard chmurowy):
+
+```
+LOKALNIE (Twój rig z cTraderem)          CHMURA (GitHub Actions)
+fetch_ctrader.py                          scan.py
+  → GET 127.0.0.1:9877/bars (D1+H4)         → czyta bars.json (commit)
+  → bars.json                               → HTS + pivot + gap + news
+  → git push + gh workflow run  ──────────► → render → GitHub Pages
+```
+
+- **`fetch_ctrader.py`** (lokalny): ciągnie D1+H4 dla koszyka z pluginu cTrader
+  na koncie **1114770** (port 9877, endpoint `/bars`), zapisuje `bars.json`,
+  pushuje do repo i odpala workflow. Symbole cTrader w `universe.json` → pole
+  `ctrader` (zweryfikowane live 23/24; **HG/miedź** nie istnieje na tym brokerze
+  → spada na yfinance).
+- **`data_bars.py`** (chmura): buduje OHLC z `bars.json`, odcina niezamkniętą
+  świecę (świece D1 kotwiczone 21:00 UTC — 24h). Brak symbolu → `scan.py`
+  spada na yfinance (`data_yf.py`).
+
+**Harmonogram lokalny** — Windows Task Scheduler, 2× dziennie premarket (gdy rig
+działa), np. 08:20 i 14:50 czasu lokalnego:
+
+```bat
+python Y:\15_AI\02_TRADING\hts-premarket\fetch_ctrader.py
+```
+
+Gdy maszyna nie działa, chmura użyje ostatniego `bars.json` (dashboard pokazuje
+znacznik świeżości snapshotu). `--no-push` = tylko zapis (test), `--no-dispatch`
+= push bez odpalania Action.
+
+**Świeżość i źródło** widać w nagłówku dashboardu; instrumenty z fallbackiem
+yfinance mają znacznik `yf` przy tickerze.
+
 ## Skąd się wziął
 
 To chmurowa wersja lokalnego `hts_scanner` (`Y:\15_AI\02_TRADING\hts_scanner`).

@@ -12,6 +12,14 @@ def _dir_arrow(direction: str) -> str:
     return "▲" if direction == "long" else "▼"
 
 
+def _data_src_line(payload: dict) -> str:
+    if payload.get("data_primary") == "ctrader":
+        ts = payload.get("bars_generated") or "?"
+        return (f'Poziomy: <b class="src-ct">realny feed cTrader</b> (konto 1114770) · '
+                f'snapshot {_esc(ts)} UTC · fallback yfinance dla braków')
+    return 'Poziomy: <b class="src-yf">yfinance</b> (poglądowe — brak snapshotu cTrader; ≠ feed brokera)'
+
+
 def _nm(name: str, ftmo) -> str:
     """Nazwa instrumentu + symbol FTMO w małym nawiasie (jeśli jest)."""
     if ftmo:
@@ -222,7 +230,10 @@ def _rows(instruments: list[dict], timeframes: list[str], news_on: bool) -> str:
     for gname, items in groups.items():
         parts.append(f'<tr class="grp"><td colspan="{span}">{_esc(gname)}</td></tr>')
         for r in items:
-            cells = [f'<td class="tick">{_esc(r["asset"])}</td><td class="nm">{_nm(r["name"], r.get("ftmo"))}</td>']
+            src_mark = ''
+            if r.get("src") in ("yfinance", "mieszane"):
+                src_mark = f' <span class="srcmark" title="Źródło danych: {_esc(r.get("src"))} (nie feed cTrader)">yf</span>'
+            cells = [f'<td class="tick">{_esc(r["asset"])}{src_mark}</td><td class="nm">{_nm(r["name"], r.get("ftmo"))}</td>']
             for tf in tf_cols:
                 d = r["tf"].get(tf, {})
                 if not d.get("ok"):
@@ -278,6 +289,11 @@ def build_html(payload: dict) -> str:
   header h1 {{ margin:0 0 4px; font-size:24px; letter-spacing:.2px; }}
   header .sub {{ color:var(--muted); font-size:13.5px; }}
   header .sub b {{ color:var(--accent); }}
+  header .src-line {{ margin-top:3px; font-size:12.5px; }}
+  .src-ct {{ color:var(--up); }}
+  .src-yf {{ color:#f0b450; }}
+  .srcmark {{ font-size:9.5px; font-weight:700; color:#f0b450; background:rgba(240,180,80,.14);
+    padding:0 4px; border-radius:3px; vertical-align:super; }}
   h2 {{ font-size:14px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);
     margin:34px 0 12px; border-bottom:1px solid var(--line); padding-bottom:8px; }}
   .cards {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }}
@@ -363,6 +379,7 @@ def build_html(payload: dict) -> str:
       Wygenerowano <b>{_esc(payload['generated_utc'])} UTC</b> · {_esc(payload['session_hint'])} ·
       {_esc(payload['universe_count'])} instrumentów (uniwersum vtrade) · logika HTS Swing Pro Filter 3.0 (AAA/AA+)
     </div>
+    <div class="sub src-line">{_data_src_line(payload)}</div>
   </header>
 
   <h2>Plan wejścia — gdzie szukać wejść teraz</h2>

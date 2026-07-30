@@ -27,6 +27,7 @@ import data_yf as D
 import data_bars as B
 import levels as L
 import news_ai as N
+import macro as M
 import render
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -176,6 +177,7 @@ def main() -> int:
     ap.add_argument("--assets", help="przecinkami: podzbiór assetów do skanu (test)")
     ap.add_argument("--dry-run", action="store_true", help="nie zapisuj plików")
     ap.add_argument("--no-news", action="store_true", help="pomiń ocenę AI newsów (brak wywołań API)")
+    ap.add_argument("--no-macro", action="store_true", help="pomiń warstwę makro (brak pobrań FRED/Yahoo)")
     ap.add_argument("--bars", default=os.path.join(HERE, "bars.json"),
                     help="snapshot OHLC z cTradera (bars.json); brak pliku → yfinance")
     args = ap.parse_args()
@@ -208,6 +210,26 @@ def main() -> int:
         print("News AI: pobieram nagłówki + ocena Haiku ...", flush=True)
         news_count = N.enrich(results)
         print(f"News AI: oceniono {news_count} instrumentów")
+
+    # warstwa makro (fundamentalna = nie z ceny i wolumenu).
+    # UWAGA: to jest kontekst SELEKCJI / WIELKOŚCI POZYCJI / TRZYMANIA — nigdy sygnał
+    # wejścia i nigdy weto dla setupu. Zasady: MACRO.md. Bez kluczy API.
+    macro_header = None
+    macro_count = 0
+    if not args.no_macro:
+        print("Macro: pobieram serie makro + stan reżimu ...", flush=True)
+        try:
+            macro_state = M.compute_state()
+            macro_count = M.enrich(results, macro_state)
+            macro_header = M.session_header(macro_state, M.load_contract())
+            M.save_state(macro_state)
+            dark = ", ".join(macro_state["failures"]) or "brak"
+            print(f"Macro: {macro_count} instrumentów · "
+                  f"{macro_state['coverage']['fetched']}/{macro_state['coverage']['expected']} serii · "
+                  f"niedostępne: {dark}")
+        except Exception as e:  # warstwa makro nigdy nie może wywalić skanu
+            print(f"  ! macro pominięte: {e}", file=sys.stderr)
+            macro_header, macro_count = None, 0
 
     # spłaszczona lista świeżych setupów (premarket watchlist)
     fresh = []
@@ -243,6 +265,8 @@ def main() -> int:
         "data_primary": "ctrader" if store else "yfinance",
         "bars_generated": store.get("generated_utc") if store else None,
         "news_enabled": news_count > 0,
+        "macro_enabled": macro_count > 0,
+        "macro": macro_header,
         "strategy": strat,
         "armed": armed,
         "fresh": fresh,

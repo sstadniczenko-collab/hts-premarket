@@ -3,3 +3,6 @@ __pycache__/
 .venv/
 .env
 premarket_*.md
+
+# warstwa makro (generowany odczyt, nie commitujemy)
+macro_state.json

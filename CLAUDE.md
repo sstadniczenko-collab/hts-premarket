@@ -53,8 +53,9 @@ danych" — to normalne dla futures (=F), które mają na yfinance ~rok historii
 Po odpaleniu `brief.py` **przeczytaj wynik i streść go**, nie wklejaj surowo
 całej tabeli. Priorytet:
 
-1. **Radar makro** — jednym zdaniem: VIX (risk-on/off), DXY, rentowności. To
-   ustawia tło dnia.
+1. **Radar makro** — jednym zdaniem. Bierz to z **warstwy fundamentalnej**
+   (sekcja niżej), nie z wykresów VIX/DXY/US10. Te trzy to tylko odczyt ceny —
+   pod nimi jest teraz ocenione dowodowo tło. To ustawia tło dnia.
 2. **„Do zagrania TERAZ"** — to jest mięso. Dla każdego actionable instrumentu
    podaj: kierunek, setup (AAA/AA+), **linię wejścia**, **stop**, dystans do
    wejścia. Zacznij od tych „🎯 w strefie", potem „🔫 uzbrojone".
@@ -93,6 +94,46 @@ poprzedniej sesji D1.
 - Nie zmieniaj `config.json` ani `universe.json` bez uzgodnienia — to wspólny
   parametr strategii dla całego zespołu.
 
+## Warstwa makro (fundamentalna — nie z ceny i wolumenu)
+
+`brief.py` odpala ją sam. 18 sterowników zbudowanych z 57 źródeł pierwotnych,
+zmapowanych na kody assetów z `universe.json`. Bez klucza API. Pełne zasady i
+źródła: **`MACRO.md`**.
+
+Każdy sterownik ma **ocenę dowodu** (`STRONG` / `PRACTITIONER` / `WEAK`) i
+**status** (`ALIVE` / `BROKEN` / `CONDITIONAL`). Jedno bez drugiego nic nie znaczy.
+
+### Zasady, których nie wolno złamać
+
+1. **To nigdy nie jest sygnał wejścia.** Wejścia zostają w `hts_logic.py`.
+   Ta warstwa mówi *co wybrać, ile wziąć i jak długo trzymać* — nie *kiedy kliknąć*.
+2. **To nigdy nie jest weto.** Jak makro kłóci się z setupem — powiedz o tym
+   i **pokaż setup**. Nie chowaj go. (`MACRO.md`, punkt R8.)
+3. **Podawaj ocenę razem z odczytem.** „D4, dowód mocny" i „D13, dowód słaby"
+   to nie to samo zdanie. Sterownik ze statusem `SUSPENDED` **milczy** — nie
+   przywracaj mu znaku.
+4. **Dla assetów `STUB` nie wymyślaj tła.** HS, HG, PA, BTC, ETH nie mają badań.
+   Milczenie jest tu poprawną odpowiedzią.
+5. **Sprawdź `exact` zanim zacytujesz liczbę.** `exact: false` = zamiennik, nie
+   seria źródłowa (`substitute_note` mówi jaki). Nie podawaj go jako oryginał.
+6. **Żadnego wspólnego scoringu.** `lean` to zgodność sterowników, `confidence`
+   to najlepsza ocena wśród zgodnych. Nie dodawaj wag. (`MACRO.md`, punkt R7.)
+
+### Trzy fakty, które biją wiedzę ogólną
+
+- **Realne rentowności → złoto są ZŁAMANE od 2022**, przykryte rekordowym skupem
+  banków centralnych. D2 i D11 czyta się **razem**; D2 nigdy nie mówi o złocie sam.
+- **COT działa tylko na CC, KC, WBS, GBPJPY.** Na złocie, srebrze, platynie i
+  każdym indeksie jest statystycznie martwy. `targets_excluded` to twarda lista.
+- **VIX opisuje, nie przewiduje.** Contango ≠ „VIX spadnie".
+
+### `news_ai.py` obok tej warstwy
+
+`news_ai` to **nieoceniona ocena nagłówków przez LLM** — bez oceny dowodu, bez
+wielkości efektu, bez świadomości reżimu. Warstwa makro ma źródła i oceny.
+**To nie są równorzędne rzeczy.** Podawaj je osobno, nigdy nie zlewaj w jeden
+werdykt. Żadna z nich nie blokuje setupu.
+
 ## Struktura repo (dla orientacji)
 
 - `brief.py` — Twój briefing (yfinance, standalone).
@@ -100,6 +141,10 @@ poprzedniej sesji D1.
 - `data_yf.py` — warstwa danych yfinance (D1 + H4 z resample 1h).
 - `config.json` — parametry strategii (SMA, ADX, dist). Wspólne.
 - `universe.json` — 24 instrumenty + mapowanie na tickery yfinance.
+- `macro.py` — warstwa fundamentalna (FRED/Yahoo, bez klucza). Odpala się z `brief.py`.
+- `macro_drivers.json` — kontrakt: 18 sterowników + 8 odrzuconych, ze źródłami. **Nie zmieniaj `status` ręcznie** — to liczy `compute_state()`.
+- `macro_state.json` — wynik ostatniego odczytu (generowany, nie edytuj).
+- `MACRO.md` — zasady warstwy makro. Przeczytaj przed interpretacją.
 - `scan.py` / `render.py` / `news_ai.py` / `data_bars.py` / `levels.py` /
   `fetch_ctrader.py` — pipeline dashboardu (CI/Pages). **Nie potrzebujesz ich.**
 - `docs/` — wygenerowany dashboard (GitHub Pages). **Nie edytuj ręcznie.**

@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Lokalny fetcher OHLC z cTradera → bars.json → push do repo (→ chmura renderuje).
 
-Uruchamiany LOKALNIE na maszynie z cTraderem (plugin na 127.0.0.1:9877, konto
-1114770). Pobiera D1+H4 dla całego koszyka, zapisuje bars.json i (domyślnie)
+Uruchamiany LOKALNIE na maszynie z cTraderem (plugin G2BacktestServer na
+127.0.0.1:9877). Świece OHLC są niezależne od konta (ten sam broker) — źródłem
+jest instancja z aktywnym kontem 1114771 (770 też działa, dane identyczne; NIE
+używać portu 9876 = integracja vtrade na 771). Pobiera D1+H4 dla całego koszyka,
+zapisuje bars.json i (domyślnie)
 commit+push + odpala workflow, żeby chmurowy dashboard od razu przeliczył się na
 świeżych, realnych poziomach brokera.
 
@@ -88,7 +91,7 @@ def main() -> int:
 
     payload = {
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
-        "source": f"ctrader {args.base} acct 1114770",
+        "source": f"ctrader {args.base} acct 1114771",
         "bars": out_bars,
     }
     with open(args.out, "w", encoding="utf-8") as f:

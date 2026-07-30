@@ -44,6 +44,15 @@ FROM = {"d1": "2024-01-01", "h4": "2025-09-01"}
 TF_MAP = {"1d": "d1", "4h": "h4"}
 
 
+def _plugin_ok(base: str, timeout: int = 6) -> bool:
+    """Czy plugin /health odpowiada 'ok' (cTrader uruchomiony, port 9877 żyje)."""
+    try:
+        with urllib.request.urlopen(f"{base}/health", timeout=timeout) as r:
+            return json.loads(r.read().decode()).get("status") == "ok"
+    except Exception:
+        return False
+
+
 def _get_bars(base: str, symbol: str, tf: str, timeout: int = 90) -> list | None:
     qs = urllib.parse.urlencode({"symbol": symbol, "tf": tf, "from": FROM[tf], "to": "2030-01-01"})
     url = f"{base}/bars?{qs}"
@@ -60,7 +69,16 @@ def main() -> int:
     ap.add_argument("--out", default=os.path.join(HERE, "bars.json"))
     ap.add_argument("--no-push", action="store_true", help="nie commituj/pushuj")
     ap.add_argument("--no-dispatch", action="store_true", help="nie odpalaj workflow po pushu")
+    ap.add_argument("--force", action="store_true",
+                    help="pomiń pre-check /health i bezpiecznik pustki (wymuś nawet bez pluginu)")
     args = ap.parse_args()
+
+    # pre-flight: plugin MUSI żyć, inaczej nie nadpisuj dobrego bars.json pustką
+    # (harmonogram odpala się też gdy cTrader jest zamknięty — wtedy zwykły no-op).
+    if not args.force and not _plugin_ok(args.base):
+        print(f"cTrader/plugin na {args.base} nie odpowiada — pomijam "
+              f"(zostawiam ostatni bars.json). Wymuś: --force.")
+        return 0
 
     with open(os.path.join(HERE, "universe.json"), encoding="utf-8") as f:
         uni = json.load(f)
@@ -88,6 +106,11 @@ def main() -> int:
         if per_tf:
             out_bars[asset] = per_tf
             ok += 1
+
+    if ok == 0 and not args.force:
+        print("! Zero instrumentów z cTradera — NIE nadpisuję bars.json "
+              "(plugin padł w trakcie?).", file=sys.stderr)
+        return 1
 
     payload = {
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),

@@ -23,7 +23,8 @@ fetch_ctrader.py                          scan.py
 ```
 
 - **`fetch_ctrader.py`** (lokalny): ciągnie D1+H4 dla koszyka z pluginu cTrader
-  na koncie **1114770** (port 9877, endpoint `/bars`), zapisuje `bars.json`,
+  na koncie **1114771** (port 9877, endpoint `/bars`; OHLC niezależne od konta —
+  770 daje identyczne dane, ten sam broker), zapisuje `bars.json`,
   pushuje do repo i odpala workflow. Symbole cTrader w `universe.json` → pole
   `ctrader` (zweryfikowane live 23/24; **HG/miedź** nie istnieje na tym brokerze
   → spada na yfinance).

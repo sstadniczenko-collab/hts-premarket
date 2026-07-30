@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import html
+import re
 
 
 def _esc(s) -> str:
@@ -15,7 +16,10 @@ def _dir_arrow(direction: str) -> str:
 def _data_src_line(payload: dict) -> str:
     if payload.get("data_primary") == "ctrader":
         ts = payload.get("bars_generated") or "?"
-        return (f'Poziomy: <b class="src-ct">realny feed cTrader</b> (konto 1114770) · '
+        # numer konta z bars.json 'source' (np. "...acct 1114771") — nie hardcode
+        m = re.search(r"acct\s+(\d+)", payload.get("bars_source") or "")
+        acct = f" (konto {m.group(1)})" if m else ""
+        return (f'Poziomy: <b class="src-ct">realny feed cTrader</b>{acct} · '
                 f'snapshot {_esc(ts)} UTC · fallback yfinance dla braków')
     return 'Poziomy: <b class="src-yf">yfinance</b> (poglądowe — brak snapshotu cTrader; ≠ feed brokera)'
 

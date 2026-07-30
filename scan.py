@@ -242,6 +242,7 @@ def main() -> int:
         "fresh_bars": fresh_bars,
         "data_primary": "ctrader" if store else "yfinance",
         "bars_generated": store.get("generated_utc") if store else None,
+        "bars_source": store.get("source") if store else None,
         "news_enabled": news_count > 0,
         "strategy": strat,
         "armed": armed,

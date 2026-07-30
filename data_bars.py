@@ -7,7 +7,7 @@ poziomy = realny feed brokera. Brakujący symbol → None (scan spada na yfinanc
 Format bars.json:
 {
   "generated_utc": "2026-07-23 06:15:02",
-  "source": "ctrader 9877 acct 1114770",
+  "source": "ctrader 9877 acct 1114771",
   "bars": { "<asset>": { "d1": [[unixSec,o,h,l,c],...], "h4": [...] }, ... }
 }
 """

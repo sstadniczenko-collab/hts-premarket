@@ -33,7 +33,7 @@
   ],
   "_mapping_notes": {
     "ftmo": "Pole 'ftmo' = symbol dla display (z historii transakcji FTMO, SymbolFTMO). DXY/US10 = null bo FTMO ich nie oferuje.",
-    "ctrader": "Pole 'ctrader' = nazwa symbolu na koncie 1114770 (port 9877 /bars) — ŹRÓDŁO DANYCH dla poziomów (realny feed brokera zamiast yfinance). Zweryfikowane live 23/24. HG (miedź) = null: ten broker nie ma miedzi → HG spada na yfinance (HG=F). Ten broker MA USDX i US10YR (FTMO nie miał). yf zostaje jako fallback + źródło nagłówków do news.",
+    "ctrader": "Pole 'ctrader' = nazwa symbolu na koncie 1114771 (port 9877 /bars; ten sam broker co 1114770, OHLC identyczne) — ŹRÓDŁO DANYCH dla poziomów (realny feed brokera zamiast yfinance). Zweryfikowane live 23/24. HG (miedź) = null: ten broker nie ma miedzi → HG spada na yfinance (HG=F). Ten broker MA USDX i US10YR (FTMO nie miał). yf zostaje jako fallback + źródło nagłówków do news. UWAGA: port 9876 = integracja vtrade na 771 = NIE RUSZAĆ; bars idą z read-only 9877.",
     "ES35": "vtrade 'ES35' = Spain 35 / IBEX 35 (nie S&P). ES = S&P500.",
     "WBS": "vtrade asset WBS realnie handluje XTIUSD (WTI) wg historii transakcji → CL=F. Jeśli chcesz Brent, zmień na BZ=F.",
     "US10": "^TNX to rentowność 10Y ×10 (np. 45.4 = 4.54%). HTS liczy trend na serii — działa, ale to yield, nie cena obligacji.",

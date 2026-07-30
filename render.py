@@ -222,7 +222,7 @@ def _macro_reason(m: dict) -> str:
     voting = [d for d in drv if d.get("lean") in ("up", "down")]
     if voting:
         why = " · ".join(sorted({d.get("basis", "") for d in voting if d.get("basis")}))
-        return f"{why} · dowód {_esc(m.get('confidence', ''))}"
+        return _esc(f"{why} · dowód {m.get('confidence', '')}")
     susp = [d for d in drv if d.get("status") == "SUSPENDED"]
     if susp:
         return _esc(susp[0].get("basis", "sterownik zawieszony"))
@@ -299,8 +299,9 @@ def _macro_strip(payload: dict) -> str:
 
     insts = payload.get("instruments") or []
     speaking = [i for i in insts if (i.get("macro") or {}).get("lean") in ("up", "down", "conflict")]
+    loud = {i.get("asset") for i in speaking}
     # milczace, ale z powodem wartym pokazania (np. zloto: link zlamany)
-    silent = [i for i in insts if i not in speaking and i.get("macro")]
+    silent = [i for i in insts if i.get("asset") not in loud and i.get("macro")]
 
     rows = "".join(_macro_verdict_row(i) for i in speaking)
     if not rows:

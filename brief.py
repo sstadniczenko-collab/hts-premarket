@@ -142,10 +142,6 @@ def _fmt_dist(pl: dict) -> str:
     return f"{d:+.2f}%{tail} · {side}"
 
 
-_GRADE_PL = {"strong": "mocny", "practitioner": "praktyczny", "weak": "słaby"}
-_LEAN_PL = {"up": "w górę", "down": "w dół", "conflict": "sprzeczne"}
-
-
 def _macro_fundamental(state: dict | None) -> list[str]:
     """
     Warstwa fundamentalna (nie z ceny i wolumenu) — z macro_drivers.json.
@@ -154,7 +150,7 @@ def _macro_fundamental(state: dict | None) -> list[str]:
     """
     if not state:
         return []
-    reg, r = state.get("regime", {}), state.get("readings", {})
+    reg = state.get("regime", {})
     out = []
 
     credit = reg.get("D4_credit")

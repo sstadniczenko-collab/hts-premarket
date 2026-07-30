@@ -14,7 +14,8 @@ Design rules (see MACRO.md):
      read. This module must never raise into scan.py.
   4. No composite score. Each driver reports separately and the contract's
      grade travels with it. Weighted blends are explicitly rejected (R7).
-  5. Emits CODES, not prose. render.py owns the Polish wording.
+  5. Human-facing strings are Polish (every consumer in this repo is);
+     driver IDs, grades and status codes stay English.
 
 Stdlib only - no new entries in requirements.txt.
 """
@@ -37,6 +38,17 @@ _TIMEOUT = 20
 _CHANGE_WINDOW = 20      # trading days for a "recent change" read
 _CORR_WINDOW = 60        # trading days for rolling correlations
 _MOVE_EPS = 0.02         # 2% relative move = the floor for calling a direction
+
+# Kazdy konsument w tym repo (brief.py, render.py) mowi po polsku — wiec ciagi
+# 'basis' sa po polsku. Kody i ID sterownikow zostaja po angielsku.
+_PL_DIR = {"up": "rośnie", "down": "spada", "flat": "płasko", "unknown": "brak danych"}
+_PL_CREDIT = {"WIDENING": "rozszerzają się", "COMPRESSING": "zawężają się",
+              "STABLE": "stabilne", "unknown": "brak danych"}
+_PL_GATE = {"BROKEN": "ZŁAMANY", "ALIVE": "działa", "AMBIGUOUS": "niejednoznaczny", "unknown": "nieznany"}
+_PL_WIN = {"OPEN": "OTWARTE", "CLOSED": "zamknięte"}
+_PL_TS = {"CONTANGO": "contango (spokój)", "BACKWARDATION": "backwardation (stres)"}
+_PL_CURVE = {"INVERTED": "odwrócona", "POSITIVE": "dodatnia"}
+_PL_GRADE = {"strong": "mocny", "practitioner": "praktyczny", "weak": "słaby", "none": "—"}
 
 # Source chain per logical series: tried in order, first success wins.
 # kind: "fred" | "yahoo".  exact=True  -> same underlying series, 1:1 swap.
@@ -357,7 +369,7 @@ def _read_driver(driver: dict, state: dict) -> dict | None:
 
     if did == "D4":
         c = regime.get("D4_credit")
-        basis = f"HY OAS {c}"
+        basis = f"spready HY: {_PL_CREDIT.get(c, c)}"
         lean = {"WIDENING": "down", "COMPRESSING": "up"}.get(c, "neutral")
 
     elif did == "D2":
@@ -368,59 +380,59 @@ def _read_driver(driver: dict, state: dict) -> dict | None:
             # the gate could not be measured at all. Either way D2 does not
             # vote - but the reader is told which.
             if gate == "unknown":
-                why = "real-yield input unavailable - gate not measurable, D11 governs by default"
+                why = "brak danych o realnych rentownościach — nie da się zmierzyć; rządzi D11 (skup banków centralnych)"
             else:
-                why = f"gate {gate} (corr {regime.get('D2_corr')}) - D11 governs"
+                why = f"link realne rentowności→złoto: {_PL_GATE.get(gate, gate)} (korelacja {regime.get('D2_corr')}) — rządzi D11"
             return {"id": did, "name": driver["name"], "grade": driver["grade"],
                     "status": "SUSPENDED", "lean": "none", "basis": why,
                     "warning": driver.get("warning")}
         d = r.get("real_10y", {}).get("dir_20d")
-        basis = f"real 10y {d}"
+        basis = f"realne rentowności 10Y {_PL_DIR.get(d, d)}"
         lean = {"up": "down", "down": "up"}.get(d, "neutral")
 
     elif did == "D11":
         return {"id": did, "name": driver["name"], "grade": driver["grade"],
                 "status": "MANUAL", "lean": "none",
-                "basis": "official-sector tonnage is a quarterly manual read - see MACRO.md",
+                "basis": "skup banków centralnych — odczyt kwartalny, ręczny (MACRO.md)",
                 "warning": driver.get("warning")}
 
     elif did == "D1":
         d = r.get("usd_broad", {}).get("dir_20d")
-        basis = f"broad USD {d}"
+        basis = f"dolar (szeroki) {_PL_DIR.get(d, d)}"
         lean = {"up": "down", "down": "up"}.get(d, "neutral")
 
     elif did == "D3":
         w = regime.get("D3_safe_haven_window")
-        basis = f"safe-haven window {w} (corr {regime.get('D3_corr')})"
+        basis = f"okno safe-haven {_PL_WIN.get(w, w)} (korelacja złoto/S&P {regime.get('D3_corr')})"
         lean = "none"   # a state tag, never a direction - see R5
 
     elif did == "D6":
         d = r.get("nom_10y", {}).get("dir_20d")
-        basis = f"10y nominal {d}"
+        basis = f"rentowność 10Y {_PL_DIR.get(d, d)}"
         lean = {"up": "down", "down": "up"}.get(d, "neutral")
 
     elif did == "D15":
         d = r.get("usdjpy", {}).get("dir_20d")
-        basis = f"USD/JPY {d}"
+        basis = f"USD/JPY {_PL_DIR.get(d, d)}"
         lean = {"up": "up", "down": "down"}.get(d, "neutral")   # weak yen lifts Nikkei
 
     elif did == "D14":
         d = r.get("eurusd", {}).get("dir_20d")
-        basis = f"EUR/USD {d}"
+        basis = f"EUR/USD {_PL_DIR.get(d, d)}"
         lean = {"down": "up", "up": "down"}.get(d, "neutral")   # weak euro lifts exporters
 
     elif did == "D16":
         d = r.get("gbpusd", {}).get("dir_20d")
-        basis = f"GBP/USD {d}"
+        basis = f"GBP/USD {_PL_DIR.get(d, d)} (znak niestabilny — nie głosuje)"
         lean = "neutral"   # sign is unstable (Brexit flip) - reported, never votes
 
     elif did == "D18":
         ts = regime.get("D18_term_structure")
-        basis = f"term structure {ts}"
+        basis = f"struktura terminowa zmienności: {_PL_TS.get(ts, ts)}"
         lean = "none"      # carry, not direction
 
     elif did == "D5":
-        basis = f"curve {regime.get('D5_curve')}"
+        basis = f"krzywa {_PL_CURVE.get(regime.get('D5_curve'), '—')} (sygnał zawieszony od 2022)"
         return {"id": did, "name": driver["name"], "grade": driver["grade"],
                 "status": "SUSPENDED", "lean": "none", "basis": basis,
                 "warning": driver.get("warning")}
@@ -430,7 +442,7 @@ def _read_driver(driver: dict, state: dict) -> dict | None:
         # Reported as present-but-not-automated rather than silently dropped.
         return {"id": did, "name": driver["name"], "grade": driver["grade"],
                 "status": "NOT_AUTOMATED", "lean": "none",
-                "basis": driver.get("state_check", ""),
+                "basis": "sterownik nie zautomatyzowany (odczyt ręczny/kalendarz) — MACRO.md §8",
                 "warning": driver.get("warning")}
 
     if basis is None:
@@ -444,6 +456,64 @@ def _read_driver(driver: dict, state: dict) -> dict | None:
 # public surface
 # --------------------------------------------------------------------------
 
+def risk_state(state: dict) -> dict:
+    """
+    Jeden globalny odczyt nastroju: RISK_ON / RISK_OFF / MIXED / UNKNOWN.
+
+    Skladany z sygnalow, ktore sa dostepne. Uwaga na uczciwosc odczytu:
+    najmocniejszy skladnik to spready kredytowe (D4). Bez nich odczyt jest
+    slaby i jest tak oznaczony - nie udajemy pewnosci, ktorej nie ma.
+
+    VIX wchodzi tu tylko jako OPIS stanu (D3), nigdy jako prognoza (R3).
+    """
+    reg, r = state.get("regime", {}), state.get("readings", {})
+    on, off, used = 0, 0, []
+
+    credit = reg.get("D4_credit")
+    if credit == "WIDENING":
+        off += 2; used.append("spready rozszerzają się")
+    elif credit == "COMPRESSING":
+        on += 2; used.append("spready zawężają się")
+    elif credit == "STABLE":
+        used.append("spready stabilne")
+
+    vix = (r.get("vix") or {}).get("last")
+    if vix is not None:
+        if vix < 16:
+            on += 1; used.append(f"VIX {vix} spokojny")
+        elif vix > 22:
+            off += 1; used.append(f"VIX {vix} nerwowy")
+        else:
+            used.append(f"VIX {vix} neutralny")
+
+    ts = reg.get("D18_term_structure")
+    if ts == "CONTANGO":
+        on += 1; used.append("zmienność w contango")
+    elif ts == "BACKWARDATION":
+        off += 1; used.append("zmienność w backwardation")
+
+    if reg.get("D3_safe_haven_window") == "OPEN":
+        off += 1; used.append("okno safe-haven otwarte")
+
+    if on == 0 and off == 0:
+        label = "UNKNOWN"
+    elif on > off:
+        label = "RISK_ON"
+    elif off > on:
+        label = "RISK_OFF"
+    else:
+        label = "MIXED"
+
+    # Bez spreadow kredytowych odczyt jest slaby - mowimy to wprost.
+    strong = credit in ("WIDENING", "COMPRESSING", "STABLE")
+    return {
+        "label": label,
+        "confidence": "mocny" if strong else "słaby",
+        "why": used,
+        "missing_credit": not strong,
+    }
+
+
 def session_header(state: dict, contract: dict) -> dict:
     """
     The one-line macro backdrop CLAUDE.md asks for - as codes, so render.py
@@ -452,6 +522,7 @@ def session_header(state: dict, contract: dict) -> dict:
     r, regime = state["readings"], state["regime"]
     return {
         "asof": state["asof"],
+        "risk": risk_state(state),
         "vix": r.get("vix", {}).get("last"),
         "vix_dir_20d": r.get("vix", {}).get("dir_20d"),
         "usd_dir_20d": r.get("usd_broad", {}).get("dir_20d"),
@@ -526,7 +597,7 @@ def enrich(rows: list[dict], state: dict | None = None) -> int:
         row["macro"] = {
             "coverage": entry["coverage"],
             "lean": lean,
-            "confidence": {3: "strong", 2: "practitioner", 1: "weak", 0: "none"}[confidence],
+            "confidence": _PL_GRADE[{3: "strong", 2: "practitioner", 1: "weak", 0: "none"}[confidence]],
             "drivers": reads,
             "note": entry.get("note"),
             "warnings": [x["warning"] for x in reads if x.get("warning")],

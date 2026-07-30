@@ -95,6 +95,7 @@ def _plan_card(p: dict) -> str:
       </div>
       {_daily_block(p.get('daily'))}
       {_news_block(p.get('news'))}
+      {_macro_block(p.get('macro'))}
     </div>"""
 
 
@@ -202,49 +203,155 @@ def _news_block(news: dict | None) -> str:
             + '</div>')
 
 
+# --- warstwa makro: cztery kolory, cztery znaczenia, nic wiecej ------------
+_MACRO_VERDICT = {
+    "up":       ("🟢", "▲ SPRZYJA GÓRZE", "var(--up)",
+                 "long: pełny rozmiar · short: mniejszy, szybciej realizuj"),
+    "down":     ("🔴", "▼ SPRZYJA DOŁOWI", "var(--down)",
+                 "short: pełny rozmiar · long: mniejszy, szybciej realizuj"),
+    "conflict": ("🟡", "⇄ SPRZECZNE", "#d4a72d",
+                 "mniejszy rozmiar w obie strony"),
+    "none":     ("⚪", "— MILCZY", "var(--muted)",
+                 "graj jak zwykle — makro nie ma zdania"),
+}
+
+
+def _macro_reason(m: dict) -> str:
+    """Krotkie 'dlaczego' + ocena dowodu. Dla milczacych: powod milczenia."""
+    drv = m.get("drivers") or []
+    voting = [d for d in drv if d.get("lean") in ("up", "down")]
+    if voting:
+        why = " · ".join(sorted({d.get("basis", "") for d in voting if d.get("basis")}))
+        return f"{why} · dowód {_esc(m.get('confidence', ''))}"
+    susp = [d for d in drv if d.get("status") == "SUSPENDED"]
+    if susp:
+        return _esc(susp[0].get("basis", "sterownik zawieszony"))
+    # sterownik odczytany, ale bez wychylenia — to NIE jest "brak danych"
+    _read = ("SUSPENDED", "NOT_AUTOMATED", "MANUAL")
+    flat = [d for d in drv if d.get("lean") in ("neutral", "none")
+            and d.get("basis") and d.get("status") not in _read]
+    if flat:
+        return _esc(" · ".join(sorted({d["basis"] for d in flat})[:2]))
+    cov = m.get("coverage")
+    if cov == "STUB":
+        return "brak badań dla tego rynku"
+    if cov == "INPUT":
+        return "to jest wejście dla innych rynków, nie cel"
+    notauto = [d for d in drv if d.get("status") == "NOT_AUTOMATED"]
+    if notauto:
+        return "sterowniki wymagają odczytu ręcznego / kalendarza"
+    return "brak danych"
+
+
+def _macro_verdict_row(inst: dict) -> str:
+    m = inst.get("macro") or {}
+    dot, label, colour, action = _MACRO_VERDICT.get(m.get("lean", "none"),
+                                                    _MACRO_VERDICT["none"])
+    return (
+        f'<tr style="border-top:1px solid var(--line);">'
+        f'<td style="padding:6px 10px 6px 0;white-space:nowrap;">{dot} '
+        f'<b>{_esc(inst["asset"])}</b> <span class="muted">{_esc(inst["name"])}</span></td>'
+        f'<td style="padding:6px 10px 6px 0;color:{colour};white-space:nowrap;">'
+        f'<b>{_esc(label)}</b></td>'
+        f'<td style="padding:6px 10px 6px 0;" class="muted">{_macro_reason(m)}</td>'
+        f'<td style="padding:6px 0;white-space:nowrap;">{_esc(action)}</td></tr>'
+    )
+
+
+def _macro_block(m: dict | None) -> str:
+    """Werdykt makro wewnatrz karty setupu — wyraznie oddzielony od ENTRY/STOP."""
+    if not m:
+        return ""
+    dot, label, colour, action = _MACRO_VERDICT.get(m.get("lean", "none"),
+                                                    _MACRO_VERDICT["none"])
+    return (
+        f'<div style="margin-top:8px;padding-top:7px;border-top:1px dashed var(--line);'
+        f'font-size:12px;">'
+        f'<span class="muted">makro:</span> {dot} <b style="color:{colour};">{_esc(label)}</b>'
+        f'<div class="muted" style="font-size:11px;margin-top:3px;">{_esc(action)}</div>'
+        f'<div class="muted" style="font-size:10px;opacity:.7;margin-top:2px;">'
+        f'nie zmienia wejścia — zmienia rozmiar i trzymanie</div></div>'
+    )
+
+
 def _macro_strip(payload: dict) -> str:
     """
-    Pasek makro — warstwa fundamentalna (nie z ceny i wolumenu).
+    Panel makro — warstwa fundamentalna (nie z ceny i wolumenu).
 
-    Renderuje sie WYLACZNIE jako naglowek sesji, nad tabelami. Nigdy w wierszu
-    setupu obok ENTRY/STOP — tam czytaloby sie jak czesc triggera (MACRO.md §2).
+    Naglowek sesji nad tabelami: jeden globalny nastroj + werdykt per rynek.
+    Rynki milczace zwiniete — to, ze 21 milczy, jest samo w sobie informacja.
     """
     m = payload.get("macro")
     if not m:
         return ""
 
-    def chip(label, val, tone="n"):
-        if val in (None, "unknown"):
-            return ""
-        colors = {"g": "#1f6f43", "r": "#8b2f2f", "y": "#7a6220", "n": "#2a2f3a"}
-        return (f'<span style="display:inline-block;padding:3px 9px;margin:2px 4px 2px 0;'
-                f'border-radius:11px;background:{colors[tone]};font-size:12px;">'
-                f'{_esc(label)} <b>{_esc(val)}</b></span>')
+    risk = m.get("risk") or {}
+    r_lab = {"RISK_ON": ("🟢", "RISK-ON", "var(--up)"),
+             "RISK_OFF": ("🔴", "RISK-OFF", "var(--down)"),
+             "MIXED": ("🟡", "MIESZANY", "#d4a72d"),
+             "UNKNOWN": ("⚪", "NIEZNANY", "var(--muted)")}
+    r_dot, r_txt, r_col = r_lab.get(risk.get("label", "UNKNOWN"), r_lab["UNKNOWN"])
+    why = " · ".join(risk.get("why") or []) or "brak sygnałów"
+    conf = risk.get("confidence", "")
+    missing = ('<div style="color:#d4a72d;font-size:12px;margin-top:5px;">'
+               '⚠ stres kredytowy: BRAK DANYCH — to najmocniejszy sygnał tła, '
+               'dziś ciemny (patrz MACRO.md §5)</div>') if risk.get("missing_credit") else ""
 
-    tone_credit = {"WIDENING": "r", "COMPRESSING": "g", "STABLE": "y"}
-    chips = [
-        chip("Spready HY", m.get("credit"), tone_credit.get(m.get("credit"), "n")),
-        chip("Złoto/realne rent.", m.get("gold_regime"),
-             "r" if m.get("gold_regime") == "BROKEN" else "g"),
-        chip("Okno safe-haven", m.get("safe_haven_window"),
-             "y" if m.get("safe_haven_window") == "OPEN" else "n"),
-        chip("Struktura VIX", m.get("vol_term_structure")),
-        chip("VIX", m.get("vix")),
-        chip("US10Y", m.get("yield_10y")),
-    ]
-    warn = ('<span style="color:#c9a227;font-size:12px;"> ⚠ dane niepełne</span>'
-            if m.get("degraded") else "")
-    return (
-        '<div style="margin:14px 0 6px;padding:10px 12px;border:1px solid #2a2f3a;'
-        'border-radius:8px;background:#161a22;">'
-        '<div style="font-size:13px;opacity:.75;margin-bottom:6px;">'
-        f'🌍 <b>Kontekst makro</b> (fundament, nie cena){warn}</div>'
-        f'{"".join(c for c in chips if c)}'
-        '<div style="font-size:11px;opacity:.6;margin-top:7px;">'
-        'Kontekst selekcji / wielkości pozycji / trzymania — '
-        '<b>nigdy sygnał wejścia, nigdy weto dla setupu</b>. Zasady i źródła: MACRO.md'
-        '</div></div>'
-    )
+    insts = payload.get("instruments") or []
+    speaking = [i for i in insts if (i.get("macro") or {}).get("lean") in ("up", "down", "conflict")]
+    # milczace, ale z powodem wartym pokazania (np. zloto: link zlamany)
+    silent = [i for i in insts if i not in speaking and i.get("macro")]
+
+    rows = "".join(_macro_verdict_row(i) for i in speaking)
+    if not rows:
+        rows = ('<tr><td colspan="4" class="muted" style="padding:8px 0;">'
+                'Dziś makro nie ma zdania o żadnym rynku — graj setupy jak zwykle.</td></tr>')
+    silent_rows = "".join(_macro_verdict_row(i) for i in silent)
+
+    return f"""
+  <div style="margin:16px 0 10px;padding:12px 14px;border:1px solid var(--line);
+              border-radius:10px;background:var(--panel);">
+    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+      <div style="font-size:14px;"><b>🌍 KONTEKST MAKRO</b>
+        <span class="muted" style="font-size:12px;">fundament, nie cena</span></div>
+      <div style="margin-left:auto;font-size:18px;color:{r_col};">
+        {r_dot} <b>{_esc(r_txt)}</b>
+        <span class="muted" style="font-size:12px;">odczyt {_esc(conf)}</span></div>
+    </div>
+    <div class="muted" style="font-size:12px;margin-top:4px;">{_esc(why)}</div>
+    {missing}
+
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:12px;">
+      <thead><tr class="muted" style="font-size:11px;text-align:left;">
+        <th style="padding-bottom:4px;">RYNEK</th><th>MAKRO MÓWI</th>
+        <th>DLACZEGO</th><th>CO Z TYM ZROBIĆ</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+
+    <details style="margin-top:10px;">
+      <summary class="muted" style="cursor:pointer;font-size:12px;">
+        ⚪ pozostałe {len(silent)} rynków — makro milczy (rozwiń)</summary>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;">
+        <tbody>{silent_rows}</tbody></table>
+    </details>
+
+    <details style="margin-top:8px;">
+      <summary class="muted" style="cursor:pointer;font-size:12px;">co to znaczy? (legenda)</summary>
+      <div class="muted" style="font-size:12px;margin-top:6px;line-height:1.7;">
+        🟢 <b>SPRZYJA GÓRZE</b> — fundament wspiera stronę long.<br>
+        🔴 <b>SPRZYJA DOŁOWI</b> — fundament wspiera stronę short.<br>
+        🟡 <b>SPRZECZNE</b> — sterowniki idą przeciw sobie; mniejszy rozmiar w obie strony.<br>
+        ⚪ <b>MILCZY</b> — brak danych albo brak badań dla tego rynku. Graj jak zwykle.<br><br>
+        <b>Ta warstwa nigdy nie mówi „wchodź" ani „nie graj".</b> Mówi, co wybrać,
+        ile wziąć i jak długo trzymać. Wejścia zostają w logice HTS.
+        Może tylko <b>odejmować</b> (mniejszy rozmiar, szybsza realizacja) — nigdy
+        blokować setupu: weto z nieudowodnionej warstwy kasuje realnych wygranych.<br><br>
+        <b>dowód mocny / praktyczny / słaby</b> = siła dowodu naukowego za danym
+        sterownikiem, nie pewność co do dzisiejszej sesji.
+        Źródła i pełne zasady: <b>MACRO.md</b> (18 sterowników, 57 źródeł pierwotnych).
+      </div>
+    </details>
+  </div>"""
 
 
 def _fresh_card(f: dict) -> str:

@@ -252,7 +252,8 @@ def main() -> int:
             pl = d.get("plan") if d.get("ok") else None
             if pl and pl.get("status") in ("in_zone", "armed"):
                 armed.append({"asset": r["asset"], "name": r["name"], "ftmo": r.get("ftmo"),
-                              "tf": tf, "daily": r.get("daily"), "news": r.get("news"), **pl})
+                              "tf": tf, "daily": r.get("daily"), "news": r.get("news"),
+                              "macro": r.get("macro"), **pl})
     # najpierw w strefie, potem najbliżej linii wejścia
     armed.sort(key=lambda x: (_rank.get(x["status"], 9), abs(x.get("dist_to_entry_pct") or 0)))
 

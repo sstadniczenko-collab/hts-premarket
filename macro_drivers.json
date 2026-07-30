@@ -1,0 +1,685 @@
+{
+  "_comment": "Kontrakt makro dla hts-premarket. Sterowniki fundamentalne (nie-cenowe) zmapowane na kody assetow z universe.json. Kazdy sterownik ma ocene dowodu, wielkosc efektu z probka, warunek zlamania rezimu i zrodlo. NIE sa to sygnaly wejscia. Patrz MACRO.md.",
+  "schema_version": "1.0",
+  "meta": {
+    "purpose": "Graded, sourced macro drivers for the premarket macro header. Selection / sizing / hold context only.",
+    "research_asof": "2026-07-20",
+    "endpoints_verified": "2026-07-13",
+    "evidence_base": "57 primary full-text sources across 20 driver packets",
+    "hard_rule": "No driver in this file is an entry trigger. Entries belong to hts_logic.py. See MACRO.md section 2.",
+    "grade_scale": {
+      "STRONG": "academic + practitioner converge, clean magnitude, mechanism identified",
+      "PRACTITIONER": "coherent mechanism + consensus, proof mixed or regime-dependent",
+      "WEAK": "thin, contested, or holds only in a narrow regime",
+      "DECAYED": "was real, faded in recent data - do not revive"
+    },
+    "status_scale": {
+      "ALIVE": "relationship holding in recent data as of research_asof",
+      "BROKEN": "relationship is currently failing - do NOT act on its sign",
+      "CONDITIONAL": "sign depends on a named regime state that must be read first"
+    },
+    "layer_note": "grade/magnitude/citations are CONTRACT (slow, curated, change only on new evidence). status is STATE (fast) - the shipped value is a research snapshot at research_asof; recompute it via state_check and write results to macro_state.json. Never edit status here from a computed reading."
+  },
+
+  "sources": {
+    "FRED_CSV": {
+      "endpoint": "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}",
+      "auth": "none",
+      "note": "Use the CSV endpoint. The JSON API at api.stlouisfed.org requires a key and returns 400 without one.",
+      "verified": "2026-07-13"
+    },
+    "CFTC_SOCRATA": {
+      "endpoint": "https://publicreporting.cftc.gov/resource/{dataset}.json",
+      "auth": "none",
+      "datasets": {
+        "legacy": "6dca-aqww",
+        "disaggregated": "72hh-3qpy",
+        "traders_in_financial_futures": "gpe5-46if"
+      },
+      "note": "Keyless and filterable, e.g. ?commodity_name=GOLD. A free app token only removes throttling.",
+      "verified": "2026-07-13"
+    },
+    "YAHOO_V8": {
+      "endpoint": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?interval=1d&range=5d",
+      "auth": "none (browser UA required)",
+      "note": "Already used by data_yf.py. Unofficial and rate-limited; retry with backoff.",
+      "verified": "2026-07-13"
+    },
+    "MANUAL": {
+      "endpoint": null,
+      "auth": "n/a",
+      "note": "No free API exists. A human or an agent reads the release. Monthly or less frequent."
+    }
+  },
+
+  "dead_endpoints": [
+    {"id": "DX=F", "where": "Yahoo", "status": "returns null", "use_instead": "DX-Y.NYB (already in universe.json)"},
+    {"id": "DFII05", "where": "FRED", "status": "discontinued", "use_instead": "DFII10"},
+    {"id": "NAPM", "where": "FRED", "status": "discontinued (ISM licensing)", "use_instead": "DBnomics ISM/pmi, or ismworld.org release"},
+    {"id": "NMFCI", "where": "FRED", "status": "never existed", "use_instead": "ISM Services release"},
+    {"id": "api.stlouisfed.org/fred/series/observations", "where": "FRED", "status": "400 without API key", "use_instead": "fredgraph.csv (keyless)"}
+  ],
+
+  "drivers": [
+    {
+      "id": "D9",
+      "name": "Central-bank policy surprise -> risk tide",
+      "grade": "STRONG",
+      "status": "ALIVE",
+      "mechanism": "Markets reprice only the UNANTICIPATED component of a policy move; the anticipated part is already in the price. Transmission is mostly via the equity risk premium, not the risk-free rate.",
+      "inputs": [
+        {"source": "MANUAL", "series": "FOMC / ECB / BoJ / BoE calendar + CME FedWatch implied path", "frequency": "8x per year per bank"},
+        {"source": "FRED_CSV", "series": "DFF", "frequency": "daily", "role": "realised policy rate"}
+      ],
+      "targets": ["ES", "NQ", "YM", "ES35", "DAX", "F40", "FESX", "FTSE", "NIKKEI", "HS", "GC", "BTC", "ETH"],
+      "sign": "hawkish surprise -> risk down; dovish surprise -> risk up. Anticipated component -> no effect.",
+      "magnitude": {
+        "value": "~1% S&P per 25bp target surprise",
+        "detail": "target factor -4.3% per 1pp; path/statement factor ~-1% per 1pp on equities but moves 5-10y yields 3-10x more",
+        "sample": "event-day regressions, R^2 0.12 daily to 0.35 intraday",
+        "period": "1989-2004, two independent methods"
+      },
+      "regime_holds": "always - the target/path lens is still the standard framework",
+      "regime_breaks": "composition shifts: post-1994 the path/statement factor dominates because rate decisions themselves rarely surprise",
+      "decay": "not decayed; core magnitude never overturned",
+      "use": ["selection", "size", "blackout"],
+      "never": ["entry_trigger"],
+      "state_check": "Compare next scheduled meeting against CME FedWatch implied probability. A >20pp gap between market pricing and consensus = elevated surprise risk.",
+      "citations": [
+        "Bernanke & Kuttner (2005), Journal of Finance 60(3)",
+        "Gurkaynak, Sack & Swanson (2005), International Journal of Central Banking 1(1)"
+      ]
+    },
+    {
+      "id": "D4",
+      "name": "Credit spreads (HY OAS / excess bond premium) -> equities",
+      "grade": "STRONG",
+      "status": "ALIVE",
+      "mechanism": "Widening spreads signal deteriorating balance sheets and shrinking intermediary risk-bearing capacity - a credit-supply contraction that raises the cost of external finance ahead of cuts to investment and output. Stress appears in credit before equity admits it.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "BAMLH0A0HYM2", "frequency": "daily", "role": "US high-yield option-adjusted spread"}
+      ],
+      "targets": ["ES", "NQ", "YM", "ES35", "DAX", "F40", "FESX", "FTSE", "NIKKEI", "HS"],
+      "sign": "widening -> equity headwind; compressing/falling -> corroborates risk-on continuation",
+      "magnitude": {
+        "value": "~20bp excess-bond-premium shock -> ~7pp cumulative equity decline vs trend",
+        "detail": "100bp GZ-spread rise -> >1.25pp GDP deceleration over 4 quarters; EBP shocks explain >10% of output variance",
+        "sample": "monthly bond-level, adj R^2 0.369 on 4Q-ahead GDP growth",
+        "period": "1973-2010 (GZ); corroborated 1985-1999 (Gertler-Lown, corr -0.8 at 6Q lead)"
+      },
+      "regime_holds": "post-mid-1980s, once a real below-investment-grade market existed. Robust across 1990-91, 2001, 2007-09.",
+      "regime_breaks": "no known break. Traditional default-risk spreads (Baa-Aaa, CP-bill) lost forecasting power over the same period HY/GZ gained it.",
+      "decay": "alive - the Fed publishes the EBP series monthly to present",
+      "use": ["selection", "size", "hold"],
+      "never": ["entry_trigger", "day_timing"],
+      "state_check": "20-day change in BAMLH0A0HYM2. Widening >10% over 20d with equities flat or up = divergence worth flagging.",
+      "citations": [
+        "Gilchrist & Zakrajsek (2012), American Economic Review 102(4)",
+        "Gertler & Lown (2000), NBER WP 7549 / Oxford Review of Economic Policy 15(3)"
+      ]
+    },
+    {
+      "id": "D15",
+      "name": "USD/JPY -> Nikkei (weak-yen exporter lift)",
+      "grade": "STRONG",
+      "status": "ALIVE",
+      "mechanism": "Japan's largest listed firms are major exporters. Yen depreciation raises the yen value of USD revenue and improves competitiveness, lifting an export-dominated index.",
+      "inputs": [
+        {"source": "YAHOO_V8", "series": "JPY=X", "frequency": "daily", "role": "USD/JPY spot"}
+      ],
+      "targets": ["NIKKEI"],
+      "sign": "yen weaker (USD/JPY up) -> Nikkei up",
+      "magnitude": {
+        "value": "1% yen depreciation -> +0.63% to +1.12% on the aggregate index",
+        "detail": "exposure 0.631 (2001-2012) roughly doubled to 1.117 (2013-2018) post-Abenomics; firm-level residual ~0.52",
+        "sample": "aggregate market exposure regressions; 227 exporters at firm level",
+        "period": "2001-2018"
+      },
+      "regime_holds": "across two periods and two methods; strengthening rather than fading",
+      "regime_breaks": "BoJ's 2024 exit from negative rates and YCC is an emerging regime-change risk - flagged, not confirmed",
+      "decay": "alive through 2018 sample end; strongest FX-to-index link on this board",
+      "use": ["selection", "size", "hold"],
+      "never": ["entry_trigger"],
+      "state_check": "20-day change in USD/JPY. Confirm the Nikkei lean agrees with the yen direction; a disagreement is worth flagging, not overriding.",
+      "citations": [
+        "Thorbecke (2022), RIETI DP 22-E-003 / Japan and the World Economy",
+        "Ito, Koibuchi, Sato & Shimizu (2016), NBER WP 21040"
+      ]
+    },
+    {
+      "id": "D19",
+      "name": "Silver = leveraged asymmetric gold + industrial demand",
+      "grade": "STRONG",
+      "status": "ALIVE",
+      "mechanism": "Silver tracks gold's monetary and safe-haven demand with amplified, asymmetric moves, while carrying an industrial-cyclical component gold lacks - now the majority of its demand.",
+      "inputs": [
+        {"source": "YAHOO_V8", "series": "GC=F", "frequency": "daily", "role": "gold, the driving leg"},
+        {"source": "MANUAL", "series": "Silver Institute World Silver Survey (industrial demand)", "frequency": "annual"}
+      ],
+      "targets": ["SI"],
+      "sign": "same direction as gold, amplified; plus an independent industrial-cycle component",
+      "magnitude": {
+        "value": "beta to gold ~1.3, volatility ~2x gold",
+        "detail": "shock asymmetry gold->silver ~1.25% vs silver->gold ~0.07%; industrial demand 59% of consumption (2024), up from ~51% a decade earlier; solar PV 11% -> 29% of industrial demand",
+        "sample": "long-term beta clustering; shock asymmetry 1987-2012",
+        "period": "1971-2024 across sources"
+      },
+      "regime_holds": "silver lags gold on the initial risk-off leg (haven flows favour gold first), catches up or overshoots in reflation legs",
+      "regime_breaks": "industrial tilt adds cyclical sensitivity gold lacks - in a growth scare silver can fall while gold rises",
+      "decay": "not decayed - strengthening; industrial share rising",
+      "use": ["selection", "size", "hold"],
+      "never": ["entry_trigger"],
+      "state_check": "Read gold's own driver state first (D2+D11), then apply beta. Check whether the current leg is monetary (silver follows) or cyclical (silver diverges).",
+      "citations": [
+        "Burnette & De Pessemier (2026), World Gold Council",
+        "Silver Institute, World Silver Survey 2025",
+        "Vigne, Lucey, O'Connor & Yarovaya (2017), International Review of Financial Analysis 52"
+      ]
+    },
+    {
+      "id": "D11",
+      "name": "Central-bank gold buying + physical/ETF flows -> gold",
+      "grade": "STRONG",
+      "status": "ALIVE",
+      "mechanism": "Central banks buy gold for reserve diversification and sanctions insurance - gold can be vaulted outside the sanctioning system, unlike FX reserves that can be frozen. This buying is largely price-insensitive, so it persists even as real yields rise. It is the documented override of D2.",
+      "inputs": [
+        {"source": "MANUAL", "series": "World Gold Council Gold Demand Trends (tonnage)", "frequency": "quarterly"}
+      ],
+      "targets": ["GC"],
+      "sign": "sustained >1000t/yr official-sector buying -> structural bid under gold that can override the real-yield link",
+      "magnitude": {
+        "value": "2022 ~1082-1136t, 2023 ~1037-1051t, 2024 ~1045t vs a 2010-2021 average of ~473-500t/yr",
+        "detail": "gold's share of aggregate international reserves rose 9% (2008) to 16% (2024); sanctions raise a country's gold-reserve share ~2pp and volume ~130t",
+        "sample": "country panel 2012-2023; 14 EM active diversifiers identified 1999-2021",
+        "period": "1999-2024"
+      },
+      "regime_holds": "post-2022, intensifying - the three highest official-buying years on record are consecutive",
+      "regime_breaks": "unknown - both primary sources frame it as a structural post-GFC shift, not a one-off shock",
+      "decay": "alive and intensifying through 2024",
+      "use": ["selection", "hold"],
+      "never": ["entry_trigger", "day_timing"],
+      "state_check": "Latest WGC quarterly tonnage vs the ~500t/yr pre-2022 baseline. Above it, treat D2's sign as suspended.",
+      "citations": [
+        "Arslanalp, Eichengreen & Simpson-Bell (2023), IMF WP/23/14",
+        "Weiss (2025), Fed IFDP No. 1420"
+      ],
+      "warning": "The circulating claim that CB buying explains 10-15% of the 2022-24 move could NOT be traced to a primary source. It is a practitioner estimate, not a finding. Do not render it as a number."
+    },
+    {
+      "id": "D2",
+      "name": "Real yields (10Y TIPS) -> gold (opportunity cost)",
+      "grade": "STRONG",
+      "status": "BROKEN",
+      "mechanism": "Gold pays no coupon, so the real 10Y yield is its opportunity cost. Rising real yields make bonds and cash relatively more attractive and push gold down.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "DFII10", "frequency": "daily", "role": "10Y TIPS real yield"}
+      ],
+      "targets": ["GC"],
+      "sign": "real yields up -> gold down (INVERTED - and currently not holding, see status)",
+      "magnitude": {
+        "value": "1pp rise in real 10Y -> -13.1% real gold price (annual levels)",
+        "detail": "-3.4% per 1pp on quarterly innovations; daily TIPS coefficient -0.011; correlation of real yield vs real gold price -0.82 (US monthly 1997-2012), falling to -0.31 on a longer UK robustness sample",
+        "sample": "three independent specifications, all negative and significant",
+        "period": "1971-2021"
+      },
+      "regime_holds": "cleanly ~2001-2021. The negative co-movement does not appear before 2001.",
+      "regime_breaks": "BROKE 2022-2024. The ~-0.73 rolling 12-month correlation collapsed to ~+0.03 as gold rose WITH rising real yields, overridden by D11.",
+      "decay": "structurally intact and expected to reassert once the override fades, but a multi-year override is exactly what a position-holder feels",
+      "use": ["selection", "hold"],
+      "never": ["entry_trigger", "standalone_gold_signal"],
+      "state_check": "MANDATORY PAIRING. Compute the rolling 12-month correlation between DFII10 and gold. If it is not solidly negative, D2 is suspended and D11 governs. Never emit a gold lean from D2 alone.",
+      "citations": [
+        "Erb & Harvey (2013), NBER WP 18706 / Financial Analysts Journal 69(4)",
+        "Barsky, Epstein, Lafont-Mueller & Yoo (2021), Chicago Fed Letter No. 464"
+      ],
+      "warning": "This is the single driver an LLM is most likely to get wrong from pretraining. The textbook relationship has been failing for three years. Never hard-code the pre-2022 sign."
+    },
+    {
+      "id": "D18",
+      "name": "VIX term structure -> volatility carry (NOT a VIX forecast)",
+      "grade": "STRONG",
+      "status": "ALIVE",
+      "mechanism": "The slope between spot VIX and 3-month VIX reflects a variance risk premium - compensation for tail risk - not the expected path of spot VIX. Contango predicts positive carry for short-vol positions; it does not predict that VIX will fall.",
+      "inputs": [
+        {"source": "YAHOO_V8", "series": "^VIX", "frequency": "daily"},
+        {"source": "YAHOO_V8", "series": "^VIX3M", "frequency": "daily"}
+      ],
+      "targets": ["VX"],
+      "sign": "contango (VIX < VIX3M) -> short-vol carry positive; deep backwardation -> carry flips",
+      "magnitude": {
+        "value": "-1.70% to -0.72% per day across maturities (variance swaps)",
+        "detail": "1pp of basis -> ~79bp next-month futures move; a hedged short-contango / long-backwardation strategy ~20%/yr at 5x margin, robust to costs and to excluding 2008-09",
+        "sample": "33 of 36 regressions significant across 18 vol assets",
+        "period": "1996-2013, two independent providers"
+      },
+      "regime_holds": "broadly; magnitude survives excluding the 2008-09 crisis",
+      "regime_breaks": "flips in the deepest-backwardation quintile - extreme stress",
+      "decay": "confirmed through 2013; no post-2013 test located. Structural risk premium, not an obvious arbitrage.",
+      "use": ["selection", "size"],
+      "never": ["entry_trigger", "vix_direction_forecast"],
+      "state_check": "sign of (VIX3M - VIX). Positive = contango.",
+      "citations": [
+        "Johnson (2017), Journal of Financial and Quantitative Analysis 52(6)",
+        "Simon & Campasano (2014), Journal of Derivatives 21(3)"
+      ],
+      "warning": "Contango does NOT mean 'VIX will fall'. That specific claim is explicitly unsupported by both primary sources."
+    },
+    {
+      "id": "D1",
+      "name": "US dollar -> gold (denominator) and global risk",
+      "grade": "PRACTITIONER",
+      "status": "ALIVE",
+      "mechanism": "Gold is quoted and mostly traded in USD, so broad dollar depreciation mechanically lifts the USD gold price. Dollar weakness also coincides with looser global financial conditions.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "DTWEXBGS", "frequency": "daily", "role": "broad trade-weighted USD"},
+        {"source": "YAHOO_V8", "series": "DX-Y.NYB", "frequency": "daily", "role": "DXY spot - already in universe.json as asset DXY"}
+      ],
+      "targets": ["GC", "SI", "PL", "HG", "PA", "WBS"],
+      "sign": "USD up -> commodities/gold headwind (INVERTED)",
+      "magnitude": {
+        "value": "average gold-beta ~-0.15 across 7 currencies",
+        "detail": "all coefficients significant (JPY -0.14 t=-5.46; CHF -0.24 t=-8.85) but R^2 only 6-15%. The authors' own verdict: 'little connection between currency returns and gold returns.'",
+        "sample": "monthly, N~450",
+        "period": "1975-2012"
+      },
+      "regime_holds": "sign consistently negative across the whole 1975-2022 window",
+      "regime_breaks": "never clean - low R^2 is stable, not a recent fade. Gold rose in nearly every currency simultaneously 1975-2022.",
+      "decay": "not decayed - the linkage is definitional",
+      "use": ["selection"],
+      "never": ["entry_trigger", "sizing_input"],
+      "state_check": "20-day change in DTWEXBGS.",
+      "citations": [
+        "Erb & Harvey (2013), NBER WP 18706",
+        "Arslanalp, Eichengreen & Simpson-Bell (2023), IMF WP/23/14"
+      ],
+      "warning": "R^2 below 15% means this is a directional check only. Too noisy to size on alone."
+    },
+    {
+      "id": "D3",
+      "name": "Risk regime - gold/equity correlation sign, VIX as state",
+      "grade": "PRACTITIONER",
+      "status": "CONDITIONAL",
+      "mechanism": "Gold is a hedge (near-zero or negative correlation with equities on average) but a true safe haven - sharply negative co-movement - ONLY in the extreme left tail of equity returns. VIX is overwhelmingly a contemporaneous mirror of the current move, not a forecast of the next one.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "VIXCLS", "frequency": "daily"},
+        {"source": "YAHOO_V8", "series": "GC=F", "frequency": "daily", "role": "for the rolling gold-equity correlation"},
+        {"source": "YAHOO_V8", "series": "^GSPC", "frequency": "daily", "role": "for the rolling gold-equity correlation"}
+      ],
+      "targets": ["GC", "ES", "NQ", "YM", "DAX", "FTSE", "NIKKEI"],
+      "sign": "in the equity tail only: gold up while equities down. Outside the tail: correlation near zero or positive.",
+      "magnitude": {
+        "value": "tail effect at the 1% quantile: US -0.018, UK -0.296, Germany -0.073",
+        "detail": "bull-to-bear correlation shift of 0.1-0.3; the safe-haven bid is gone within ~15 trading days of a shock",
+        "sample": "daily MSCI; ARMA-GARCH-X across 5 markets",
+        "period": "1978-2009, replicated through 2011 including the GFC"
+      },
+      "regime_holds": "bear markets, recessions, extreme-tail shocks",
+      "regime_breaks": "bull and calm regimes - correlation is near-zero or positive. UK stayed at +0.13 to +0.15 across the whole sample.",
+      "decay": "not decayed, but short-lived by nature - ~15 trading days",
+      "use": ["selection"],
+      "never": ["entry_trigger", "standing_inverse_rule", "vix_direction_forecast"],
+      "state_check": "Rolling 60-day correlation of GC=F vs ^GSPC returns, plus the VIX level. Only a solidly negative correlation AND an elevated VIX puts you in the safe-haven window.",
+      "citations": [
+        "Baur & Lucey (2010), Financial Review 45",
+        "Coudert & Raymond-Feingold (2011), Economics Bulletin 31(2)",
+        "Hibbert, Daigler & Dupoyet (2008), Journal of Banking & Finance 32"
+      ],
+      "warning": "A STANDING 'gold up therefore short equities' rule is wrong most of the year. The opposition is real only in the tail and it decays inside three weeks. Also: VIX same-day R^2 is 42-78% vs an order of magnitude weaker one day later - it describes, it does not predict."
+    },
+    {
+      "id": "D6",
+      "name": "10Y nominal yield -> growth/tech equity (duration lever)",
+      "grade": "PRACTITIONER",
+      "status": "ALIVE",
+      "mechanism": "Growth and tech value sits mostly in distant cash flows. Discounting those at a higher 10Y shrinks their present value disproportionately versus value and cyclicals. Formally, bond duration applied to equities.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "DGS10", "frequency": "daily"},
+        {"source": "YAHOO_V8", "series": "^TNX", "frequency": "daily", "role": "already in universe.json as asset US10"}
+      ],
+      "targets": ["NQ", "ES"],
+      "sign": "10Y up -> growth/tech headwind (INVERTED), strongest on NQ",
+      "magnitude": {
+        "value": "Nasdaq -35% vs S&P-ex-tech -20% over Jan to mid-Oct 2022",
+        "detail": "structurally, high-duration stocks earn 1.10%/month less than short-duration cross-sectionally; equity duration correlates -0.67/-0.79 with book-to-market",
+        "sample": "3,016 firms in the 2022 study; cross-sectional 1963-2014",
+        "period": "1963-2022"
+      },
+      "regime_holds": "regime-general - any rising-discount-rate period",
+      "regime_breaks": "size scales with how sharp the rate move is and how priced-for-perfection the growth premium is. 2022 was uniquely sharp.",
+      "decay": "not decayed - 2022 is the strongest confirmation on record; the duration math is definitional",
+      "use": ["selection", "size"],
+      "never": ["entry_trigger"],
+      "state_check": "20-day change in DGS10. Use it to weight NQ against YM/ES, not to call direction alone.",
+      "citations": [
+        "Dechow, Sloan & Soliman (2004), Review of Accounting Studies 9",
+        "Weber (2018), Journal of Financial Economics 128(3)",
+        "Kim, Nissim & Song (2024), Columbia Business School WP"
+      ]
+    },
+    {
+      "id": "D7",
+      "name": "Inflation surprise (CPI/PCE) -> US 10Y yield",
+      "grade": "PRACTITIONER",
+      "status": "CONDITIONAL",
+      "mechanism": "Nominal 10Y = real yield + breakeven inflation compensation. CPI surprises move the long end by updating expected inflation and, secondarily, the risk premium. The SIZE of that pass-through depends entirely on whether inflation is currently salient.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "T10YIE", "frequency": "daily", "role": "10Y breakeven"},
+        {"source": "FRED_CSV", "series": "DGS10", "frequency": "daily"},
+        {"source": "MANUAL", "series": "CPI release calendar + consensus", "frequency": "monthly"}
+      ],
+      "targets": ["US10", "NQ", "ES", "GC"],
+      "sign": "upside CPI surprise -> yields up -> growth-equity and gold headwind. Magnitude is regime-dependent, not a fixed beta.",
+      "magnitude": {
+        "value": "~0.6bp per 1-SD CPI surprise in 2009-2020 vs ~4.5bp in 2021-2023 - a ~7x jump",
+        "detail": "two-thirds of the rise came from expected-rate and inflation-expectation updating, one-third from risk premia. Unmatched by any of the other 15 releases tested.",
+        "sample": "166 CPI events",
+        "period": "2009-2023"
+      },
+      "regime_holds": "when inflation is salient and attention is on it",
+      "regime_breaks": "negligible and statistically insignificant when inflation is quiescent",
+      "decay": "the Fisher mechanism is permanent; the pass-through MAGNITUDE decays toward zero whenever inflation stops being front-of-mind",
+      "use": ["blackout", "size"],
+      "never": ["entry_trigger", "fixed_beta"],
+      "state_check": "Read the current inflation regime before weighting a CPI day. High and volatile T10YIE = salient regime = weight CPI day risk up sharply.",
+      "citations": [
+        "Fleming & Remolona (1997), FRBNY Economic Policy Review 3(4)",
+        "Gurkaynak, Sack & Wright (2008), FEDS / AEJ:Macro",
+        "Kroner (2025), FEDS 2025-022"
+      ]
+    },
+    {
+      "id": "D14",
+      "name": "EUR/USD -> DAX and the European export indices",
+      "grade": "PRACTITIONER",
+      "status": "ALIVE",
+      "mechanism": "DAX firms are heavily export-weighted (~77% of DAX revenue earned abroad). A weaker euro raises the home-currency value of USD-denominated export revenue. The same export channel extends to CAC, Euro Stoxx and IBEX, which is why they are listed as inherited targets.",
+      "inputs": [
+        {"source": "YAHOO_V8", "series": "EURUSD=X", "frequency": "daily"}
+      ],
+      "targets": ["DAX", "F40", "FESX", "ES35"],
+      "sign": "euro weaker -> export-index tailwind (INVERTED)",
+      "magnitude": {
+        "value": "10% DM depreciation vs USD -> +1.4% to +1.7% average DAX-constituent return",
+        "detail": "common exposure 0.139-0.172, significant; export-share coefficient 6.84 - 1pp more export share adds 0.07 to exposure",
+        "sample": "28 DAX firms, monthly",
+        "period": "1977-1995 (dollar); 2014-2018 (euro-cross robustness)"
+      },
+      "regime_holds": "when the export channel dominates",
+      "regime_breaks": "FLIPS. DAX-dollar exposure went NEGATIVE 1980-85 during the strong-dollar recession (-0.308) before returning to +0.447 by 1991-95. DAX-GBP/EUR exposure weakened after Brexit.",
+      "decay": "mechanism alive as of 2022 revenue data; the last clean econometric coefficient is from 1995. No modern EUR/USD-DAX regression located.",
+      "use": ["selection"],
+      "never": ["entry_trigger", "sizing_input"],
+      "state_check": "20-day change in EUR/USD. Treat as a same-direction supporting factor only.",
+      "citations": [
+        "Entorf & Jamin (2003/2007), German Economic Review 8(3)",
+        "Andrikopoulos, Dassiou & Zheng (2020), International Review of Financial Analysis 68"
+      ],
+      "warning": "F40, FESX and ES35 are INHERITED from the shared export mechanism, not independently measured. Grade them one step below DAX."
+    },
+    {
+      "id": "D16",
+      "name": "GBP/USD -> FTSE 100 (overseas earners)",
+      "grade": "PRACTITIONER",
+      "status": "CONDITIONAL",
+      "mechanism": "About 75-80% of FTSE 100 revenue is earned outside the UK. A weaker pound raises the sterling-translated value of that foreign revenue.",
+      "inputs": [
+        {"source": "YAHOO_V8", "series": "GBPUSD=X", "frequency": "daily"}
+      ],
+      "targets": ["FTSE"],
+      "sign": "pound weaker -> FTSE tailwind (INVERTED) - but the realised sign is unstable, see regime_breaks",
+      "magnitude": {
+        "value": "no stable statistical beta - the sign itself flips",
+        "detail": "overseas revenue share ~75-80%, confirmed by two sources nine years apart. But market-level FX exposure flipped from significantly POSITIVE pre-Brexit (2014-16) to significantly NEGATIVE post-Brexit (2016-18), net insignificant full-sample.",
+        "sample": "market-level exposure regressions",
+        "period": "2014-2018"
+      },
+      "regime_holds": "when the translation channel dominates",
+      "regime_breaks": "demonstrated sign flip around Brexit. The study used GBP/EUR, not GBP/USD; UK-US rate differentials are a possible confound.",
+      "decay": "revenue-share mechanism alive through 2022; statistical evidence only to 2018",
+      "use": ["selection"],
+      "never": ["entry_trigger", "sizing_input"],
+      "state_check": "Do not emit a FTSE lean from GBP alone. Require agreement with D4 or D9 first.",
+      "citations": [
+        "Andrikopoulos, Dassiou & Zheng (2020), International Review of Financial Analysis 68",
+        "Capital Group (2013) and FTSE-Russell/LSEG (2022) revenue-share data"
+      ],
+      "warning": "Weakest of the three FX-to-index links. Only 1 primary source plus 2 data sources - below the 2-primary bar used everywhere else in this contract. Flagged, not hidden."
+    },
+    {
+      "id": "D17",
+      "name": "US day session -> European overnight gap (spillover)",
+      "grade": "PRACTITIONER",
+      "status": "CONDITIONAL",
+      "mechanism": "US markets close hours before Europe opens. Overnight order flow, futures and not-yet-priced information carry over, producing a directional US-to-Europe lead-lag, not the reverse.",
+      "inputs": [
+        {"source": "YAHOO_V8", "series": "^GSPC", "frequency": "daily", "role": "prior US session close"}
+      ],
+      "targets": ["DAX", "F40", "FESX", "ES35", "FTSE"],
+      "sign": "prior US session direction -> same-direction European early-session bias",
+      "magnitude": {
+        "value": "Germany out-of-sample R^2 1.57% whole-sample",
+        "detail": "~0% in US expansions, 6.8% in US recessions - the tradable component is recession-concentrated and fragile. The structural linkage is stronger: aligning DAX one day after the Dow produces one dominant shared eigenvalue, with the reverse-direction placebo showing nothing.",
+        "sample": "60 DAX and Dow constituents (structural); monthly predictive regressions",
+        "period": "1990-2010"
+      },
+      "regime_holds": "contemporaneous linkage is structural and strengthening; the tradable drift concentrates in recessions",
+      "regime_breaks": "the monthly predictive component is ~0% in expansions",
+      "decay": "all sources dated - structural evidence ends 1999, predictive ends 2010. Today's overnight-futures-dominated structure may transmit differently. Flagged as unconfirmed post-2010.",
+      "use": ["selection"],
+      "never": ["entry_trigger", "gap_fade_rule"],
+      "state_check": "Prior ^GSPC session return. Relevant for the 06:30 UTC pre-EU run only, not the 13:00 run.",
+      "citations": [
+        "Drozdz, Grummer, Ruf & Speth (2001), Physica A 294",
+        "Siliverstovs / Rapach, Strauss & Zhou - US role in international predictability"
+      ],
+      "warning": "Do NOT measure this off the raw DAX opening quote. The opening auction is illiquid and the literature explicitly warns that using it produces spurious results."
+    },
+    {
+      "id": "D20",
+      "name": "Platinum - auto/industrial demand and South African supply",
+      "grade": "PRACTITIONER",
+      "status": "ALIVE",
+      "mechanism": "Platinum's price is set by industrial and autocatalyst demand against a concentrated, fragile South African supply chain (grid instability, strikes) - not by monetary or safe-haven flows. Its gold correlation is real but historically unstable, even sign-flipping over multi-year windows.",
+      "inputs": [
+        {"source": "MANUAL", "series": "World Platinum Investment Council Platinum Quarterly", "frequency": "quarterly"},
+        {"source": "MANUAL", "series": "South African supply headlines (load-shedding, strikes)", "frequency": "event-driven"}
+      ],
+      "targets": ["PL"],
+      "sign": "supply disruption -> up; auto/industrial demand weakness -> down. Gold linkage is secondary and unreliable.",
+      "magnitude": {
+        "value": "South Africa >70% of global primary output; autocatalyst ~38-39% of demand",
+        "detail": "fourth consecutive annual structural deficit (-297 koz for 2026); above-ground stocks below 3 months' cover. Two independent official bodies agree on both figures.",
+        "sample": "official industry supply/demand accounts",
+        "period": "2023-2026"
+      },
+      "regime_holds": "supply shocks are idiosyncratic and untied to gold's macro drivers",
+      "regime_breaks": "price correlation with gold flips sign across multi-year windows; cointegration strength tracks the business cycle, not crisis regimes",
+      "decay": "supply/demand not decayed and live through 2026. Academic pricing studies are all 2006-2017 vintage with no update located.",
+      "use": ["selection"],
+      "never": ["entry_trigger", "gold_proxy"],
+      "state_check": "Latest WPIC quarterly balance plus any live SA supply headline.",
+      "citations": [
+        "SFA (Oxford), The Platinum Market and Platinum Price Drivers",
+        "World Platinum Investment Council, Platinum Quarterly Q1 2026"
+      ],
+      "warning": "Never treat PL as a gold proxy. It is a distinct industrial-cyclical bet. Weakest-evidenced of the metals - industry-data-led, and the academic pricing evidence was reachable only secondhand."
+    },
+    {
+      "id": "D12",
+      "name": "COT positioning extremes - ALIVE on softs/energy/FX, DEAD on metals and indices",
+      "grade": "PRACTITIONER",
+      "status": "CONDITIONAL",
+      "mechanism": "Hedging-pressure theory: hedgers pay speculators a risk premium to absorb non-marketable risk, so speculator positioning should predict returns. This REQUIRES a genuine, economically-motivated hedging population - present in physical commodities (farmers, refiners) and FX, but diluted in financial futures and precious metals where 'commercial' classification is murky and macro flows dominate.",
+      "inputs": [
+        {"source": "CFTC_SOCRATA", "series": "72hh-3qpy (disaggregated)", "frequency": "weekly", "role": "softs and energy"},
+        {"source": "CFTC_SOCRATA", "series": "gpe5-46if (traders in financial futures)", "frequency": "weekly", "role": "FX and index futures"}
+      ],
+      "targets": ["CC", "KC", "WBS", "GBPJPY"],
+      "targets_excluded": ["GC", "SI", "PL", "PA", "ES", "NQ", "YM", "DAX", "FTSE", "NIKKEI", "HS", "ES35", "F40", "FESX"],
+      "sign": "commercial/speculator positioning at a >80 or <20 percentile extreme -> mean-reversion pressure. Mid-range is noise everywhere.",
+      "magnitude": {
+        "value": "large-spec strategy: 2.38%/month in corn (t=1.98), 2.88%/month in yen (t=2.75) vs 0.19%/month in S&P 500 (t=0.13, insignificant)",
+        "detail": "same method, opposite outcome by asset class. On precious metals: of ~30 extreme-signal tests across gold/silver/platinum, only 2 reject the null - chance level. Granger p-values 0.28-0.86.",
+        "sample": "15 US futures markets; separately, weekly percentile extremes on precious metals",
+        "period": "1992-2012 across both studies"
+      },
+      "regime_holds": "agriculture, energy and FX - markets with real physical hedgers",
+      "regime_breaks": "financial futures and precious metals - statistically insignificant",
+      "decay": "not decayed-from-strong. Structurally weak on financials across both samples, i.e. alive-as-weak for 20+ years.",
+      "use": ["selection"],
+      "never": ["entry_trigger", "metals", "equity_indices"],
+      "state_check": "Weekly percentile rank of net positioning over a 3-year lookback. Only >80 or <20 carries any signal, and only on the four permitted targets.",
+      "citations": [
+        "Wang (2003), Journal of Futures Markets 23(1)",
+        "Zhang & Laws (2013), University of Liverpool WP"
+      ],
+      "warning": "This is the driver most likely to be wrongly generalised. The internet treats COT as a universal indicator. It is statistically dead on gold, silver, platinum and every equity index in this universe. targets_excluded is a hard list, not a suggestion."
+    },
+    {
+      "id": "D13",
+      "name": "ISM / PMI growth cycle -> equities (SIGN FLIPS BY CYCLE STAGE)",
+      "grade": "WEAK",
+      "status": "CONDITIONAL",
+      "mechanism": "Real-activity news always lifts expected cash flows, but its discount-rate effect depends on cycle position. In a slack economy good growth news barely moves rates so stocks rise. In a hot economy the same news raises inflation and hike expectations, the discount effect dominates, and stocks FALL on 'good' data.",
+      "inputs": [
+        {"source": "MANUAL", "series": "ISM Manufacturing and Services PMI (ismworld.org, or DBnomics ISM/pmi)", "frequency": "monthly"}
+      ],
+      "targets": ["ES", "YM", "DAX", "SI", "HG", "WBS"],
+      "sign": "REGIME-DEPENDENT - no fixed sign. Must read cycle stage first.",
+      "magnitude": {
+        "value": "-0.84% S&P daily return per 1pp unanticipated activity rise in a HOT state (significant) vs +0.12% in a SLACK state (insignificant)",
+        "detail": "the unconditional average effect is ~zero, which is why naive PMI-return correlations look like noise. ISM surprise coefficients on S&P futures jump-variance are insignificant (p>0.1) - weaker than payrolls or retail sales - while the same surprises DO significantly move Treasury futures.",
+        "sample": "S&P 500 daily; separately S&P and 30Y bond futures",
+        "period": "1977-2014"
+      },
+      "regime_holds": "the regime mechanism itself is confirmed across both samples",
+      "regime_breaks": "the sign flips by cycle stage - this IS the finding",
+      "decay": "ISM-to-equities was already weak throughout 1994-2014, not faded-from-strong",
+      "use": ["selection"],
+      "never": ["entry_trigger", "single_print", "fixed_sign"],
+      "state_check": "Direction over the LAST THREE PRINTS, never one. And you must classify cycle stage (slack vs hot) before assigning a sign.",
+      "citations": [
+        "McQueen & Roley (1993), Review of Financial Studies 6(3)",
+        "Huang (2015), Fed FEDS 2015-097"
+      ],
+      "warning": "The widely circulated '4.5x edge' figure for ISM direction traces to NO primary source found in a full search. Do not render it. Included here at WEAK grade only because the regime mechanism is worth knowing; it is not a filter."
+    },
+    {
+      "id": "D5",
+      "name": "Yield curve (2s10s, 10Y-3M) -> recession/cycle",
+      "grade": "STRONG",
+      "status": "BROKEN",
+      "mechanism": "Tightening raises short rates faster than long rates, flattening or inverting the curve while real activity slows. Separately, investors pricing future cuts pull long yields down directly.",
+      "inputs": [
+        {"source": "FRED_CSV", "series": "T10Y2Y", "frequency": "daily"},
+        {"source": "FRED_CSV", "series": "T10Y3M", "frequency": "daily"}
+      ],
+      "targets": ["ES", "NQ", "YM", "DAX", "FTSE", "NIKKEI"],
+      "sign": "inversion -> multi-quarter risk-off cycle bias (CURRENTLY FAILING - see status)",
+      "magnitude": {
+        "value": "out-of-sample recession-probability pseudo-R^2 peaks at 0.328 three quarters ahead",
+        "detail": "+1.30 GNP-growth per 1pp of spread; recession probability exceeded 30% before all 6 recessions since 1968 with zero false signals on a monthly-average basis through 2006",
+        "sample": "probit and OLS, US postwar",
+        "period": "1955-2006"
+      },
+      "regime_holds": "clean 1968-2001, six for six, no false positives",
+      "regime_breaks": "BROKEN SINCE 2022. The deepest and longest inversion since the early 1980s (~Oct-2022 to Dec-2024) with no recession dated through mid-2026 - the longest false-positive stretch on record.",
+      "decay": "not yet 'decayed' but no longer a spotless record. A filter mid-failure is not a filter.",
+      "use": ["selection"],
+      "never": ["entry_trigger", "current_filter"],
+      "state_check": "Report the curve as CONTEXT ONLY while status is BROKEN. Do not let it vote until a recession either confirms or the inversion resolves cleanly.",
+      "citations": [
+        "Estrella & Hardouvelis (1991), Journal of Finance 46(2)",
+        "Estrella & Mishkin (1998), Review of Economics and Statistics 80(1)",
+        "Estrella & Trubin (2006), NY Fed Current Issues 12(5)"
+      ],
+      "warning": "STRONG grade, BROKEN status - and that combination is the point. High historical pedigree does not license current use."
+    }
+  ],
+
+  "assets": {
+    "ES":     {"group": "Indeksy", "drivers": ["D9", "D4", "D3", "D6", "D13", "D5"], "coverage": "full", "note": "Barely a leaf - the S&P IS the broad risk barometer. It is driven by the global tier rather than by a private driver."},
+    "NQ":     {"group": "Indeksy", "drivers": ["D9", "D4", "D6", "D7", "D3", "D5"], "coverage": "full", "note": "Most rate-sensitive index on the board. D6 is its distinguishing driver."},
+    "YM":     {"group": "Indeksy", "drivers": ["D9", "D4", "D13", "D3", "D5"], "coverage": "full", "note": "Cyclical/value tilt, least rate-sensitive US index."},
+    "DAX":    {"group": "Indeksy", "drivers": ["D9", "D4", "D14", "D17", "D13", "D3"], "coverage": "full"},
+    "F40":    {"group": "Indeksy", "drivers": ["D9", "D4", "D14", "D17"], "coverage": "inherited", "note": "Export channel inherited from DAX (D14). Not independently measured - grade one step below DAX."},
+    "FESX":   {"group": "Indeksy", "drivers": ["D9", "D4", "D14", "D17"], "coverage": "inherited", "note": "As F40."},
+    "ES35":   {"group": "Indeksy", "drivers": ["D9", "D4", "D14", "D17"], "coverage": "inherited", "note": "IBEX appears in the Brexit FX-exposure study alongside FTSE and DAX, but no dedicated packet exists."},
+    "FTSE":   {"group": "Indeksy", "drivers": ["D9", "D4", "D16", "D17", "D3"], "coverage": "partial", "note": "D16 is the weakest FX link in the contract. Heavy energy and miner weighting also ties FTSE to commodity prices - mechanism acknowledged, not researched."},
+    "NIKKEI": {"group": "Indeksy", "drivers": ["D9", "D4", "D15", "D3"], "coverage": "full", "note": "D15 is the strongest FX-to-index link on the whole board."},
+    "HS":     {"group": "Indeksy", "drivers": ["D9", "D4"], "coverage": "STUB", "note": "Hang Seng has no dedicated research packet. China policy, property credit and mainland flows are the obvious drivers and none of them are in the evidence base. Named stub, not a silent gap."},
+    "VX":     {"group": "Indeksy", "drivers": ["D18", "D3"], "coverage": "full", "note": "VIX is a STATE gauge, not a forecast. See D3 and D18 warnings."},
+    "GC":     {"group": "Metale", "drivers": ["D2", "D11", "D1", "D3"], "coverage": "full", "note": "MANDATORY PAIRING: D2 and D11 must be read together. D2 alone is currently misleading."},
+    "SI":     {"group": "Metale", "drivers": ["D19", "D1", "D13"], "coverage": "full", "note": "Read gold's state first, then apply beta ~1.3. Industrial cycle is an independent second leg."},
+    "PL":     {"group": "Metale", "drivers": ["D20", "D1"], "coverage": "partial", "note": "Never a gold proxy."},
+    "HG":     {"group": "Metale", "drivers": ["D1", "D13"], "coverage": "STUB", "note": "Copper has no dedicated packet. It is the classic global-growth and China-construction proxy; D13 and D1 are inherited approximations, not measured. Named stub."},
+    "PA":     {"group": "Metale", "drivers": ["D1"], "coverage": "STUB", "note": "Palladium has no packet. Same autocatalyst family as platinum (D20) but with different supply geography (Russia-weighted). Do not silently apply D20."},
+    "WBS":    {"group": "Energia", "drivers": ["D12", "D1"], "coverage": "partial", "note": "COT is ALIVE here - energy has real physical hedgers. OPEC policy, inventories and supply geopolitics are the primary drivers and are not in the evidence base."},
+    "CC":     {"group": "Miekkie", "drivers": ["D12"], "coverage": "partial", "note": "COT is ALIVE on softs. Weather and West African supply are the primary drivers and are not researched."},
+    "KC":     {"group": "Miekkie", "drivers": ["D12"], "coverage": "partial", "note": "As CC - Brazilian weather and supply."},
+    "DXY":    {"group": "FX/Rates", "drivers": [], "coverage": "INPUT", "note": "DXY is an INPUT to other assets (D1), not a target. Do not emit a macro lean for DXY itself from this contract."},
+    "US10":   {"group": "FX/Rates", "drivers": ["D7"], "coverage": "INPUT", "note": "Primarily an INPUT (D6, D7 feed off it). D7 is the one driver pointing AT it."},
+    "GBPJPY": {"group": "FX/Rates", "drivers": ["D12", "D9"], "coverage": "partial", "note": "COT is ALIVE on FX. Rate differentials and carry are the primary drivers and are not researched."},
+    "BTC":    {"group": "Krypto", "drivers": ["D9"], "coverage": "STUB", "note": "No crypto research exists in the evidence base. D9 is a generic risk-tide inheritance only. Everything crypto-specific - ETF flows, halving, on-chain - is absent. Named stub."},
+    "ETH":    {"group": "Krypto", "drivers": ["D9"], "coverage": "STUB", "note": "As BTC."}
+  },
+
+  "rejected": [
+    {
+      "id": "R1",
+      "name": "M2 / global liquidity / net liquidity (WALCL - TGA - RRP)",
+      "verdict": "WEAK - do not build",
+      "reason": "In a G5 global VAR the asset-price response to an excess-liquidity shock is 'tiny and not statistically significant' globally, and an insignificant FALL for the US. The Fed-balance-sheet signal has R^2 of only 1-10% at 1-24 month horizons. The popular WALCL-TGA-RRP formula has NO peer-reviewed test of any kind - it is a chart construct. It fit only 2020-22, one unprecedented QE-plus-fiscal shock, then decoupled as QT and RRP drainage broke the arithmetic.",
+      "citations": ["Ruffer & Stracca (2006), ECB WP 696", "Ruman (2022), Journal of Economic Studies 49(2)"]
+    },
+    {
+      "id": "R2",
+      "name": "COT on metals and equity indices",
+      "verdict": "WEAK - hard exclusion",
+      "reason": "Statistically insignificant specifically on gold, silver, platinum and financial futures. See D12 targets_excluded. This is a CONFIRM, not an untested prior - two independent samples spanning 1992-2012.",
+      "citations": ["Wang (2003), Journal of Futures Markets 23(1)", "Zhang & Laws (2013), University of Liverpool WP"]
+    },
+    {
+      "id": "R3",
+      "name": "VIX as a directional forecast",
+      "verdict": "WEAK - do not build",
+      "reason": "VIX moves are almost entirely contemporaneous: same-day return t-statistic on the VIX change is 110-208, dropping to 7-31 at the first lag. Same-day R^2 is 42-78% versus an order of magnitude weaker one day later. It is a mirror of the move that already happened. Keep it as a STATE gauge (D3) and as a term-structure carry input (D18) - never as a direction call.",
+      "citations": ["Hibbert, Daigler & Dupoyet (2008), Journal of Banking & Finance 32"]
+    },
+    {
+      "id": "R4",
+      "name": "Gold/silver ratio as a mean-reversion timer",
+      "verdict": "WEAK/DECAYED - do not build",
+      "reason": "Linear cointegration is REJECTED (CUSUM 2.301 at 1%); a Johansen trace of 9.65 against a 15.19 critical value fails to reject NO cointegration. The classical monetary-twins relationship has been decaying since ~1990 across three independent studies. Only a crisis-conditional comovement survives. An 'extreme' ratio reading carries no reliable reversion timetable.",
+      "citations": ["Escribano & Granger (1998), Journal of Forecasting 17(2)", "Ciner (2001), Global Finance Journal 12", "Schweikert (2017), Resources Policy"]
+    },
+    {
+      "id": "R5",
+      "name": "A standing gold-versus-equities inverse rule",
+      "verdict": "WRONG MOST OF THE YEAR - do not build",
+      "reason": "The gold-equity opposition is real ONLY in the extreme left tail of equity returns (1-2.5% quantile) or in bear markets, and it decays within ~15 trading days. In bull and calm regimes the correlation is near zero or positive. A standing rule would be wrong most of the time. See D3.",
+      "citations": ["Baur & Lucey (2010), Financial Review 45", "Coudert & Raymond-Feingold (2011), Economics Bulletin 31(2)"]
+    },
+    {
+      "id": "R6",
+      "name": "Calendar and seasonality edges",
+      "verdict": "DECAYED - do not build",
+      "reason": "Tested and dead in recent data: the pre-FOMC 24-hour drift died after 2016; the 8-9 CET overnight-drift hour died after 2021 by its own authors' update; the DAX has ZERO persistent calendar anomalies out of 188 tested; gold weekday folklore is dead in futures. Seasonality at '>65% of 10 years consistent' is coin-flip territory multiplied across 252 calendar days - guaranteed false positives.",
+      "citations": ["Multiple - see the time-edges research lane"]
+    },
+    {
+      "id": "R7",
+      "name": "A weighted composite score (e.g. COT 35% / macro 30% / valuation 20% / seasonal 15%)",
+      "verdict": "NUMEROLOGY - do not build",
+      "reason": "Those weights are one author's prior. No data derives them. A weighted average of individually unproven signals looks scientific and is not. Each driver must be readable and testable ALONE. If a composite is ever wanted, it has to be earned from measured outcomes, not asserted at design time.",
+      "citations": ["Assumption audit of the source blueprint"]
+    },
+    {
+      "id": "R8",
+      "name": "CONFLICT = NO TRADE (a hard veto when macro disagrees with the chart)",
+      "verdict": "DANGEROUS - do not build",
+      "reason": "A hard veto from an unproven composite would have blocked real winners. This overlay has zero proven track record on this system's own results. Record CONFLICT as a logged flag; never let it block. Only measured outcomes may ever promote it to a rule.",
+      "citations": ["Assumption audit of the source blueprint"]
+    }
+  ]
+}

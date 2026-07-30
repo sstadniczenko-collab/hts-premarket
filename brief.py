@@ -142,9 +142,64 @@ def _fmt_dist(pl: dict) -> str:
     return f"{d:+.2f}%{tail} · {side}"
 
 
-def _macro_radar(results: list[dict]) -> list[str]:
+_GRADE_PL = {"strong": "mocny", "practitioner": "praktyczny", "weak": "słaby"}
+_LEAN_PL = {"up": "w górę", "down": "w dół", "conflict": "sprzeczne"}
+
+
+def _macro_fundamental(state: dict | None) -> list[str]:
+    """
+    Warstwa fundamentalna (nie z ceny i wolumenu) — z macro_drivers.json.
+    To jest kontekst SELEKCJI / WIELKOŚCI / TRZYMANIA, nigdy sygnał wejścia.
+    Zasady i źródła: MACRO.md.
+    """
+    if not state:
+        return []
+    reg, r = state.get("regime", {}), state.get("readings", {})
+    out = []
+
+    credit = reg.get("D4_credit")
+    if credit and credit != "unknown":
+        pl = {"WIDENING": "🟥 rozszerzają się (stres rośnie)",
+              "COMPRESSING": "🟩 zawężają się (apetyt na ryzyko)",
+              "STABLE": "🟨 stabilne"}.get(credit, credit)
+        out.append(f"- **Spready kredytowe HY** (D4, dowód: mocny): {pl} "
+                   f"— wyprzedzają słabość akcji o kwartały")
+
+    gold = reg.get("D2_real_yield_gold")
+    if gold == "ALIVE":
+        out.append(f"- **Złoto — realne rentowności** (D2, dowód: mocny): link ODZYSKANY "
+                   f"(korelacja {reg.get('D2_corr')}) — klasyczna zależność znów działa")
+    elif gold == "BROKEN":
+        out.append(f"- **Złoto — realne rentowności** (D2): link ZŁAMANY "
+                   f"(korelacja {reg.get('D2_corr')}) — rządzi skup banków centralnych (D11), "
+                   f"NIE czytaj złota z realnych rentowności")
+    elif gold == "unknown":
+        out.append("- **Złoto — realne rentowności** (D2): brak danych (FRED niedostępny) "
+                   "→ domyślnie rządzi D11 (skup banków centralnych)")
+
+    haven = reg.get("D3_safe_haven_window")
+    if haven and haven != "unknown":
+        pl = "OTWARTE" if haven == "OPEN" else "ZAMKNIĘTE"
+        out.append(f"- **Okno safe-haven** (D3): {pl} (korelacja złoto/S&P {reg.get('D3_corr')}) "
+                   f"— reguła „złoto w górę = akcje w dół\" działa TYLKO gdy otwarte")
+
+    ts = reg.get("D18_term_structure")
+    if ts and ts != "unknown":
+        out.append(f"- **Struktura terminowa VIX** (D18, dowód: mocny): {ts} "
+                   f"(baza {reg.get('D18_basis')}) — to carry, NIE prognoza kierunku VIX")
+
+    if state.get("failures"):
+        out.append(f"- ⚠️ _dane niepełne — brak: {', '.join(state['failures'])}_")
+    subs = state.get("coverage", {}).get("substitutes") or []
+    if subs:
+        out.append(f"- ⚠️ _zamienniki (nie seria źródłowa): {', '.join(subs)}_")
+    return out
+
+
+def _macro_radar(results: list[dict], state: dict | None = None) -> list[str]:
     by = {r["asset"]: r for r in results}
-    lines = []
+    fundamental = _macro_fundamental(state)
+    lines: list[str] = []
     labels = {"VX": "VIX (strach)", "DXY": "Dollar Index", "US10": "US 10Y (rentowność ×10)"}
     for a, lbl in labels.items():
         r = by.get(a)
@@ -161,10 +216,14 @@ def _macro_radar(results: list[dict]) -> list[str]:
         p = vxd["price"] or 0
         mood = "🟩 risk-ON (spokój)" if p < 16 else "🟨 neutralnie" if p < 22 else "🟥 risk-OFF (nerwowo)"
         lines.append(f"- **Nastrój z VIX**: {mood} (VIX {p})")
-    return lines
+    # nagłówek sekcji wykresowej tylko gdy naprawdę są pod nim linie
+    if fundamental and lines:
+        return fundamental + ["", "_Odczyt z wykresu (cena/wolumen, nie fundament):_"] + lines
+    return fundamental + lines
 
 
-def build_markdown(results: list[dict], now: datetime, timeframes: list[str], fresh_bars: int) -> str:
+def build_markdown(results: list[dict], now: datetime, timeframes: list[str],
+                   fresh_bars: int, macro_state: dict | None = None) -> str:
     # actionable teraz: in_zone / armed (D1 pierwsze, potem H4)
     _rank = {"in_zone": 0, "armed": 1}
     armed = []
@@ -191,9 +250,13 @@ def build_markdown(results: list[dict], now: datetime, timeframes: list[str], fr
              f"(D1+H4, tylko świece zamknięte) · tf={'+'.join(timeframes)}_\n")
 
     L.append("## 🌍 Radar makro")
-    radar = _macro_radar(results)
+    radar = _macro_radar(results, macro_state)
     L += radar if radar else ["- (brak danych makro)"]
     L.append("")
+    if macro_state:
+        L.append("_Warstwa fundamentalna = kontekst selekcji / wielkości pozycji / trzymania. "
+                 "**Nigdy sygnał wejścia i nigdy weto dla setupu.** Źródła i oceny: MACRO.md._")
+        L.append("")
 
     L.append(f"## 🔥 Do zagrania TERAZ ({len(armed)})")
     if not armed:
@@ -271,6 +334,7 @@ def main() -> int:
     ap.add_argument("--only", help="tylko ten timeframe (1d / 4h)")
     ap.add_argument("--assets", help="przecinkami: podzbiór assetów (test)")
     ap.add_argument("--no-save", action="store_true", help="nie zapisuj pliku premarket_<data>.md")
+    ap.add_argument("--no-macro", action="store_true", help="pomiń warstwę fundamentalną (macro.py)")
     args = ap.parse_args()
 
     # konsola Windows bywa cp1250 → wymuś UTF-8 na wyjściu (emoji/PL)
@@ -300,7 +364,19 @@ def main() -> int:
         print(f"- {inst['asset']:7} ({inst['yf']}) ...", file=sys.stderr, flush=True)
         results.append(scan_instrument(inst, timeframes, strat, fresh_bars))
 
-    md = build_markdown(results, now, timeframes, fresh_bars)
+    # warstwa fundamentalna (nie z ceny/wolumenu) — bez kluczy API, fail-soft
+    macro_state = None
+    if not args.no_macro:
+        try:
+            import macro as M
+            print("- warstwa makro (FRED/Yahoo) ...", file=sys.stderr, flush=True)
+            macro_state = M.compute_state()
+            M.enrich(results, macro_state)
+        except Exception as e:
+            print(f"  ! makro pominięte: {e}", file=sys.stderr)
+            macro_state = None
+
+    md = build_markdown(results, now, timeframes, fresh_bars, macro_state)
     print(md)  # stdout = markdown do przeczytania przez Claude
 
     if not args.no_save:

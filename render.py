@@ -202,6 +202,51 @@ def _news_block(news: dict | None) -> str:
             + '</div>')
 
 
+def _macro_strip(payload: dict) -> str:
+    """
+    Pasek makro — warstwa fundamentalna (nie z ceny i wolumenu).
+
+    Renderuje sie WYLACZNIE jako naglowek sesji, nad tabelami. Nigdy w wierszu
+    setupu obok ENTRY/STOP — tam czytaloby sie jak czesc triggera (MACRO.md §2).
+    """
+    m = payload.get("macro")
+    if not m:
+        return ""
+
+    def chip(label, val, tone="n"):
+        if val in (None, "unknown"):
+            return ""
+        colors = {"g": "#1f6f43", "r": "#8b2f2f", "y": "#7a6220", "n": "#2a2f3a"}
+        return (f'<span style="display:inline-block;padding:3px 9px;margin:2px 4px 2px 0;'
+                f'border-radius:11px;background:{colors[tone]};font-size:12px;">'
+                f'{_esc(label)} <b>{_esc(val)}</b></span>')
+
+    tone_credit = {"WIDENING": "r", "COMPRESSING": "g", "STABLE": "y"}
+    chips = [
+        chip("Spready HY", m.get("credit"), tone_credit.get(m.get("credit"), "n")),
+        chip("Złoto/realne rent.", m.get("gold_regime"),
+             "r" if m.get("gold_regime") == "BROKEN" else "g"),
+        chip("Okno safe-haven", m.get("safe_haven_window"),
+             "y" if m.get("safe_haven_window") == "OPEN" else "n"),
+        chip("Struktura VIX", m.get("vol_term_structure")),
+        chip("VIX", m.get("vix")),
+        chip("US10Y", m.get("yield_10y")),
+    ]
+    warn = ('<span style="color:#c9a227;font-size:12px;"> ⚠ dane niepełne</span>'
+            if m.get("degraded") else "")
+    return (
+        '<div style="margin:14px 0 6px;padding:10px 12px;border:1px solid #2a2f3a;'
+        'border-radius:8px;background:#161a22;">'
+        '<div style="font-size:13px;opacity:.75;margin-bottom:6px;">'
+        f'🌍 <b>Kontekst makro</b> (fundament, nie cena){warn}</div>'
+        f'{"".join(c for c in chips if c)}'
+        '<div style="font-size:11px;opacity:.6;margin-top:7px;">'
+        'Kontekst selekcji / wielkości pozycji / trzymania — '
+        '<b>nigdy sygnał wejścia, nigdy weto dla setupu</b>. Zasady i źródła: MACRO.md'
+        '</div></div>'
+    )
+
+
 def _fresh_card(f: dict) -> str:
     d = f["direction"]
     cls = "up" if d == "long" else "down"
@@ -385,6 +430,8 @@ def build_html(payload: dict) -> str:
     </div>
     <div class="sub src-line">{_data_src_line(payload)}</div>
   </header>
+
+  {_macro_strip(payload)}
 
   <h2>Plan wejścia — gdzie szukać wejść teraz</h2>
   {armed_html}

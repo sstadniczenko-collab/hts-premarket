@@ -355,6 +355,77 @@ def _macro_strip(payload: dict) -> str:
   </div>"""
 
 
+def _capit_gaps(gaps: list | None) -> str:
+    if not gaps:
+        return '<span class="muted">brak</span>'
+    bits = [f'<span class="gap-open">{_esc(g["bottom"])}–{_esc(g["top"])}</span> '
+            f'<span class="age">({g["dist_pct"]:+.1f}%)</span>' for g in gaps]
+    return "<br>".join(bits)
+
+
+def _capit_row(r: dict) -> str:
+    if r["event"]:
+        badge = '<span class="cap-ev">EVENT</span>'
+        if r.get("clustered"):
+            badge += ' <span class="ptag t-wait" title="Poprzedni event ≤2 dni temu — wg playbooka pomijamy">klaster</span>'
+        levels = (f'wejście @ <b>{_esc(r["entry"])}</b> (close) · SL <b>{_esc(r["sl"])}</b> '
+                  f'({_esc(r["risk_pct"])}% risk) · max {_esc(r["hold_days"])} sesje')
+        if r.get("gap_fill"):
+            levels += ' <span class="gog" title="Flush nakrył starą niedomkniętą lukę. Backtest NQ 2y: takie eventy były GORSZE (n=6, avg -1 041 USD vs +1 004 bez) — częściej kontynuacja trendu niż wyczerpanie paniki.">⚠ gap-fill</span>'
+    elif r.get("near"):
+        badge = '<span class="cap-near">blisko</span>'
+        levels = '<span class="muted">—</span>'
+    else:
+        badge = '<span class="muted">spokój</span>'
+        levels = '<span class="muted">—</span>'
+    dcls = "down" if r["drop_pct"] <= -1.5 else ""
+    return (f'<tr><td class="tick">{_esc(r["asset"])}</td><td class="nm">{_nm(r["name"], r.get("ftmo"))}</td>'
+            f'<td><span class="setup {dcls}">{r["drop_pct"]:+.2f}%</span></td>'
+            f'<td>{badge}</td><td class="dcell">{levels}</td>'
+            f'<td class="dcell">{_capit_gaps(r.get("gaps_below"))}</td></tr>')
+
+
+def _capitulation_section(payload: dict) -> str:
+    cap = payload.get("capitulation")
+    if not cap or not cap.get("rows"):
+        return ""
+    p = cap["params"]
+    h = cap.get("headline")
+    if h and h["event"]:
+        head_html = (
+            f'<div class="cap-head cap-head-ev">🔴 <b>NQ: DZIEŃ KAPITULACJI</b> — sesja {_esc(h["session"])}, '
+            f'spadek intraday {h["drop_pct"]:+.2f}% (Low {_esc(h["low"])} vs prev close {_esc(h["prev_close"])}). '
+            f'Playbook: long @ close {_esc(h["entry"])}, SL {_esc(h["sl"])}, max {_esc(h["hold_days"])} sesje. '
+            f'<b>Decyzja człowieka: kapitulacja czy początek bessy?</b> (powód spadku / VIX / kalendarz makro)</div>')
+    elif h:
+        head_html = (
+            f'<div class="cap-head">🟢 NQ: ostatnia zamknięta sesja {_esc(h["session"])} — max spadek intraday '
+            f'<b>{h["drop_pct"]:+.2f}%</b> (próg {_esc(p["drop_pct"])}%). Brak eventu — czekamy.</div>')
+    else:
+        head_html = ""
+    return f"""
+  <h2>Detektor kapitulacji — playbook Darwinex (NQ)</h2>
+  {head_html}
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Ticker</th><th>Instrument</th><th>spadek intraday</th><th>status</th>
+    <th>poziomy playbooka</th><th>niedomknięte gapy pod ceną</th></tr></thead>
+    <tbody>
+    {"".join(_capit_row(r) for r in cap["rows"])}
+    </tbody>
+  </table>
+  </div>
+  <p class="muted capnote">EVENT = Low sesji ≤ poprzednie close −{abs(p['drop_pct'])}%. Zagranie (walidowane
+  <b>tylko na NQ</b>, 2024–2026): long na close dnia eventowego, SL pod dołkiem −{_esc(p['sl_buf_pct'])}%,
+  trzymanie max {_esc(p['hold_days'])} sesje; event ≤{_esc(p['decluster_d'])} dni po poprzednim pomijamy (klaster).
+  Skan biega premarket, więc ocenia <b>ostatnią zamkniętą sesję</b> — event widoczny rano oznacza, że wejście
+  wypadało wczoraj na close; to karta decyzyjna, nie sygnał w czasie rzeczywistym. Filtr mechaniczny nie odróżnia
+  kapitulacji od początku bessy — to decyzja człowieka. Gapy = niedomknięte luki wzrostowe (strefa pod ceną,
+  ≥{_esc(p['gap_min_pct'])}%) jako mapa terenu; <span class="gog">⚠ gap-fill</span> przy evencie to flaga
+  ostrożności (w backteście takie eventy były gorsze), nie filtr. Rok 2026 w backteście jest na minusie (chop) —
+  sizing wg SL, na FTMO 100k max 1 micro (MNQ).</p>"""
+
+
 def _fresh_card(f: dict) -> str:
     d = f["direction"]
     cls = "up" if d == "long" else "down"
@@ -502,6 +573,14 @@ def build_html(payload: dict) -> str:
   .news-block {{ margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); font-size:12.5px; }}
   .news-note {{ color:var(--muted); margin-top:4px; }}
   .empty {{ padding:14px; background:var(--panel); border-radius:10px; }}
+  .cap-head {{ padding:12px 14px; background:var(--panel); border:1px solid var(--line);
+    border-radius:10px; margin-bottom:14px; font-size:13.5px; }}
+  .cap-head-ev {{ border-color:var(--down); background:rgba(247,109,109,.08); }}
+  .cap-ev {{ font-weight:700; font-size:11px; padding:2px 8px; border-radius:20px;
+    background:rgba(247,109,109,.2); color:var(--down); letter-spacing:.4px; }}
+  .cap-near {{ font-weight:700; font-size:11px; padding:2px 8px; border-radius:20px;
+    background:rgba(240,180,80,.18); color:#f0b450; letter-spacing:.4px; }}
+  .capnote {{ font-size:12.5px; line-height:1.7; margin-top:12px; }}
   .tbl-scroll {{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; }}
   table {{ width:100%; border-collapse:collapse; font-size:13.5px; min-width:640px; }}
   th, td {{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); white-space:nowrap; }}
@@ -556,6 +635,8 @@ def build_html(payload: dict) -> str:
     </tbody>
   </table>
   </div>
+
+  {_capitulation_section(payload)}
 
   <footer>
     <p><b>Jak czytać.</b> <span class="badge up">LONG</span>/<span class="badge down">SHORT</span> = bieżący

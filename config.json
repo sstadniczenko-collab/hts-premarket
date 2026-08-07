@@ -22,5 +22,15 @@
     "gap_min_pct": 0.15,
     "gap_lookback": 40,
     "_comment": "Kontekst dzienny: gap_min_pct = minimalna luka % żeby liczyć (odsiewa szum); gap_lookback = ile ostatnich sesji D1 skanować pod niewypełnione luki (gap-over-gap)."
+  },
+  "capitulation": {
+    "drop_pct": -2.0,
+    "near_pct": -1.5,
+    "sl_buf_pct": 0.15,
+    "hold_days": 3,
+    "decluster_d": 2,
+    "gap_min_pct": 0.30,
+    "gap_lookback": 250,
+    "_comment": "Detektor dnia kapitulacji (playbook Darwinex, capitulation.py). Walidowany na NQ; pozostałe indeksy informacyjnie. drop_pct = próg Low vs prev Close; near_pct = podświetlenie 'zbliża się'; gap_* = rejestr niedomkniętych luk wzrostowych pod ceną."
   }
 }

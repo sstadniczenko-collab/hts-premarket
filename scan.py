@@ -28,6 +28,7 @@ import data_bars as B
 import levels as L
 import news_ai as N
 import macro as M
+import capitulation as C
 import render
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -102,7 +103,8 @@ def _fetch(inst: dict, tf: str, store: dict | None):
     raise ValueError(f"Nieobsługiwany timeframe: {tf}")
 
 
-def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: int, lvl_cfg: dict, store: dict | None) -> dict:
+def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: int, lvl_cfg: dict, store: dict | None,
+                    daily_frames: dict | None = None) -> dict:
     out = {
         "asset": inst["asset"],
         "name": inst["name"],
@@ -122,6 +124,8 @@ def scan_instrument(inst: dict, timeframes: list[str], strat: dict, fresh_bars: 
             out["src"] = src if out["src"] in (None, src) else "mieszane"
             if tf == "1d":
                 out["daily"] = _daily_context(df, lvl_cfg)
+                if daily_frames is not None:
+                    daily_frames[inst["asset"]] = df
             state = H.trend_state(df, strat)
             setups = H.scan(df, strat)
             plan = H.entry_plan(df, strat)
@@ -200,9 +204,10 @@ def main() -> int:
 
     lvl_cfg = cfg.get("levels", {})
     results = []
+    daily_frames: dict = {}
     for inst in instruments:
         print(f"- {inst['asset']:7} ({inst['yf']}) ...", flush=True)
-        results.append(scan_instrument(inst, timeframes, strat, fresh_bars, lvl_cfg, store))
+        results.append(scan_instrument(inst, timeframes, strat, fresh_bars, lvl_cfg, store, daily_frames))
 
     # ocena AI wpływu newsów (osobny pass; no-op bez klucza / z --no-news)
     news_count = 0
@@ -230,6 +235,15 @@ def main() -> int:
         except Exception as e:  # warstwa makro nigdy nie może wywalić skanu
             print(f"  ! macro pominięte: {e}", file=sys.stderr)
             macro_header, macro_count = None, 0
+
+    # detektor kapitulacji (playbook Darwinex) — na już pobranych ramkach D1
+    capit = None
+    try:
+        capit = C.compute(daily_frames, instruments, cfg.get("capitulation"))
+        ev = [r["asset"] for r in capit["rows"] if r["event"]]
+        print(f"Kapitulacja: {len(capit['rows'])} indeksów · eventy: {', '.join(ev) or 'brak'}")
+    except Exception as e:  # sekcja dodatkowa — nie może wywalić skanu
+        print(f"  ! kapitulacja pominięta: {e}", file=sys.stderr)
 
     # spłaszczona lista świeżych setupów (premarket watchlist)
     fresh = []
@@ -272,6 +286,7 @@ def main() -> int:
         "strategy": strat,
         "armed": armed,
         "fresh": fresh,
+        "capitulation": capit,
         "instruments": results,
     }
 

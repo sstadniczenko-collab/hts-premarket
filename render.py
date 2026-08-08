@@ -616,6 +616,7 @@ def build_html(payload: dict) -> str:
       {_esc(payload['universe_count'])} instrumentów (uniwersum vtrade) · logika HTS Swing Pro Filter 3.0 (AAA/AA+)
     </div>
     <div class="sub src-line">{_data_src_line(payload)}</div>
+    <div class="sub" style="margin-top:6px"><a href="seasonality.html" style="color:var(--accent);text-decoration:none;font-weight:600">🗓️ Sezonowość 2026 (LW · COT · rzeczywistość) — kontekst przedsesyjny →</a></div>
   </header>
 
   {_macro_strip(payload)}

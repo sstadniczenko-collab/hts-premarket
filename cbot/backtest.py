@@ -100,14 +100,26 @@ def backtest_symbol(df, cfg, slmode, sl_buf_pct, sl_atr_mult, tp_rr, exit_band, 
             exit_price, exit_reason = c[-1], "open-end"  # jeszcze otwarta na końcu danych
         r = ((exit_price - entry) if long else (entry - exit_price)) / sl_dist
         trades.append({"type": s["type"], "dir": s["direction"], "r": r, "reason": exit_reason,
-                       "date": s["bar_time"].strftime("%Y-%m-%d")})
+                       "date": s["bar_time"].strftime("%Y-%m-%d"),
+                       "entry": entry, "sl_dist": sl_dist})
     return trades
 
 
-def stats(trades):
+def _net_r(t, cost_bps):
+    # koszt round-trip w bps ceny wejścia -> ubytek w R = cost_price / sl_dist
+    if cost_bps <= 0:
+        return t["r"]
+    return t["r"] - (t["entry"] * cost_bps / 1e4) / t["sl_dist"]
+
+
+def stats(trades, cost_bps=0.0):
     if not trades:
         return None
-    rs = [t["r"] for t in trades]
+    rs = [_net_r(t, cost_bps) for t in trades]
+    # koszt progowy (break-even) w bps: ile round-trip edge zniesie do zera
+    mean_e_over_sl = sum(t["entry"] / t["sl_dist"] for t in trades) / len(trades)
+    gross_avg = sum(t["r"] for t in trades) / len(trades)
+    be_bps = (gross_avg / mean_e_over_sl * 1e4) if mean_e_over_sl > 0 else 0.0
     wins = [r for r in rs if r > 0]
     losses = [r for r in rs if r <= 0]
     tot = sum(rs)
@@ -120,7 +132,7 @@ def stats(trades):
         eq += r; peak = max(peak, eq); mdd = min(mdd, eq - peak)
     return {
         "n": len(rs), "win%": 100.0 * len(wins) / len(rs), "totR": tot,
-        "avgR": tot / len(rs), "pf": pf, "maxDD_R": mdd,
+        "avgR": tot / len(rs), "pf": pf, "maxDD_R": mdd, "be_bps": be_bps,
     }
 
 
@@ -133,6 +145,8 @@ def main():
     ap.add_argument("--tp", type=float, default=0.0, help="TP w R (0=brak)")
     ap.add_argument("--no-band", action="store_true")
     ap.add_argument("--no-flip", action="store_true")
+    ap.add_argument("--cost-bps", type=float, default=0.0,
+                    help="koszt round-trip w bps ceny (spread+prowizja); odejmowany od R")
     ap.add_argument("--assets")
     ap.add_argument("--bars", default=os.path.join(ROOT, "bars.json"))
     args = ap.parse_args()
@@ -149,9 +163,10 @@ def main():
         assets = [a for a in assets if a.upper() in want]
 
     slname = {0: "wolna wstęga", 1: "szybka wstęga", 2: f"ATR×{args.slatr}"}[args.slmode]
+    cb = args.cost_bps
     print(f"Backtest HtsSwingBot | tf={args.tf} | SL={slname} buf {args.slbuf}% | "
           f"TP={'brak' if args.tp <= 0 else str(args.tp)+'R'} | "
-          f"band-break={not args.no_band} flip={not args.no_flip}\n")
+          f"band-break={not args.no_band} flip={not args.no_flip} | koszt {cb} bps\n")
 
     all_trades = []
     rows = []
@@ -162,27 +177,36 @@ def main():
         tr = backtest_symbol(df, cfg, args.slmode, args.slbuf, args.slatr, args.tp,
                              not args.no_band, not args.no_flip)
         all_trades += tr
-        st = stats(tr)
+        st = stats(tr, cb)
         if st:
             rows.append((a, st))
 
-    print(f"{'symbol':8}{'n':>4}{'win%':>7}{'totR':>8}{'avgR':>7}{'PF':>6}{'maxDD_R':>9}")
-    print("-" * 49)
+    # be_bps = koszt progowy: powyżej niego instrument wychodzi na minus
+    hdr = f"{'symbol':8}{'n':>4}{'win%':>7}{'totR':>8}{'avgR':>7}{'PF':>6}{'maxDD_R':>9}{'BEcost_bps':>11}"
+    print(hdr); print("-" * len(hdr))
+    pos = []
     for a, st in sorted(rows, key=lambda x: -x[1]["totR"]):
         pf = f"{st['pf']:.2f}" if st["pf"] != float("inf") else "inf"
-        print(f"{a:8}{st['n']:>4}{st['win%']:>7.1f}{st['totR']:>8.1f}{st['avgR']:>7.2f}{pf:>6}{st['maxDD_R']:>9.1f}")
-    print("-" * 49)
-    ov = stats(all_trades)
+        print(f"{a:8}{st['n']:>4}{st['win%']:>7.1f}{st['totR']:>8.1f}{st['avgR']:>7.2f}{pf:>6}{st['maxDD_R']:>9.1f}{st['be_bps']:>11.1f}")
+        if st["totR"] > 0:
+            pos.append(a)
+    print("-" * len(hdr))
+    for typ in ("AAA", "AA+"):
+        st = stats([t for t in all_trades if t["type"] == typ], cb)
+        if st:
+            pf = f"{st['pf']:.2f}" if st["pf"] != float("inf") else "inf"
+            print(f"{typ:8}{st['n']:>4}{st['win%']:>7.1f}{st['totR']:>8.1f}{st['avgR']:>7.2f}{pf:>6}{st['maxDD_R']:>9.1f}{st['be_bps']:>11.1f}")
+    ov = stats(all_trades, cb)
     if ov:
-        for typ in ("AAA", "AA+"):
-            st = stats([t for t in all_trades if t["type"] == typ])
-            if st:
-                pf = f"{st['pf']:.2f}" if st["pf"] != float("inf") else "inf"
-                print(f"{typ:8}{st['n']:>4}{st['win%']:>7.1f}{st['totR']:>8.1f}{st['avgR']:>7.2f}{pf:>6}{st['maxDD_R']:>9.1f}")
         pf = f"{ov['pf']:.2f}" if ov["pf"] != float("inf") else "inf"
-        print(f"{'RAZEM':8}{ov['n']:>4}{ov['win%']:>7.1f}{ov['totR']:>8.1f}{ov['avgR']:>7.2f}{pf:>6}{ov['maxDD_R']:>9.1f}")
+        print(f"{'RAZEM':8}{ov['n']:>4}{ov['win%']:>7.1f}{ov['totR']:>8.1f}{ov['avgR']:>7.2f}{pf:>6}{ov['maxDD_R']:>9.1f}{ov['be_bps']:>11.1f}")
         from collections import Counter
         print("\nwyjścia:", dict(Counter(t["reason"] for t in all_trades)))
+        pos_totR = sum(st["totR"] for a, st in rows if st["totR"] > 0)
+        pos_n = sum(st["n"] for a, st in rows if st["totR"] > 0)
+        print(f"koszyk DODATNI po koszcie {cb} bps ({len(pos)}): {', '.join(pos) if pos else '—'}")
+        if pos:
+            print(f"  -> {pos_n} trade'ów, suma {pos_totR:.1f}R (tylko instrumenty dodatnie po koszcie)")
     return 0
 
 
